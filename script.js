@@ -14,108 +14,74 @@
   (function sky() {
     const ac = $('#aurora'), g = ac.getContext('2d', { alpha: false }), W = 160, H = 90; ac.width = W; ac.height = H;
     const im = g.createImageData(W, H), d = im.data;
-    const sc = $('#stars'), s = sc.getContext('2d'); let SW = 0, SH = 0, dots = [], mx = 0, my = 0, tx = 0, ty = 0;
-    // one canvas pixel per CSS pixel: the stars are whole pixels, so a sharp screen gains nothing from more
-    const size = () => { SW = innerWidth; SH = innerHeight; sc.width = SW; sc.height = SH; dots = Array.from({ length: Math.round(SW * SH / 9000) }, () => ({ x: rand(0, SW), y: rand(0, SH), z: rand(.2, 1), p: rand(0, 6) })); };
+
+    // the stars: drawn once into a small picture that repeats, on a far and a near layer. The graphics card moves
+    // and twinkles them, so nothing is redrawn while the page sits still. Two tile sizes, so the repeats never line up.
+    const box = $('#stars'), LAYERS = [{ z: .45, tile: 448, share: .625, size: 1, alpha: [.32, .62] }, { z: .85, tile: 320, share: .375, size: 2, alpha: [.62, .8] }];
+    LAYERS.forEach((L, i) => {
+      L.el = box.children[i];
+      const t = document.createElement('canvas'), q = t.getContext('2d'); t.width = t.height = L.tile; q.fillStyle = '#fff';
+      for (let n = Math.round(L.tile * L.tile / 9000 * L.share); n--;) { q.globalAlpha = rand(...L.alpha); q.fillRect(rand(0, L.tile) | 0, rand(0, L.tile) | 0, L.size, L.size); }
+      L.el.style.backgroundImage = `url(${t.toDataURL()})`; L.el.style.backgroundSize = `${L.tile}px`;
+      L.el.style.left = -L.tile + 'px'; L.el.style.setProperty('--tile', L.tile + 'px');
+      L.el.style.animationDuration = `${(L.tile / (3 * L.z)).toFixed(0)}s, ${3 + i * 1.7}s`; // they drift 3 px a second at full depth
+    });
+    // big enough to cover the window wherever the drift, the scroll and the mouse have moved it
+    const size = () => { for (const L of LAYERS) { L.el.style.width = innerWidth + L.tile + 80 + 'px'; L.el.style.height = innerHeight + L.tile + 80 + 'px'; } };
     addEventListener('resize', size); size();
-    addEventListener('pointermove', (e) => { tx = e.clientX / SW - .5; ty = e.clientY / SH - .5; }, { passive: true });
+    let ticking = false;
+    const place = () => { ticking = false; for (const L of LAYERS) L.el.style.translate = `0 ${-((scrollY * L.z * .12) % L.tile).toFixed(1)}px`; };
+    addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(place); } }, { passive: true }); place();
+    addEventListener('pointermove', (e) => { box.style.translate = `${(.5 - e.clientX / innerWidth) * 26}px ${(.5 - e.clientY / innerHeight) * 26}px`; }, { passive: true });
+
+    // the pixel aurora: each sine is split into a part for the column (worked out once) and one for the row (once a frame)
     const LEVELS = 10;
-    const rowWave = new Float64Array(H), colMid = new Float64Array(W);
-    let last = 0;
-    const frame = (t) => {
-      if (t - last < 66) return; last = t; // the sky moves slowly: 15 frames a second is plenty
-      if (pixelSky) aurorify(t);
-      stars(t);
-    };
+    const col = (f) => Float64Array.from({ length: W }, (_, x) => f(x / W));
+    const S5 = col((u) => Math.sin(u * 5)), C5 = col((u) => Math.cos(u * 5)), S9 = col((u) => Math.sin(u * 9)), C9 = col((u) => Math.cos(u * 9));
+    const colMid = new Float64Array(W);
     const aurorify = (t) => {
       const q = t * .00016, scroll = Math.min(1, scrollY / (innerHeight * 3));
-      // the parts that depend only on the row or only on the column are worked out once each
-      for (let y = 0; y < H; y++) rowWave[y] = Math.sin(y / H * 4 + q * 3) * 1.4 + q * 7;
       for (let x = 0; x < W; x++) colMid[x] = .42 + Math.sin(x / W * 3 + q * 4) * .2 - scroll * .25;
-      for (let y = 0, i = 0; y < H; y++) for (let x = 0; x < W; x++, i += 4) {
-        const u = x / W, v = y / H;
-        const n = Math.sin(u * 5 + rowWave[y]) + Math.sin(u * 9 - q * 5 + v * 3) * .6;
-        const band = Math.exp(-((v - colMid[x]) ** 2) * 14);
-        // pixel look: the light comes in steps, with a dither pattern between them
-        let k = Math.max(0, (n + 1.6) / 3.2) * band; k = Math.floor(k * LEVELS + ((x + y) % 2 ? .35 : -.05)) / LEVELS; k = Math.max(0, Math.min(1, k)) * .3;
-        const c = n > .25 ? aurora.c : n > -.4 ? aurora.a : aurora.b;
-        d[i] = aurora.bg[0] + (c[0] - aurora.bg[0]) * k; d[i + 1] = aurora.bg[1] + (c[1] - aurora.bg[1]) * k; d[i + 2] = aurora.bg[2] + (c[2] - aurora.bg[2]) * k; d[i + 3] = 255;
+      for (let y = 0, i = 0; y < H; y++) {
+        const v = y / H, a = Math.sin(v * 4 + q * 3) * 1.4 + q * 7, b = v * 3 - q * 5, sa = Math.sin(a), ca = Math.cos(a), sb = Math.sin(b) * .6, cb = Math.cos(b) * .6;
+        for (let x = 0; x < W; x++, i += 4) {
+          const n = S5[x] * ca + C5[x] * sa + S9[x] * cb + C9[x] * sb; // sin(5u + a) + .6 sin(9u + b)
+          const band = Math.exp(-((v - colMid[x]) ** 2) * 14);
+          // pixel look: the light comes in steps, with a dither pattern between them
+          let k = Math.max(0, (n + 1.6) / 3.2) * band; k = Math.floor(k * LEVELS + ((x + y) % 2 ? .35 : -.05)) / LEVELS; k = Math.max(0, Math.min(1, k)) * .3;
+          const c = n > .25 ? aurora.c : n > -.4 ? aurora.a : aurora.b;
+          d[i] = aurora.bg[0] + (c[0] - aurora.bg[0]) * k; d[i + 1] = aurora.bg[1] + (c[1] - aurora.bg[1]) * k; d[i + 2] = aurora.bg[2] + (c[2] - aurora.bg[2]) * k; d[i + 3] = 255;
+        }
       }
       g.putImageData(im, 0, 0);
     };
-    const stars = (t) => {
-      mx += (tx - mx) * .08; my += (ty - my) * .08;
-      s.clearRect(0, 0, SW, SH); s.fillStyle = '#fff';
-      for (const p of dots) {
-        const x = ((p.x + t * .003 * p.z - mx * p.z * 40) % SW + SW) % SW, y = ((p.y - scrollY * p.z * .12 - my * p.z * 40) % SH + SH) % SH;
-        s.globalAlpha = (.2 + .6 * p.z) * (.7 + .3 * Math.sin(t * .0016 + p.p)); const r = p.z > .7 ? 2 : 1; s.fillRect(x | 0, y | 0, r, r);
-      }
-    };
-    paintSky = () => { last = -1e9; frame(performance.now()); };
-    const loop = (t) => { if (document.hidden) return; requestAnimationFrame(loop); frame(t); };
-    if (still) paintSky(); else { requestAnimationFrame(loop); document.addEventListener('visibilitychange', () => { if (!document.hidden) requestAnimationFrame(loop); }); }
+    // it moves slowly: 10 frames a second is plenty, and it only runs in a pixel theme
+    let running = false, last = 0;
+    const loop = (t) => { if (!pixelSky || document.hidden) { running = false; return; } requestAnimationFrame(loop); if (t - last >= 100) { last = t; aurorify(t); } };
+    const start = () => { if (!running && pixelSky && !still && !document.hidden) { running = true; requestAnimationFrame(loop); } };
+    paintSky = () => { if (pixelSky) aurorify(performance.now()); start(); };
+    document.addEventListener('visibilitychange', start);
   })();
-
-  // ---- the language logos: in a pixel theme each one is drawn at 12 x 12 pixels and blown up, as Aether does
-  const pixelLogo = {};
-  function pixelLogos(on) {
-    for (const im of $$('.tick-track img')) {
-      const src = im.dataset.src || (im.dataset.src = im.getAttribute('src'));
-      if (!on) { im.src = src; continue; }
-      if (!pixelLogo[src]) pixelLogo[src] = new Promise((done) => {
-        const raw = new Image();
-        raw.onload = () => {
-          try {
-            const N = /aether-/.test(src) ? 9 : 12, c = document.createElement('canvas'), g = c.getContext('2d'); c.width = c.height = N;
-            const w = raw.naturalWidth || 128, h = raw.naturalHeight || 128, k = Math.min(N / w, N / h);
-            g.imageSmoothingQuality = 'high'; g.drawImage(raw, (N - w * k) / 2, (N - h * k) / 2, w * k, h * k); done(c.toDataURL());
-          } catch { done(src); }
-        };
-        raw.onerror = () => done(src); raw.src = src;
-      });
-      pixelLogo[src].then((px) => { if (document.documentElement.dataset.style === 'pixel') im.src = px; });
-    }
-  }
 
   // ---- themes: the real ones from Aether. A pixel theme turns the whole page pixel, as it does in the app
   (function themes() {
     const LIST = [
       ['Aether Night', 0, 1, '#0b0e1a', '#0e1222', '#1d2440', '#d7dcf0', '#7d86a8', '#7859f7', '#3ff3c8', '#ff7eb6', '#ffffff'],
       ['Nebula', 0, 1, '#120b22', '#170f2b', '#2c1f4d', '#ebe1ff', '#a08cc8', '#ff5cc8', '#8f7bff', '#ff7ad9', '#120b22'],
-      ['Aurora', 0, 1, '#07151a', '#0a1b21', '#16323c', '#d3f2ee', '#7fa9a6', '#2de0a7', '#5ab8ff', '#5ab8ff', '#04130f'],
-      ['Ember', 0, 1, '#140e0b', '#19120e', '#33241b', '#f3e3d6', '#b08f7a', '#ff7a45', '#ffc24b', '#ff7a45', '#1a0d06'],
-      ['Synthwave Sunset', 0, 1, '#170b2b', '#1d0f36', '#3a1f63', '#f7e7ff', '#b493d6', '#d13387', '#ffd319', '#ff3ea5', '#ffffff'],
-      ['Neon City', 0, 1, '#07070d', '#0b0b14', '#1e1e2e', '#e9f1ff', '#8a93b8', '#fcee0a', '#00f0ff', '#ff2a6d', '#0a0a12'],
-      ['Deep Ocean', 0, 1, '#04101c', '#061626', '#11304d', '#d2e9ff', '#7aa2c4', '#00b4ff', '#00e5c8', '#f28779', '#021018'],
-      ['Midnight Forest', 0, 1, '#0b130f', '#0f1913', '#1f3427', '#dbefdf', '#8fb39a', '#7ccf6b', '#e3c26f', '#ed8796', '#0b130f'],
-      ['Twilight Rose', 0, 1, '#16141f', '#1b1826', '#302b45', '#e0def4', '#9a96b6', '#eb6f92', '#f6c177', '#eb6f92', '#16141f'],
-      ['Sakura', 0, 0, '#fbf1f4', '#fdf6f8', '#efd5df', '#3b2a33', '#836674', '#ce3f71', '#6b8afd', '#c2185b', '#ffffff'],
-      ['Lavender', 0, 0, '#f1eefb', '#f6f3fd', '#ddd5f3', '#2a2540', '#6c6589', '#7c4dff', '#00a3a3', '#be185d', '#ffffff'],
       ['Paper', 0, 0, '#f2f2f0', '#f7f7f5', '#e0e0db', '#222222', '#6b6b66', '#2f6fed', '#e8590c', '#c2255c', '#ffffff'],
       ['Pixel Arcade', 1, 1, '#14152a', '#1a1c2c', '#566c86', '#f4f4f4', '#94b0c2', '#ef7d57', '#a7f070', '#c46c7c', '#1a1c2c'],
       ['Pixel Game Boy', 1, 1, '#0f380f', '#183f18', '#4f7f1f', '#c4e36a', '#c5d687', '#9bbc0f', '#c4e36a', '#9bbc0f', '#0f380f'],
-      ['Pixel NES', 1, 1, '#0d0d1a', '#1a1a2e', '#5050a0', '#fcfcfc', '#bcbcbc', '#f83800', '#3cbcfc', '#f878f8', '#000000'],
-      ['Pixel PICO-8', 1, 1, '#000000', '#1d2b53', '#5f574f', '#fff1e8', '#c2c3c7', '#ff004d', '#29adff', '#ff004d', '#000000'],
-      ['Pixel Dungeon', 1, 1, '#1b1410', '#261c16', '#6b4f36', '#e8d5b0', '#b0956f', '#d9822b', '#7fbf5f', '#cd6155', '#1b1410'],
-      ['Pixel Ocean', 1, 1, '#06141f', '#0a2233', '#2a6f97', '#d8f3ff', '#89c2d9', '#2ec4b6', '#ffd166', '#ef476f', '#06141f'],
-      ['Pixel Forest', 1, 1, '#0e1a12', '#15261a', '#3f6b45', '#dff5d0', '#9cc58f', '#8fd14f', '#f2c14e', '#e05d5d', '#0e1a12'],
-      ['Pixel Lava', 1, 1, '#1a0d0d', '#241010', '#8c2f1a', '#ffe9c7', '#e0a070', '#ff6a00', '#ffd23f', '#ff2f2f', '#1a0d0d'],
-      ['Pixel Royal', 1, 1, '#170d24', '#1f1230', '#6a3fa0', '#fff2d6', '#c9a8e8', '#ffcc33', '#ff5fa2', '#ffcc33', '#170d24'],
-      ['Pixel 1-Bit', 1, 1, '#000000', '#000000', '#ffffff', '#ffffff', '#bbbbbb', '#ffffff', '#ffffff', '#ffffff', '#000000'],
-      ['Pixel Candy', 1, 0, '#fff0f6', '#ffe3ee', '#f4a6c8', '#4a2040', '#8a5a7a', '#c5486f', '#7b61ff', '#bf466b', '#ffffff'],
-      ['Pixel Snow', 1, 0, '#e9f1f7', '#f2f7fb', '#5a7894', '#1b2a3a', '#4f6880', '#2b74d8', '#e0457b', '#cc3f70', '#ffffff']
     ];
     const root = document.documentElement, btn = $('#theme-btn'), menu = $('#theme-menu'), dot = $('.theme-dot'), KEY = 'aether-site-theme', meta = $('meta[name="theme-color"]');
     const row = ([name, px, , bg, , , tx, , ac, ac2, pk], i) => `<button type="button" class="tm-row${px ? ' px' : ''}" data-i="${i}" aria-pressed="false"><span class="tm-sw" style="background:${bg}"><i style="background:${ac}"></i><i style="background:${ac2}"></i><i style="background:${pk}"></i></span><span style="--tx:${tx}">${name}</span></button>`;
     const group = (title, px) => `<p class="tm-h">${title}</p><div class="tm-list">${LIST.map((t, i) => (!!t[1] === px ? row(t, i) : '')).join('')}</div>`;
-    menu.innerHTML = group('Pixel', true) + group('Smooth', false);
+    menu.innerHTML = group('Smooth', false) + group('Pixel', true);
     const rows = $$('.tm-row', menu);
     const apply = (i) => {
       const [name, px, dark, bg, panel, line, text, muted, accent, accent2, pink, on] = LIST[i];
       Object.entries({ bg, panel, line, text, muted, accent, accent2, pink, 'on-accent': on }).forEach(([k, v]) => root.style.setProperty('--' + k, v));
       if (px) root.dataset.style = 'pixel'; else delete root.dataset.style;
       root.dataset.mode = dark ? 'dark' : 'light'; meta.content = bg; pixelSky = !!px; dot.style.background = accent;
-      pixelLogos(!!px);
       aurora = { a: hex(accent), b: hex(accent2), c: hex(pink), bg: hex(bg) }; paintSky();
       rows.forEach((r) => r.setAttribute('aria-pressed', +r.dataset.i === i));
       btn.title = 'Theme: ' + name;
@@ -204,46 +170,6 @@
     $$('.step').forEach((s) => ob.observe(s));
   })();
 
-  // ---- a little game you can play: jump over the blocks
-  (function game() {
-    const c = $('#game'), g = c.getContext('2d'), W = c.width, H = c.height, FLOOR = H - 26;
-    let y = 0, vy = 0, x = 60, blocks = [], speed = 2.3, t = 0, score = 0, best = 0, dead = 0, on = false, coins = [];
-    const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
-    const jump = () => { if (dead) { reset(); return; } if (y === 0) vy = 7.4; };
-    const reset = () => { blocks = []; coins = []; speed = 2.3; score = 0; dead = 0; y = 0; vy = 0; };
-    c.addEventListener('pointerdown', (e) => { e.preventDefault(); jump(); });
-    addEventListener('keydown', (e) => { if (e.code === 'Space' && on && document.activeElement === document.body && c.getBoundingClientRect().top < innerHeight * .7 && c.getBoundingClientRect().bottom > 80) { e.preventDefault(); jump(); } });
-    const auto = () => { const b = blocks.find((q) => q.x > x - 8); if (b && b.x - x < 46 + speed * 6 && y === 0 && !touched) jump(); };
-    let touched = false; c.addEventListener('pointerdown', () => { touched = true; });
-    const frame = () => {
-      if (on) requestAnimationFrame(frame); t++;
-      const A = css('--accent'), B = css('--accent2'), P = css('--pink');
-      g.clearRect(0, 0, W, H);
-      for (let i = 0; i < 18; i++) { g.fillStyle = 'rgba(255,255,255,.14)'; g.fillRect(((i * 53 - t * .5) % W + W) % W, 16 + (i * 37) % 60, 2, 2); }
-      g.fillStyle = A; g.fillRect(0, FLOOR, W, 3);
-      for (let i = 0; i < 20; i++) { g.fillStyle = 'rgba(255,255,255,.1)'; g.fillRect(((i * 40 - t * speed) % W + W) % W, FLOOR + 8, 16, 3); }
-      if (!dead) {
-        if (!touched) auto();
-        if (y > 0 || vy > 0) { y += vy; vy -= .34; if (y <= 0) { y = 0; vy = 0; } }
-        if (!blocks.length || blocks[blocks.length - 1].x < W - rand(110, 210)) { blocks.push({ x: W + 10, h: 14 + (Math.random() * 3 | 0) * 7 }); if (Math.random() < .6) coins.push({ x: W + rand(50, 90), y: rand(26, 58) }); }
-        for (const b of blocks) b.x -= speed; for (const k of coins) k.x -= speed;
-        blocks = blocks.filter((b) => { if (b.x < -14) { score++; return false; } return true; });
-        coins = coins.filter((k) => { if (Math.abs(k.x - x - 7) < 14 && Math.abs(FLOOR - y - 14 - k.y) < 16) { score += 2; return false; } return k.x > -8; });
-        if (t % 300 === 0) speed = Math.min(5, speed + .25);
-        if (blocks.some((b) => x + 12 > b.x && x < b.x + 12 && y < b.h - 1)) { dead = 1; best = Math.max(best, score); if (!touched) setTimeout(reset, 900); }
-      }
-      g.fillStyle = P; for (const b of blocks) g.fillRect(b.x | 0, FLOOR - b.h, 12, b.h);
-      g.fillStyle = '#ffd479'; for (const k of coins) g.fillRect(k.x | 0, k.y | 0, 7, 7);
-      // the player: a small pixel hero
-      const py = FLOOR - 16 - y | 0, step = y === 0 ? ((t >> 3) & 1) : 0;
-      g.fillStyle = B; g.fillRect(x, py, 14, 12); g.fillStyle = '#10101c'; g.fillRect(x + 9, py + 3, 3, 3);
-      g.fillStyle = B; g.fillRect(x + 1 + step * 2, py + 12, 4, 4); g.fillRect(x + 9 - step * 2, py + 12, 4, 4);
-      g.fillStyle = '#fff'; g.font = '13px monospace'; g.textAlign = 'right'; g.fillText(String(score).padStart(3, '0') + (best ? '  best ' + best : ''), W - 10, 20);
-      if (dead && touched) { g.textAlign = 'center'; g.fillText('tap to play again', W / 2, 60); }
-    };
-    visible(c, (v) => { on = v; if (v && !still) requestAnimationFrame(frame); }); if (still) frame();
-  })();
-
   // ---- code that types itself, then runs
   (function typer() {
     const el = $('#typer'), LINES = [
@@ -297,7 +223,7 @@
     let list = ['Word Count', 'Colour Swatches', 'Pet Pack', 'Focus Timer', 'JSON Tools', 'Regex Lab', 'Text Tools', 'Git Line', 'Quick Insert', 'HTML Quick'].map((name) => ({ name }));
     try {
       const j = await (await fetch('https://raw.githubusercontent.com/Redfire3248/aether-marketplace/main/index.json')).json();
-      if (j.extensions && j.extensions.length) { list = j.extensions; $$('.market-count').forEach((b) => (b.textContent = list.length)); }
+      if (j.extensions && j.extensions.length) list = j.extensions;
     } catch { /* the short list */ }
     const half = Math.ceil(list.length / 2), a = list.slice(0, half).map(chip).join(''), b = list.slice(half).map(chip).join('') || a;
     r1.innerHTML = a + a + a + a; r2.innerHTML = b + b + b + b;
