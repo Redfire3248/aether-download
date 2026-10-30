@@ -1,0 +1,37 @@
+name: Count downloads
+
+# Once a day, and after each new release: count the downloads of every release and save them in
+# downloads.json and downloads.csv. Nothing is committed when the numbers did not change.
+on:
+  schedule:
+    - cron: '17 3 * * *'
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: downloads
+  cancel-in-progress: false
+
+jobs:
+  count:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node tools/count-downloads.mjs
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - name: Save the numbers
+        run: |
+          git add downloads.json downloads.csv
+          if git diff --cached --quiet; then exit 0; fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898208+github-actions[bot]@users.noreply.github.com'
+          git commit -m "Downloads: $(node -p "require('./downloads.json').total")"
+          git push

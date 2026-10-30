@@ -276,4 +276,16 @@
     } catch { /* the words already there */ }
   })();
 
+  // ---- how many times Aether was downloaded: live from GitHub, or the count saved each day in downloads.json
+  (async function downloads() {
+    let n = 0;
+    try {
+      const r = await fetch(`https://api.github.com/repos/${REPO}/releases?per_page=100`); if (!r.ok) throw new Error(r.status);
+      for (const rel of await r.json()) for (const a of rel.assets || []) n += a.download_count || 0;
+    } catch {
+      try { n = (await (await fetch('downloads.json', { cache: 'no-store' })).json()).total || 0; } catch { /* no count yet */ }
+    }
+    if (n > 0) $$('.dl-count').forEach((e) => (e.textContent = ` · ${n.toLocaleString('en')} download${n === 1 ? '' : 's'}`));
+  })();
+
 })();
