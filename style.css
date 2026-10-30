@@ -33,9 +33,11 @@ a { color: inherit; }
 .skip { position: fixed; left: -999px; top: 8px; z-index: 60; background: var(--accent); color: #fff; padding: 8px 14px; border-radius: 8px; }
 .skip:focus { left: 8px; }
 :focus-visible { outline: 2px solid var(--accent2); outline-offset: 3px; border-radius: 6px; }
+/* a button's ring hugs the button itself */
+.btn:focus-visible { outline: none; }
+.btn:focus-visible .btn-in { outline: 2px solid var(--accent2); outline-offset: 3px; }
 
 /* the sky */
-#stars { image-rendering: pixelated; }
 #aurora { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -3; image-rendering: pixelated; display: none; }
 /* the smooth themes have soft light that drifts; only pixel themes have the pixel aurora */
 .glow { position: fixed; inset: 0; z-index: -3; overflow: hidden; }
@@ -44,8 +46,11 @@ a { color: inherit; }
 .glow i:nth-child(2) { --c: var(--accent2); right: -32vmax; top: -8vmax; animation-duration: 32s; animation-delay: -9s; opacity: .7; }
 .glow i:nth-child(3) { --c: var(--pink); left: 12vmax; bottom: -46vmax; animation-duration: 38s; animation-delay: -17s; opacity: .8; }
 @keyframes drift { to { transform: translate(12vmax, 9vmax) scale(1.14); } }
-[data-mode="light"] #stars { opacity: 0; }
-#stars { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -2; }
+[data-mode="light"] .stars { display: none; }
+.stars { position: fixed; inset: -40px; z-index: -2; overflow: hidden; pointer-events: none; will-change: translate; transition: translate 1.2s var(--ease); }
+.stars i { position: absolute; top: 0; image-rendering: pixelated; will-change: transform, translate; animation: star-drift 100s linear infinite, twinkle 3s ease-in-out infinite alternate; }
+@keyframes star-drift { to { transform: translateX(var(--tile)); } }
+@keyframes twinkle { from { opacity: .62; } }
 .spot { position: fixed; left: 0; top: 0; width: 620px; height: 620px; margin: -310px 0 0 -310px; border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--accent) 18%, transparent), transparent 66%); z-index: -1; pointer-events: none; will-change: transform; }
 .progress { position: fixed; inset: 0 0 auto; height: 3px; z-index: 40; }
 .progress i { display: block; height: 100%; transform: scaleX(0); transform-origin: 0 50%; background: linear-gradient(90deg, var(--accent), var(--accent2), var(--pink)); }
@@ -86,7 +91,7 @@ a { color: inherit; }
 h1 { font-size: clamp(48px, 9.6vw, 128px); font-weight: 700; }
 .h-line { display: block; }
 .muted-w { color: var(--muted); }
-.rotor { display: inline-block; position: relative; color: var(--accent2); padding-bottom: .1em; perspective: 500px; text-align: left; white-space: nowrap; vertical-align: bottom; transition: width .5s var(--ease); }
+.rotor { display: inline-block; position: relative; color: var(--accent2); padding-bottom: .1em; perspective: 500px; text-align: left; white-space: nowrap; vertical-align: baseline; transition: width .5s var(--ease); }
 .rotor span { display: inline-block; }
 .rotor .ch { display: inline-block; animation: ch-in .55s var(--ease) both; }
 @keyframes ch-in { from { opacity: 0; transform: translateY(.5em) rotateX(-70deg); filter: blur(4px); } }
@@ -136,6 +141,7 @@ h1 { font-size: clamp(48px, 9.6vw, 128px); font-weight: 700; }
 .tick-track img { width: 24px; height: 24px; flex: none; }
 [data-mode="dark"] .tick-track img.ink { filter: invert(1) hue-rotate(180deg) brightness(1.05); }
 .tick-track span:nth-child(3n) { color: var(--accent2); }
+.ticker:hover .tick-track { animation-play-state: paused; }
 @keyframes slide { to { transform: translateX(-50%); } }
 
 /* the tour: the window stays, the words go by */
@@ -178,7 +184,7 @@ h2 { font-size: clamp(36px, 6.4vw, 78px); font-weight: 700; }
 .tile h3 { font-size: 23px; margin-bottom: 5px; letter-spacing: -.02em; }
 .tile p { color: var(--muted); font-size: 15.5px; line-height: 1.45; }
 .t-game, .t-code { grid-column: span 3; }
-.t-game canvas { width: 100%; border-radius: 12px; image-rendering: pixelated; cursor: pointer; background: color-mix(in srgb, var(--bg) 70%, #000); touch-action: manipulation; }
+.t-game .shot { display: block; width: 100%; height: auto; aspect-ratio: 1600 / 850; object-fit: cover; border-radius: 12px; border: 1px solid var(--line); }
 .typer { margin: 0; flex: 1; min-height: 168px; padding: 14px 16px; border-radius: 12px; background: color-mix(in srgb, var(--bg) 70%, #000); font: 14.5px/1.65 'JB Mono', ui-monospace, Consolas, monospace; color: var(--text); white-space: pre-wrap; overflow: hidden; }
 .typer .k { color: var(--accent); } .typer .f { color: var(--accent2); } .typer .s { color: #ffd479; } .typer .o { color: var(--muted); }
 .typer .cur { display: inline-block; width: 8px; height: 1.1em; vertical-align: -3px; background: var(--accent2); animation: blink 1s steps(2) infinite; }
@@ -221,7 +227,6 @@ h2 { font-size: clamp(36px, 6.4vw, 78px); font-weight: 700; }
 .rails { display: grid; gap: 12px; overflow: hidden; mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
 .rail { display: flex; gap: 12px; width: max-content; animation: slide 60s linear infinite; }
 .rail.back { animation-direction: reverse; animation-duration: 70s; }
-.rails:hover .rail { animation-play-state: paused; }
 .chip { display: flex; align-items: center; gap: 10px; padding: 13px 18px; border-radius: 13px; border: 1px solid var(--line); background: var(--panel); white-space: nowrap; font-weight: 600; font-size: 15px; }
 .chip.px { border-radius: 0; font-family: var(--pixel); }
 .chip i { width: 12px; height: 12px; border-radius: 50%; background: var(--accent2); }
@@ -277,6 +282,10 @@ h2 { font-size: clamp(36px, 6.4vw, 78px); font-weight: 700; }
 [data-style="pixel"] .get-logo { filter: none; animation-timing-function: steps(4); }
 /* type */
 [data-style="pixel"] :is(h1, h2, h3) { letter-spacing: 0; font-weight: 400; line-height: 1; text-shadow: 3px 3px 0 #000; }
+/* on a light page a black shadow doubles the dark words */
+[data-style="pixel"][data-mode="light"] :is(h1, h2, h3) { text-shadow: none; }
+[data-style="pixel"] :focus-visible, [data-style="pixel"] .btn:focus-visible .btn-in { border-radius: 0; }
+[data-style="pixel"] .t-game .shot { border: 2px solid var(--line); border-radius: 0; }
 [data-style="pixel"] h1 { font-size: clamp(60px, 12vw, 158px); }
 [data-style="pixel"] h2 { font-size: clamp(46px, 7.8vw, 96px); }
 [data-style="pixel"] .step h3 { font-size: clamp(42px, 5.2vw, 66px); }
@@ -288,7 +297,7 @@ h2 { font-size: clamp(36px, 6.4vw, 78px); font-weight: 700; }
 [data-style="pixel"] .brand { font-size: 26px; }
 [data-style="pixel"] .top nav, [data-style="pixel"] .nav-get, [data-style="pixel"] .theme-btn { font-size: 20px; }
 [data-style="pixel"] .tick-track { font-size: 25px; }
-[data-style="pixel"] .tick-track img { width: 26px; height: 26px; image-rendering: pixelated; }
+[data-style="pixel"] .tick-track img { width: 26px; height: 26px; }
 [data-style="pixel"] .eyebrow { font-size: 21px; }
 [data-style="pixel"] .tm-row { font-size: 20px; font-weight: 400; }
 [data-style="pixel"] .steps { font-size: 21px; line-height: 1.25; }
@@ -309,7 +318,9 @@ h2 { font-size: clamp(36px, 6.4vw, 78px); font-weight: 700; }
 [data-style="pixel"] .ticker { border-block-width: 3px; }
 [data-style="pixel"] .step img { border: 3px solid var(--line); box-shadow: 4px 4px 0 #000; }
 /* blocky buttons */
-[data-style="pixel"] .btn-fx { display: none; }
+[data-style="pixel"] .btn-fx.ring { inset: -5px; border-radius: 0; }
+[data-style="pixel"] .btn-fx.glow { inset: -16px; border-radius: 0; filter: blur(18px); }
+[data-style="pixel"] .btn-fx i { animation-timing-function: steps(32); } /* it turns in steps, like the rest of the pixel look */
 [data-style="pixel"] .btn { transform: none !important; }
 [data-style="pixel"] .btn-in { background: var(--accent); color: var(--on-accent); border: 2px solid #000; box-shadow: 3px 3px 0 #000; font-weight: 400; font-size: 23px; padding: 12px 22px; }
 [data-style="pixel"] .btn.ghost .btn-in { background: var(--panel); color: var(--text); border-color: var(--line); box-shadow: 2px 2px 0 #000; backdrop-filter: none; }
