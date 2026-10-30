@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Aether: the code editor for everything</title>
+  <meta name="description" content="Write code in any language, make games, draw, build Arduino circuits and turn it all into real apps, in one free program for Windows.">
+  <meta name="theme-color" content="#0b0a14">
+  <meta property="og:title" content="Aether: the code editor for everything">
+  <meta property="og:description" content="Code, games, art, circuits and apps, in one free program for Windows.">
+  <meta property="og:image" content="img/engine.webp">
+  <link rel="icon" href="img/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to the page</a>
+  <canvas id="sky" aria-hidden="true"></canvas>
+
+  <header class="top">
+    <a class="brand" href="#main"><img src="img/logo.svg" alt="" width="28" height="28"> Aether</a>
+    <nav aria-label="Main">
+      <a href="#inside">Inside</a>
+      <a href="#everything">Everything</a>
+      <a href="#market">Marketplace</a>
+      <a class="nav-get" href="#get">Download</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <p class="tag pop">Free for Windows</p>
+      <h1 class="pop"><span>The code editor</span> <span class="shine">for everything.</span></h1>
+      <p class="lead pop">Write code in any language, make games, draw pixel art, wire up Arduino circuits, and turn it all into real apps. One program, nothing else to install.</p>
+      <div class="cta pop">
+        <a class="btn big dl-link" href="https://github.com/Redfire3248/aether-download/releases/latest/download/Aether-Setup.exe">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 20h16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Download for Windows
+        </a>
+        <p class="dl-meta small"><span class="dl-version">Latest version</span> · Windows 10 and 11 · 64-bit</p>
+      </div>
+
+      <div class="stage pop" id="stage">
+        <div class="window" id="window">
+          <img src="img/engine.webp" width="1600" height="850" alt="Aether's game engine with a pixel-art lava cave open in the scene editor, pixel pets walking along the bottom of the window">
+        </div>
+        <div class="glow" aria-hidden="true"></div>
+      </div>
+      <div class="walkers" aria-hidden="true">
+        <i class="pet cat"></i><i class="pet fox"></i><i class="pet dog"></i>
+      </div>
+    </section>
+
+    <section class="numbers reveal" aria-label="Aether in numbers">
+      <div><b data-count="51">51</b><span>colour themes</span></div>
+      <div><b data-count="17">17</b><span>tools in the dock</span></div>
+      <div><b class="market-count" data-count="19">19</b><span>extensions to add</span></div>
+      <div><b>.exe + .apk</b><span>apps you can make</span></div>
+    </section>
+
+    <section id="inside" class="inside">
+      <div class="head reveal">
+        <p class="tag">See inside</p>
+        <h2>One window. Every kind of making.</h2>
+      </div>
+      <div class="tour reveal">
+        <div class="tabs" role="tablist" aria-label="Parts of Aether"></div>
+        <div class="tour-view">
+          <div class="tour-frame"><img id="tour-img" alt="" width="1600" height="850"></div>
+          <div class="tour-words" aria-live="polite"><h3 id="tour-title"></h3><p id="tour-text"></p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="everything" class="grid-sec">
+      <div class="head reveal">
+        <p class="tag">Everything</p>
+        <h2>All the tools, already there.</h2>
+      </div>
+      <div class="bento">
+        <article class="card wide reveal">
+          <div class="ic"><svg viewBox="0 0 24 24"><path d="m8 7-5 5 5 5M16 7l5 5-5 5"/></svg></div>
+          <h3>Every language, every file</h3>
+          <p>Colours and suggestions for your code, and it runs what you write with one key. Pictures, sounds, videos, PDFs, spreadsheets and Word files all open right here.</p>
+        </article>
+        <article class="card reveal">
+          <div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="11" rx="4"/><path d="M8 11v3M6.5 12.5h3M15 12h.01M17.5 14h.01"/></svg></div>
+          <h3>Game engine</h3>
+          <p>2D and 3D scenes, Aether Script, online play. Export to Windows, Android and the web.</p>
+        </article>
+        <article class="card reveal">
+          <div class="ic"><svg viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.4"/><path d="M11 18.5h2"/></svg></div>
+          <h3>App Maker</h3>
+          <p>Build a phone screen from parts, add code, then make a real Android app or Windows app with one click.</p>
+        </article>
+        <article class="card reveal">
+          <div class="ic"><svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="1.5"/><path d="M9 2.5V6M12 2.5V6M15 2.5V6M9 18v3.5M12 18v3.5M15 18v3.5M2.5 9H6M2.5 15H6M18 9h3.5M18 15h3.5"/></svg></div>
+          <h3>Arduino</h3>
+          <p>Wire a circuit on a breadboard and simulate it, no board needed. When you have one, upload to it.</p>
+        </article>
+        <article class="card reveal">
+          <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18c1.3 0 2-1 2-2 0-1.300-1-1.700-1-3 0-1 .8-2 2-2h2.500A3.500 3.500 0 0 0 21 11.500C21 7 17 3 12 3Z"/><path d="M7.500 12h.01M9.500 7.800h.01M14.500 7.800h.01"/></svg></div>
+          <h3>Art and sound</h3>
+          <p>Art Studio, Pixel Studio, and Sound Studio for music, sound effects and your voice.</p>
+        </article>
+        <article class="card reveal">
+          <div class="ic"><svg viewBox="0 0 24 24"><path d="M14.500 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7.500z"/><path d="M14 3v5h5M9 14h6M9 17h4"/></svg></div>
+          <h3>Edit any PDF</h3>
+          <p>Click a line and type. It even reads scanned pages, so you can change those too.</p>
+        </article>
+        <article class="card wide pets-card reveal">
+          <div class="ic"><svg viewBox="0 0 24 24"><circle cx="7" cy="9" r="2"/><circle cx="12" cy="6.500" r="2"/><circle cx="17" cy="9" r="2"/><path d="M12 11c-3 0-5 2.500-5 5 0 1.700 1.300 2.500 2.800 2.500 1 0 1.500-.5 2.200-.5s1.200.5 2.200.5c1.500 0 2.800-.8 2.800-2.500 0-2.500-2-5-5-5Z"/></svg></div>
+          <h3>Pets that keep you company</h3>
+          <p>Cats, dogs, foxes and more wander across your window, peek in from the edges and nap while you work. Pick them up, swing them around, and dress them in skins.</p>
+          <div class="pets-row" aria-hidden="true"><i class="pet cat still"></i><i class="pet fox still"></i><i class="pet dog still"></i></div>
+        </article>
+      </div>
+    </section>
+
+    <section id="market" class="market">
+      <div class="head reveal">
+        <p class="tag">Marketplace</p>
+        <h2>Add only what you want.</h2>
+        <p class="lead">Themes, tools and more pets, free and installed with one click from inside Aether.</p>
+      </div>
+      <div class="marquee reveal" aria-hidden="true"><div class="track" id="track"></div></div>
+      <p class="reveal center"><a class="link" href="https://redfire3248.github.io/aether-marketplace/marketplace.html">See the whole Marketplace</a></p>
+    </section>
+
+    <section id="get" class="get">
+      <div class="get-card reveal">
+        <img src="img/logo.svg" alt="" width="64" height="64">
+        <h2>Get Aether</h2>
+        <p class="lead">Free. No account needed.</p>
+        <a class="btn big" id="download" href="https://github.com/Redfire3248/aether-download/releases/latest/download/Aether-Setup.exe">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 20h16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Download for Windows
+        </a>
+        <p class="dl-meta small"><span class="dl-version">Latest version</span><span class="dl-size"></span> · Windows 10 and 11 · 64-bit</p>
+        <ol class="steps">
+          <li><b>Download</b> the installer above.</li>
+          <li><b>Open it.</b> Windows may say it does not know this app, because Aether is new and not code-signed yet. Press <b>More info</b>, then <b>Run anyway</b>.</li>
+          <li><b>Start making.</b> Aether adds itself to your Start menu and desktop.</li>
+        </ol>
+        <p class="small"><a class="link" href="https://github.com/Redfire3248/aether-download/releases">All versions and what changed</a></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p><img src="img/logo.svg" alt="" width="18" height="18"> Aether</p>
+    <p class="small">Made by Redfire3248</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
