@@ -51,6 +51,27 @@
     if (still) paintSky(); else { requestAnimationFrame(loop); document.addEventListener('visibilitychange', () => { if (!document.hidden) requestAnimationFrame(loop); }); }
   })();
 
+  // ---- the language logos: in a pixel theme each one is drawn at 12 x 12 pixels and blown up, as Aether does
+  const pixelLogo = {};
+  function pixelLogos(on) {
+    for (const im of $$('.tick-track img')) {
+      const src = im.dataset.src || (im.dataset.src = im.getAttribute('src'));
+      if (!on) { im.src = src; continue; }
+      if (!pixelLogo[src]) pixelLogo[src] = new Promise((done) => {
+        const raw = new Image();
+        raw.onload = () => {
+          try {
+            const N = /aether-/.test(src) ? 9 : 12, c = document.createElement('canvas'), g = c.getContext('2d'); c.width = c.height = N;
+            const w = raw.naturalWidth || 128, h = raw.naturalHeight || 128, k = Math.min(N / w, N / h);
+            g.imageSmoothingQuality = 'high'; g.drawImage(raw, (N - w * k) / 2, (N - h * k) / 2, w * k, h * k); done(c.toDataURL());
+          } catch { done(src); }
+        };
+        raw.onerror = () => done(src); raw.src = src;
+      });
+      pixelLogo[src].then((px) => { if (document.documentElement.dataset.style === 'pixel') im.src = px; });
+    }
+  }
+
   // ---- themes: the real ones from Aether. A pixel theme turns the whole page pixel, as it does in the app
   (function themes() {
     const LIST = [
@@ -89,6 +110,7 @@
       Object.entries({ bg, panel, line, text, muted, accent, accent2, pink, 'on-accent': on }).forEach(([k, v]) => root.style.setProperty('--' + k, v));
       if (px) root.dataset.style = 'pixel'; else delete root.dataset.style;
       root.dataset.mode = dark ? 'dark' : 'light'; meta.content = bg; pixelSky = !!px; dot.style.background = accent;
+      pixelLogos(!!px);
       aurora = { a: hex(accent), b: hex(accent2), c: hex(pink), bg: hex(bg) }; paintSky();
       rows.forEach((r) => r.setAttribute('aria-pressed', +r.dataset.i === i));
       btn.title = 'Theme: ' + name;
