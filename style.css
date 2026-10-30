@@ -35,6 +35,7 @@ a { color: inherit; }
 :focus-visible { outline: 2px solid var(--accent2); outline-offset: 3px; border-radius: 6px; }
 
 /* the sky */
+#stars { image-rendering: pixelated; }
 #aurora { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -3; image-rendering: pixelated; display: none; }
 /* the smooth themes have soft light that drifts; only pixel themes have the pixel aurora */
 .glow { position: fixed; inset: 0; z-index: -3; overflow: hidden; }
@@ -97,17 +98,20 @@ h1 { font-size: clamp(48px, 9.6vw, 128px); font-weight: 700; }
 @keyframes rise { from { opacity: 0; transform: translateY(30px); filter: blur(6px); } }
 
 .btn { position: relative; display: inline-flex; border-radius: 15px; text-decoration: none; font-weight: 700; font-size: 17px; color: var(--on-accent); isolation: isolate; transition: transform .35s var(--ease); }
-.btn::before { content: ''; position: absolute; inset: -2px; z-index: -2; border-radius: 17px; background: conic-gradient(from var(--spin, 0deg), var(--accent), var(--accent2), var(--pink), var(--accent)); animation: spin 4s linear infinite; }
-.btn::after { content: ''; position: absolute; inset: -14px; z-index: -3; border-radius: 26px; background: conic-gradient(from var(--spin, 0deg), var(--accent), var(--accent2), var(--pink), var(--accent)); filter: blur(22px); opacity: .45; animation: spin 4s linear infinite; transition: opacity .3s; }
-.btn:hover::after { opacity: .8; }
-@property --spin { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
-@keyframes spin { to { --spin: 360deg; } }
+.btn-fx { position: absolute; z-index: -2; overflow: hidden; pointer-events: none; }
+/* the colours turn by rotating a square behind a clipped window: the graphics card does it, nothing is redrawn */
+.btn-fx i { position: absolute; left: 50%; top: 50%; width: 150%; aspect-ratio: 1; translate: -50% -50%; background: conic-gradient(var(--accent), var(--accent2), var(--pink), var(--accent)); animation: turn 4s linear infinite; }
+.btn-fx.ring { inset: -2px; border-radius: 17px; }
+.btn-fx.glow { inset: -14px; z-index: -3; border-radius: 26px; filter: blur(22px); opacity: .45; transition: opacity .3s; }
+.btn:hover .btn-fx.glow { opacity: .8; }
+@keyframes turn { to { rotate: 1turn; } }
+/* animations that are off the screen wait */
+.paused, .paused *, .paused *::before, .paused *::after { animation-play-state: paused !important; }
 .btn-in { display: inline-flex; align-items: center; gap: 10px; padding: 15px 26px; border-radius: 14px; background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 70%, #000)); }
 .btn-in svg { fill: none; stroke: currentColor; stroke-width: 2.3; stroke-linecap: round; stroke-linejoin: round; transition: transform .3s var(--spring); }
 .btn:hover .btn-in svg { transform: translateY(3px); }
 .btn:active { scale: .97; }
 .btn.ghost { color: var(--text); }
-.btn.ghost::before, .btn.ghost::after { display: none; }
 .btn.ghost .btn-in { background: color-mix(in srgb, var(--panel) 60%, transparent); border: 1px solid var(--line); backdrop-filter: blur(8px); transition: border-color .2s, background .2s; }
 .btn.ghost:hover .btn-in { border-color: var(--accent2); }
 
@@ -305,7 +309,7 @@ h2 { font-size: clamp(36px, 6.4vw, 78px); font-weight: 700; }
 [data-style="pixel"] .ticker { border-block-width: 3px; }
 [data-style="pixel"] .step img { border: 3px solid var(--line); box-shadow: 4px 4px 0 #000; }
 /* blocky buttons */
-[data-style="pixel"] :is(.btn::before, .btn::after) { display: none; }
+[data-style="pixel"] .btn-fx { display: none; }
 [data-style="pixel"] .btn { transform: none !important; }
 [data-style="pixel"] .btn-in { background: var(--accent); color: var(--on-accent); border: 2px solid #000; box-shadow: 3px 3px 0 #000; font-weight: 400; font-size: 23px; padding: 12px 22px; }
 [data-style="pixel"] .btn.ghost .btn-in { background: var(--panel); color: var(--text); border-color: var(--line); box-shadow: 2px 2px 0 #000; backdrop-filter: none; }
