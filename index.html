@@ -13,11 +13,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=5">
 </head>
 <body>
   <a class="skip" href="#main">Skip to the page</a>
   <div class="progress" aria-hidden="true"><i id="bar"></i></div>
+  <div class="glow" aria-hidden="true"><i></i><i></i><i></i></div>
   <canvas id="aurora" aria-hidden="true"></canvas>
   <canvas id="stars" aria-hidden="true"></canvas>
   <div class="spot" id="spot" aria-hidden="true"></div>
@@ -27,10 +28,16 @@
     <nav aria-label="Main">
       <a href="#story">Tour</a>
       <a href="#live">Tools</a>
-      <a href="#themes">Themes</a>
       <a href="#market">Marketplace</a>
     </nav>
     <a class="nav-get" href="#get">Get Aether</a>
+    <div class="theme-pick">
+      <button class="theme-btn" id="theme-btn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="theme-menu" title="Change the theme">
+        <i class="theme-dot"></i><span>Theme</span>
+        <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="theme-menu" id="theme-menu" role="group" aria-label="Themes" hidden></div>
+    </div>
   </header>
 
   <main id="main">
@@ -114,25 +121,16 @@
         </article>
         <article class="tile t-pets">
           <div class="pets-row" aria-hidden="true"><i class="pet cat"></i><i class="pet fox"></i><i class="pet dog"></i></div>
-          <div class="tile-words"><h3>Pets that visit</h3><p>Cats, dogs and foxes wander across your window. Pick up the cat on this page and throw it.</p></div>
+          <div class="tile-words"><h3>Pets that visit</h3><p>Cats, dogs and foxes wander across your window. Pet them or carry them around.</p></div>
         </article>
       </div>
-    </section>
-
-    <section id="themes" class="themes">
-      <header class="sec-head">
-        <p class="eyebrow">Make it yours</p>
-        <h2 class="split">Pick a theme. Watch this page change.</h2>
-        <p class="lead">51 themes built in, from calm to loud to pure pixels. More in the Marketplace.</p>
-      </header>
-      <div class="swatches" id="swatches" role="radiogroup" aria-label="Try a theme on this page"></div>
     </section>
 
     <section id="market" class="market">
       <header class="sec-head">
         <p class="eyebrow">Marketplace</p>
         <h2 class="split">Add only what you want.</h2>
-        <p class="lead"><b class="market-count">31</b> free extensions: themes, tools and more pets, one click from inside Aether.</p>
+        <p class="lead">51 themes come with Aether. <b class="market-count">31</b> more free extensions are one click away: themes, tools and more pets.</p>
       </header>
       <div class="rails" aria-hidden="true"><div class="rail" id="rail1"></div><div class="rail back" id="rail2"></div></div>
       <p class="center"><a class="link" href="https://redfire3248.github.io/aether-marketplace/marketplace.html">See the whole Marketplace</a></p>
@@ -162,8 +160,6 @@
     <p class="small">Made by Redfire3248</p>
   </footer>
 
-  <div class="buddy" id="buddy" role="img" aria-label="A pixel cat you can pick up and throw" title="Pick me up and throw me"></div>
-
-  <script src="script.js"></script>
+  <script src="script.js?v=5"></script>
 </body>
 </html>

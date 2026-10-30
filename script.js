@@ -8,8 +8,9 @@
   const visible = (el, fn) => { let on = false; new IntersectionObserver((e) => { const v = e[0].isIntersecting; if (v !== on) { on = v; fn(v); } }, { threshold: .12 }).observe(el); return () => on; };
   const hex = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
 
-  // ---- the sky: a pixel-art aurora drawn very small and scaled up, with stars over it
-  let aurora = { a: hex('#8b6cff'), b: hex('#3ff3c8'), c: hex('#ff5fa2'), bg: hex('#08070f') };
+  // ---- the sky: stars, and in the pixel themes a pixel-art aurora drawn very small and scaled up
+  let aurora = { a: hex('#7859f7'), b: hex('#3ff3c8'), c: hex('#ff7eb6'), bg: hex('#0b0e1a') };
+  let pixelSky = false, paintSky = () => {}, fitWord = () => {};
   (function sky() {
     const ac = $('#aurora'), g = ac.getContext('2d', { alpha: false }), W = 160, H = 90; ac.width = W; ac.height = H;
     const im = g.createImageData(W, H), d = im.data;
@@ -19,10 +20,12 @@
     addEventListener('pointermove', (e) => { tx = e.clientX / SW - .5; ty = e.clientY / SH - .5; }, { passive: true });
     const LEVELS = 10;
     let last = 0;
-    const draw = (t) => {
-      if (document.hidden) return;
-      requestAnimationFrame(draw);
-      if (t - last < 66) return; last = t; // the aurora moves slowly: 15 frames a second is plenty
+    const frame = (t) => {
+      if (t - last < 66) return; last = t; // the sky moves slowly: 15 frames a second is plenty
+      if (pixelSky) aurorify(t);
+      stars(t);
+    };
+    const aurorify = (t) => {
       const q = t * .00016, scroll = Math.min(1, scrollY / (innerHeight * 3));
       for (let y = 0, i = 0; y < H; y++) for (let x = 0; x < W; x++, i += 4) {
         const u = x / W, v = y / H;
@@ -34,6 +37,8 @@
         d[i] = aurora.bg[0] + (c[0] - aurora.bg[0]) * k; d[i + 1] = aurora.bg[1] + (c[1] - aurora.bg[1]) * k; d[i + 2] = aurora.bg[2] + (c[2] - aurora.bg[2]) * k; d[i + 3] = 255;
       }
       g.putImageData(im, 0, 0);
+    };
+    const stars = (t) => {
       mx += (tx - mx) * .08; my += (ty - my) * .08;
       s.clearRect(0, 0, SW, SH); s.fillStyle = '#fff';
       for (const p of dots) {
@@ -41,7 +46,62 @@
         s.globalAlpha = (.2 + .6 * p.z) * (.7 + .3 * Math.sin(t * .0016 + p.p)); const r = p.z > .7 ? 2 : 1; s.fillRect(x | 0, y | 0, r, r);
       }
     };
-    if (still) { draw(0); } else { requestAnimationFrame(draw); document.addEventListener('visibilitychange', () => { if (!document.hidden) requestAnimationFrame(draw); }); }
+    paintSky = () => { last = -1e9; frame(performance.now()); };
+    const loop = (t) => { if (document.hidden) return; requestAnimationFrame(loop); frame(t); };
+    if (still) paintSky(); else { requestAnimationFrame(loop); document.addEventListener('visibilitychange', () => { if (!document.hidden) requestAnimationFrame(loop); }); }
+  })();
+
+  // ---- themes: the real ones from Aether. A pixel theme turns the whole page pixel, as it does in the app
+  (function themes() {
+    const LIST = [
+      ['Aether Night', 0, 1, '#0b0e1a', '#0e1222', '#1d2440', '#d7dcf0', '#7d86a8', '#7859f7', '#3ff3c8', '#ff7eb6', '#ffffff'],
+      ['Nebula', 0, 1, '#120b22', '#170f2b', '#2c1f4d', '#ebe1ff', '#a08cc8', '#ff5cc8', '#8f7bff', '#ff7ad9', '#120b22'],
+      ['Aurora', 0, 1, '#07151a', '#0a1b21', '#16323c', '#d3f2ee', '#7fa9a6', '#2de0a7', '#5ab8ff', '#5ab8ff', '#04130f'],
+      ['Ember', 0, 1, '#140e0b', '#19120e', '#33241b', '#f3e3d6', '#b08f7a', '#ff7a45', '#ffc24b', '#ff7a45', '#1a0d06'],
+      ['Synthwave Sunset', 0, 1, '#170b2b', '#1d0f36', '#3a1f63', '#f7e7ff', '#b493d6', '#d13387', '#ffd319', '#ff3ea5', '#ffffff'],
+      ['Neon City', 0, 1, '#07070d', '#0b0b14', '#1e1e2e', '#e9f1ff', '#8a93b8', '#fcee0a', '#00f0ff', '#ff2a6d', '#0a0a12'],
+      ['Deep Ocean', 0, 1, '#04101c', '#061626', '#11304d', '#d2e9ff', '#7aa2c4', '#00b4ff', '#00e5c8', '#f28779', '#021018'],
+      ['Midnight Forest', 0, 1, '#0b130f', '#0f1913', '#1f3427', '#dbefdf', '#8fb39a', '#7ccf6b', '#e3c26f', '#ed8796', '#0b130f'],
+      ['Twilight Rose', 0, 1, '#16141f', '#1b1826', '#302b45', '#e0def4', '#9a96b6', '#eb6f92', '#f6c177', '#eb6f92', '#16141f'],
+      ['Sakura', 0, 0, '#fbf1f4', '#fdf6f8', '#efd5df', '#3b2a33', '#836674', '#ce3f71', '#6b8afd', '#c2185b', '#ffffff'],
+      ['Lavender', 0, 0, '#f1eefb', '#f6f3fd', '#ddd5f3', '#2a2540', '#6c6589', '#7c4dff', '#00a3a3', '#be185d', '#ffffff'],
+      ['Paper', 0, 0, '#f2f2f0', '#f7f7f5', '#e0e0db', '#222222', '#6b6b66', '#2f6fed', '#e8590c', '#c2255c', '#ffffff'],
+      ['Pixel Arcade', 1, 1, '#14152a', '#1a1c2c', '#566c86', '#f4f4f4', '#94b0c2', '#ef7d57', '#a7f070', '#c46c7c', '#1a1c2c'],
+      ['Pixel Game Boy', 1, 1, '#0f380f', '#183f18', '#4f7f1f', '#c4e36a', '#c5d687', '#9bbc0f', '#c4e36a', '#9bbc0f', '#0f380f'],
+      ['Pixel NES', 1, 1, '#0d0d1a', '#1a1a2e', '#5050a0', '#fcfcfc', '#bcbcbc', '#f83800', '#3cbcfc', '#f878f8', '#000000'],
+      ['Pixel PICO-8', 1, 1, '#000000', '#1d2b53', '#5f574f', '#fff1e8', '#c2c3c7', '#ff004d', '#29adff', '#ff004d', '#000000'],
+      ['Pixel Dungeon', 1, 1, '#1b1410', '#261c16', '#6b4f36', '#e8d5b0', '#b0956f', '#d9822b', '#7fbf5f', '#cd6155', '#1b1410'],
+      ['Pixel Ocean', 1, 1, '#06141f', '#0a2233', '#2a6f97', '#d8f3ff', '#89c2d9', '#2ec4b6', '#ffd166', '#ef476f', '#06141f'],
+      ['Pixel Forest', 1, 1, '#0e1a12', '#15261a', '#3f6b45', '#dff5d0', '#9cc58f', '#8fd14f', '#f2c14e', '#e05d5d', '#0e1a12'],
+      ['Pixel Lava', 1, 1, '#1a0d0d', '#241010', '#8c2f1a', '#ffe9c7', '#e0a070', '#ff6a00', '#ffd23f', '#ff2f2f', '#1a0d0d'],
+      ['Pixel Royal', 1, 1, '#170d24', '#1f1230', '#6a3fa0', '#fff2d6', '#c9a8e8', '#ffcc33', '#ff5fa2', '#ffcc33', '#170d24'],
+      ['Pixel 1-Bit', 1, 1, '#000000', '#000000', '#ffffff', '#ffffff', '#bbbbbb', '#ffffff', '#ffffff', '#ffffff', '#000000'],
+      ['Pixel Candy', 1, 0, '#fff0f6', '#ffe3ee', '#f4a6c8', '#4a2040', '#8a5a7a', '#c5486f', '#7b61ff', '#bf466b', '#ffffff'],
+      ['Pixel Snow', 1, 0, '#e9f1f7', '#f2f7fb', '#5a7894', '#1b2a3a', '#4f6880', '#2b74d8', '#e0457b', '#cc3f70', '#ffffff']
+    ];
+    const root = document.documentElement, btn = $('#theme-btn'), menu = $('#theme-menu'), dot = $('.theme-dot'), KEY = 'aether-site-theme', meta = $('meta[name="theme-color"]');
+    const row = ([name, px, , bg, , , tx, , ac, ac2, pk], i) => `<button type="button" class="tm-row${px ? ' px' : ''}" data-i="${i}" aria-pressed="false"><span class="tm-sw" style="background:${bg}"><i style="background:${ac}"></i><i style="background:${ac2}"></i><i style="background:${pk}"></i></span><span style="--tx:${tx}">${name}</span></button>`;
+    const group = (title, px) => `<p class="tm-h">${title}</p><div class="tm-list">${LIST.map((t, i) => (!!t[1] === px ? row(t, i) : '')).join('')}</div>`;
+    menu.innerHTML = group('Pixel', true) + group('Smooth', false);
+    const rows = $$('.tm-row', menu);
+    const apply = (i) => {
+      const [name, px, dark, bg, panel, line, text, muted, accent, accent2, pink, on] = LIST[i];
+      Object.entries({ bg, panel, line, text, muted, accent, accent2, pink, 'on-accent': on }).forEach(([k, v]) => root.style.setProperty('--' + k, v));
+      if (px) root.dataset.style = 'pixel'; else delete root.dataset.style;
+      root.dataset.mode = dark ? 'dark' : 'light'; meta.content = bg; pixelSky = !!px; dot.style.background = accent;
+      aurora = { a: hex(accent), b: hex(accent2), c: hex(pink), bg: hex(bg) }; paintSky();
+      rows.forEach((r) => r.setAttribute('aria-pressed', +r.dataset.i === i));
+      btn.title = 'Theme: ' + name;
+      fitWord(); if (px && document.fonts) document.fonts.load('40px "Jersey 15"').then(() => fitWord());
+    };
+    const open = (on) => { menu.hidden = !on; btn.setAttribute('aria-expanded', on); if (on) (rows.find((r) => r.getAttribute('aria-pressed') === 'true') || rows[0]).focus({ preventScroll: true }); };
+    btn.addEventListener('click', () => open(menu.hidden));
+    menu.addEventListener('click', (e) => { const r = e.target.closest('.tm-row'); if (!r) return; apply(+r.dataset.i); try { localStorage.setItem(KEY, LIST[+r.dataset.i][0]); } catch { /* the choice lasts for this visit */ } });
+    menu.addEventListener('keydown', (e) => { const k = rows.indexOf(document.activeElement), step = { ArrowDown: 1, ArrowUp: -1 }[e.key]; if (step) { e.preventDefault(); rows[(k + step + rows.length) % rows.length].focus(); } });
+    addEventListener('keydown', (e) => { if (e.key === 'Escape' && !menu.hidden) { open(false); btn.focus(); } });
+    addEventListener('pointerdown', (e) => { if (!menu.hidden && !e.target.closest('.theme-pick')) open(false); });
+    let saved = 0; try { saved = Math.max(0, LIST.findIndex((t) => t[0] === localStorage.getItem(KEY))); } catch { /* no saved theme */ }
+    apply(saved);
   })();
 
   // ---- the spotlight follows the mouse, softly
@@ -71,7 +131,9 @@
     if (still) return; let i = 0;
     // each letter takes its own colour along the word
     const col = (k) => (k < .5 ? `color-mix(in srgb, var(--accent2) ${k * 200 | 0}%, var(--accent))` : `color-mix(in srgb, var(--pink) ${(k - .5) * 200 | 0}%, var(--accent2))`);
-    const show = (w) => { box.innerHTML = '<span>' + [...w].map((c, k) => `<span class="ch" style="animation-delay:${k * 28}ms;color:${col(k / Math.max(1, w.length - 1))}">${c === ' ' ? '&nbsp;' : c}</span>`).join('') + '</span>'; };
+    fitWord = () => { const s = box.firstElementChild; if (s) box.style.width = s.offsetWidth + 'px'; };
+    const show = (w) => { box.innerHTML = '<span>' + [...w].map((c, k) => `<span class="ch" style="animation-delay:${k * 28}ms;color:${col(k / Math.max(1, w.length - 1))}">${c === ' ' ? '&nbsp;' : c}</span>`).join('') + '</span>'; fitWord(); };
+    addEventListener('resize', fitWord); if (document.fonts) document.fonts.ready.then(fitWord);
     show(WORDS[0]); setInterval(() => { if (!document.hidden) { i = (i + 1) % WORDS.length; show(WORDS[i]); } }, 2300);
   })();
 
@@ -191,31 +253,6 @@
   // ---- the soft light on each tile
   $$('.tile').forEach((c) => c.addEventListener('pointermove', (e) => { const r = c.getBoundingClientRect(); c.style.setProperty('--mx', e.clientX - r.left + 'px'); c.style.setProperty('--my', e.clientY - r.top + 'px'); }));
 
-  // ---- try a theme: the whole page changes
-  (function themes() {
-    const LIST = [
-      ['Aether Night', 0, '#08070f', '#121024', '#2a2650', '#f1efff', '#a7a2cf', '#8b6cff', '#3ff3c8', '#ff5fa2', '#ffffff'],
-      ['Pixel Arcade', 1, '#14152a', '#1a1c2c', '#3a4466', '#f4f4f4', '#94b0c2', '#ef7d57', '#a7f070', '#73eff7', '#1a1c2c'],
-      ['Pixel Vapor', 1, '#130f2e', '#1a1540', '#443a8a', '#f4f0ff', '#b3a9e0', '#ff71ce', '#01cdfe', '#05ffa1', '#2a0520'],
-      ['Neon Tide', 0, '#07101c', '#0b1626', '#1f3857', '#e6f4ff', '#8fb0c9', '#22e0d0', '#ff5fb0', '#ffd166', '#03201e'],
-      ['Cyber Noir', 0, '#0a0a0c', '#111114', '#34343c', '#f2f2ee', '#a9a9a4', '#f5e400', '#00e5ff', '#ff6e8a', '#141400'],
-      ['Blood Moon', 0, '#120809', '#1a0c0e', '#4a2226', '#fbeaea', '#c99fa2', '#ff4d5e', '#ffb35c', '#ff9fa8', '#2a0407'],
-      ['Forest Night', 0, '#0e1512', '#121c17', '#26392f', '#dfeee4', '#97b3a2', '#7fdbb6', '#e8c35a', '#9fd3ff', '#06241c'],
-      ['Pixel Amber', 1, '#120c02', '#1a1205', '#4a3814', '#ffe6b0', '#c9a86b', '#ffb000', '#ffd466', '#ff9f4d', '#1f1400'],
-      ['Paper', 0, '#f4efe6', '#ece5d8', '#d6cbb8', '#2b2722', '#615848', '#a3366d', '#1f5f99', '#a84a22', '#ffffff'],
-      ['Mint Cream', 0, '#eef6f1', '#e3efe8', '#c2d6ca', '#1b2a24', '#4f6459', '#0c6e52', '#7a3fa6', '#a84a0c', '#ffffff']
-    ];
-    const box = $('#swatches'), root = document.documentElement;
-    box.innerHTML = LIST.map(([n, px, bg, , , tx, , ac], i) => `<button type="button" role="radio" aria-checked="${!i}" class="sw${px ? ' px' : ''}" data-i="${i}" style="background:${bg};color:${tx};--a:${ac}">${n}</button>`).join('');
-    box.addEventListener('click', (e) => {
-      const b = e.target.closest('.sw'); if (!b) return;
-      const [, , bg, panel, line, text, muted, accent, accent2, pink, on] = LIST[+b.dataset.i];
-      Object.entries({ bg, panel, line, text, muted, accent, accent2, pink, 'on-accent': on }).forEach(([k, v]) => root.style.setProperty('--' + k, v));
-      aurora = { a: hex(accent), b: hex(accent2), c: hex(pink), bg: hex(bg) };
-      $$('.sw', box).forEach((s) => s.setAttribute('aria-checked', s === b));
-    });
-  })();
-
   // ---- the Marketplace, right now
   (async function market() {
     const r1 = $('#rail1'), r2 = $('#rail2');
@@ -239,29 +276,4 @@
     } catch { /* the words already there */ }
   })();
 
-  // ---- the cat: it walks along the bottom, and you can pick it up and throw it, like in Aether
-  (function buddy() {
-    const el = $('#buddy'), W = 80, H = 60; if (still) { el.hidden = true; return; }
-    let x = 40, y = -80, vx = 0, vy = 0, held = false, dir = 1, frame = 0, walk = 0, rest = 120, lastX = 0, lastY = 0, grabX = 0, grabY = 0;
-    const floor = () => innerHeight - H - 6;
-    const heart = () => { const h = document.createElement('i'); h.className = 'heart'; h.style.left = x + W / 2 + rand(-16, 10) + 'px'; h.style.top = y + 'px'; document.body.appendChild(h); setTimeout(() => h.remove(), 1000); };
-    el.addEventListener('pointerdown', (e) => { held = true; el.classList.add('held'); el.setPointerCapture(e.pointerId); grabX = e.clientX - x; grabY = e.clientY - y; lastX = e.clientX; lastY = e.clientY; vx = vy = 0; heart(); });
-    el.addEventListener('pointermove', (e) => { if (!held) return; x = e.clientX - grabX; y = e.clientY - grabY; vx = (e.clientX - lastX) * .9; vy = (e.clientY - lastY) * .9; lastX = e.clientX; lastY = e.clientY; });
-    const drop = () => { held = false; el.classList.remove('held'); };
-    el.addEventListener('pointerup', drop); el.addEventListener('pointercancel', drop);
-    let t = 0;
-    (function go() {
-      requestAnimationFrame(go); t++;
-      if (!held) {
-        const F = floor();
-        if (y < F || vy < 0) { vy += .7; x += vx; y += vy; vx *= .995; if (x < 0 || x > innerWidth - W) { vx = -vx * .7; x = Math.max(0, Math.min(innerWidth - W, x)); } if (y >= F) { y = F; if (vy > 7) { vy = -vy * .42; vx *= .7; } else { vy = 0; vx = 0; } } } else {
-          y = F;
-          if (rest > 0) { rest--; if (!rest) { walk = rand(120, 380) | 0; dir = x < 120 ? 1 : x > innerWidth - 200 ? -1 : Math.random() < .5 ? 1 : -1; } } else { x += dir * 1.1; walk--; if (t % 6 === 0) frame = (frame + 1) % 8; if (walk <= 0 || x < 4 || x > innerWidth - W - 4) { walk = 0; rest = rand(100, 340) | 0; frame = 0; } }
-        }
-      } else if (t % 6 === 0) frame = (frame + 1) % 8;
-      if (vx > .5) dir = 1; else if (vx < -.5) dir = -1;
-      el.style.backgroundPositionX = -frame * W + 'px';
-      el.style.transform = `translate(${x | 0}px, ${y | 0}px) scaleX(${dir})`;
-    })();
-  })();
 })();
