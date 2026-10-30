@@ -11,13 +11,13 @@
   // ---- the sky: a pixel-art aurora drawn very small and scaled up, with stars over it
   let aurora = { a: hex('#8b6cff'), b: hex('#3ff3c8'), c: hex('#ff5fa2'), bg: hex('#08070f') };
   (function sky() {
-    const ac = $('#aurora'), g = ac.getContext('2d', { alpha: false }), W = 96, H = 54; ac.width = W; ac.height = H;
+    const ac = $('#aurora'), g = ac.getContext('2d', { alpha: false }), W = 160, H = 90; ac.width = W; ac.height = H;
     const im = g.createImageData(W, H), d = im.data;
     const sc = $('#stars'), s = sc.getContext('2d'); let SW = 0, SH = 0, dots = [], mx = 0, my = 0, tx = 0, ty = 0;
     const size = () => { const k = Math.min(devicePixelRatio || 1, 2); SW = innerWidth; SH = innerHeight; sc.width = SW * k; sc.height = SH * k; s.setTransform(k, 0, 0, k, 0, 0); dots = Array.from({ length: Math.round(SW * SH / 9000) }, () => ({ x: rand(0, SW), y: rand(0, SH), z: rand(.2, 1), p: rand(0, 6) })); };
     addEventListener('resize', size); size();
     addEventListener('pointermove', (e) => { tx = e.clientX / SW - .5; ty = e.clientY / SH - .5; }, { passive: true });
-    const LEVELS = 7;
+    const LEVELS = 10;
     let last = 0;
     const draw = (t) => {
       if (document.hidden) return;
@@ -29,7 +29,7 @@
         const n = Math.sin(u * 5 + q * 7 + Math.sin(v * 4 + q * 3) * 1.4) + Math.sin(u * 9 - q * 5 + v * 3) * .6;
         const band = Math.exp(-((v - (.42 + Math.sin(u * 3 + q * 4) * .2 - scroll * .25)) ** 2) * 14);
         // pixel look: the light comes in steps, with a dither pattern between them
-        let k = Math.max(0, (n + 1.6) / 3.2) * band; k = Math.floor(k * LEVELS + ((x + y) % 2 ? .35 : -.05)) / LEVELS; k = Math.max(0, Math.min(1, k)) * .5;
+        let k = Math.max(0, (n + 1.6) / 3.2) * band; k = Math.floor(k * LEVELS + ((x + y) % 2 ? .35 : -.05)) / LEVELS; k = Math.max(0, Math.min(1, k)) * .3;
         const c = n > .25 ? aurora.c : n > -.4 ? aurora.a : aurora.b;
         d[i] = aurora.bg[0] + (c[0] - aurora.bg[0]) * k; d[i + 1] = aurora.bg[1] + (c[1] - aurora.bg[1]) * k; d[i + 2] = aurora.bg[2] + (c[2] - aurora.bg[2]) * k; d[i + 3] = 255;
       }
@@ -69,7 +69,9 @@
   (function rotor() {
     const box = $('#rotor'), WORDS = ['everything.', 'code.', 'games.', 'pixel art.', 'circuits.', 'apps.', 'sound.'];
     if (still) return; let i = 0;
-    const show = (w) => { box.innerHTML = '<span>' + [...w].map((c, k) => `<span class="ch" style="animation-delay:${k * 28}ms">${c === ' ' ? '&nbsp;' : c}</span>`).join('') + '</span>'; };
+    // each letter takes its own colour along the word
+    const col = (k) => (k < .5 ? `color-mix(in srgb, var(--accent2) ${k * 200 | 0}%, var(--accent))` : `color-mix(in srgb, var(--pink) ${(k - .5) * 200 | 0}%, var(--accent2))`);
+    const show = (w) => { box.innerHTML = '<span>' + [...w].map((c, k) => `<span class="ch" style="animation-delay:${k * 28}ms;color:${col(k / Math.max(1, w.length - 1))}">${c === ' ' ? '&nbsp;' : c}</span>`).join('') + '</span>'; };
     show(WORDS[0]); setInterval(() => { if (!document.hidden) { i = (i + 1) % WORDS.length; show(WORDS[i]); } }, 2300);
   })();
 

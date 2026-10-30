@@ -32,7 +32,7 @@ a { color: inherit; }
 :focus-visible { outline: 2px solid var(--accent2); outline-offset: 3px; border-radius: 6px; }
 
 /* the sky */
-#aurora { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -3; image-rendering: pixelated; opacity: .9; }
+#aurora { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -3; image-rendering: pixelated; }
 #stars { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -2; }
 .spot { position: fixed; left: 0; top: 0; width: 620px; height: 620px; margin: -310px 0 0 -310px; border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--accent) 18%, transparent), transparent 66%); z-index: -1; pointer-events: none; will-change: transform; }
 .progress { position: fixed; inset: 0 0 auto; height: 3px; z-index: 40; }
@@ -55,14 +55,13 @@ a { color: inherit; }
 .badge { display: inline-flex; align-items: center; gap: 9px; padding: 5px 14px 5px 11px; border-radius: 99px; font: 600 15px var(--pixel); letter-spacing: .03em; color: var(--accent2); background: color-mix(in srgb, var(--accent2) 9%, transparent); border: 1px solid color-mix(in srgb, var(--accent2) 30%, transparent); }
 .badge i { width: 8px; height: 8px; background: var(--accent2); box-shadow: 0 0 10px var(--accent2); animation: blink 1.6s steps(2) infinite; }
 @keyframes blink { 50% { opacity: .3; } }
-h1 { font-size: clamp(50px, 11.5vw, 148px); font-weight: 700; }
+h1 { font-size: clamp(48px, 9.6vw, 128px); font-weight: 700; }
 .h-line { display: block; }
 .muted-w { color: var(--muted); }
-.rotor { display: inline-block; position: relative; color: transparent; background: linear-gradient(95deg, var(--accent) 5%, var(--accent2) 45%, var(--pink) 90%); background-size: 200% 100%; -webkit-background-clip: text; background-clip: text; animation: flow 6s ease-in-out infinite alternate; padding-bottom: .1em; }
+.rotor { display: inline-block; position: relative; color: var(--accent2); padding-bottom: .1em; perspective: 500px; }
 .rotor span { display: inline-block; }
 .rotor .ch { display: inline-block; animation: ch-in .55s var(--ease) both; }
 @keyframes ch-in { from { opacity: 0; transform: translateY(.5em) rotateX(-70deg); filter: blur(4px); } }
-@keyframes flow { to { background-position: 100% 0; } }
 .lead { font-size: clamp(18px, 2.1vw, 22px); color: var(--muted); max-width: 640px; margin-inline: auto; line-height: 1.5; }
 .lead b { color: var(--text); }
 .cta { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 6px; }
@@ -167,6 +166,10 @@ h2 { font-size: clamp(36px, 6.4vw, 78px); font-weight: 700; }
 @keyframes tick { 0%, 12% { background: transparent; border-color: var(--muted); } 18%, 85% { background: var(--accent2); border-color: var(--accent2); } }
 .ph-btn { margin-top: auto; height: 20px; border-radius: 6px; background: var(--accent); animation: tap 3s infinite; }
 @keyframes tap { 50%, 60% { scale: 1; } 55% { scale: .92; } }
+.pets-row { display: flex; justify-content: center; align-items: flex-end; gap: 4px; min-height: 120px; }
+.pet { display: block; width: 80px; height: 60px; background-size: 640px 60px; image-rendering: pixelated; animation: step .7s steps(8) infinite; }
+.pet.cat { background-image: url(img/pet-cat.png); } .pet.fox { background-image: url(img/pet-fox.png); animation-delay: -.2s; } .pet.dog { background-image: url(img/pet-dog.png); animation-delay: -.45s; }
+@keyframes step { to { background-position-x: -640px; } }
 .paper { width: min(210px, 100%); margin: 0 auto; padding: 16px; border-radius: 6px; background: #f6f3ea; color: #26221a; display: flex; flex-direction: column; gap: 8px; box-shadow: 0 16px 34px -18px #000; transform: rotate(-1.5deg); }
 .paper b { width: 62%; height: 9px; background: #26221a; }
 .paper i { height: 5px; background: #cfc8b6; } .paper i.s { width: 60%; }
