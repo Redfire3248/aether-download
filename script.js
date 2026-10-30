@@ -15,10 +15,12 @@
     const ac = $('#aurora'), g = ac.getContext('2d', { alpha: false }), W = 160, H = 90; ac.width = W; ac.height = H;
     const im = g.createImageData(W, H), d = im.data;
     const sc = $('#stars'), s = sc.getContext('2d'); let SW = 0, SH = 0, dots = [], mx = 0, my = 0, tx = 0, ty = 0;
-    const size = () => { const k = Math.min(devicePixelRatio || 1, 2); SW = innerWidth; SH = innerHeight; sc.width = SW * k; sc.height = SH * k; s.setTransform(k, 0, 0, k, 0, 0); dots = Array.from({ length: Math.round(SW * SH / 9000) }, () => ({ x: rand(0, SW), y: rand(0, SH), z: rand(.2, 1), p: rand(0, 6) })); };
+    // one canvas pixel per CSS pixel: the stars are whole pixels, so a sharp screen gains nothing from more
+    const size = () => { SW = innerWidth; SH = innerHeight; sc.width = SW; sc.height = SH; dots = Array.from({ length: Math.round(SW * SH / 9000) }, () => ({ x: rand(0, SW), y: rand(0, SH), z: rand(.2, 1), p: rand(0, 6) })); };
     addEventListener('resize', size); size();
     addEventListener('pointermove', (e) => { tx = e.clientX / SW - .5; ty = e.clientY / SH - .5; }, { passive: true });
     const LEVELS = 10;
+    const rowWave = new Float64Array(H), colMid = new Float64Array(W);
     let last = 0;
     const frame = (t) => {
       if (t - last < 66) return; last = t; // the sky moves slowly: 15 frames a second is plenty
@@ -27,10 +29,13 @@
     };
     const aurorify = (t) => {
       const q = t * .00016, scroll = Math.min(1, scrollY / (innerHeight * 3));
+      // the parts that depend only on the row or only on the column are worked out once each
+      for (let y = 0; y < H; y++) rowWave[y] = Math.sin(y / H * 4 + q * 3) * 1.4 + q * 7;
+      for (let x = 0; x < W; x++) colMid[x] = .42 + Math.sin(x / W * 3 + q * 4) * .2 - scroll * .25;
       for (let y = 0, i = 0; y < H; y++) for (let x = 0; x < W; x++, i += 4) {
         const u = x / W, v = y / H;
-        const n = Math.sin(u * 5 + q * 7 + Math.sin(v * 4 + q * 3) * 1.4) + Math.sin(u * 9 - q * 5 + v * 3) * .6;
-        const band = Math.exp(-((v - (.42 + Math.sin(u * 3 + q * 4) * .2 - scroll * .25)) ** 2) * 14);
+        const n = Math.sin(u * 5 + rowWave[y]) + Math.sin(u * 9 - q * 5 + v * 3) * .6;
+        const band = Math.exp(-((v - colMid[x]) ** 2) * 14);
         // pixel look: the light comes in steps, with a dither pattern between them
         let k = Math.max(0, (n + 1.6) / 3.2) * band; k = Math.floor(k * LEVELS + ((x + y) % 2 ? .35 : -.05)) / LEVELS; k = Math.max(0, Math.min(1, k)) * .3;
         const c = n > .25 ? aurora.c : n > -.4 ? aurora.a : aurora.b;
@@ -126,25 +131,35 @@
     apply(saved);
   })();
 
+  // ---- CSS animations stop while they are off the screen
+  const pause = new IntersectionObserver((es) => { for (const e of es) e.target.classList.toggle('paused', !e.isIntersecting); });
+  $$('.btn.magnet, .ticker, .tile, .rails, .get-card').forEach((el) => pause.observe(el));
+
   // ---- the spotlight follows the mouse, softly
   (function spot() {
     const el = $('#spot'); if (still || !fine) { el.hidden = true; return; }
     let x = innerWidth / 2, y = 200, cx = x, cy = y;
-    addEventListener('pointermove', (e) => { x = e.clientX; y = e.clientY; }, { passive: true });
-    (function go() { cx += (x - cx) * .1; cy += (y - cy) * .1; el.style.transform = `translate(${cx}px, ${cy}px)`; requestAnimationFrame(go); })();
+    // it only moves while it is catching up with the mouse
+    let moving = false;
+    const go = () => { cx += (x - cx) * .1; cy += (y - cy) * .1; el.style.transform = `translate(${cx}px, ${cy}px)`; moving = Math.abs(x - cx) + Math.abs(y - cy) > .5; if (moving) requestAnimationFrame(go); };
+    addEventListener('pointermove', (e) => { x = e.clientX; y = e.clientY; if (!moving) { moving = true; requestAnimationFrame(go); } }, { passive: true });
+    go();
   })();
 
   // ---- things tied to scrolling: the progress line, the bar, the three windows
   (function scroll() {
-    const bar = $('#bar'), top = $('#top'), fan = $('#fan'); let ticking = false;
+    const bar = $('#bar'), top = $('#top'), fan = $('#fan'); let ticking = false, max = 0, fanTop = 0;
+    // where things are only changes when the window does, so scrolling never has to measure the page
+    const measure = () => { max = document.documentElement.scrollHeight - innerHeight; let t = 0; for (let e = fan; e; e = e.offsetParent) t += e.offsetTop; fanTop = t; };
     const run = () => {
-      ticking = false; const y = scrollY, max = document.documentElement.scrollHeight - innerHeight;
-      bar.style.transform = `scaleX(${max > 0 ? y / max : 0})`;
+      ticking = false; const y = scrollY;
+      bar.style.transform = `scaleX(${max > 0 ? Math.min(1, y / max) : 0})`;
       top.classList.toggle('solid', y > 40);
-      if (!still) { const r = fan.getBoundingClientRect(), p = Math.max(0, Math.min(1, 1 - (r.top - 60) / (innerHeight * .8))); fan.style.setProperty('--p', p.toFixed(3)); }
+      if (!still) { const p = Math.max(0, Math.min(1, 1 - (fanTop - y - 60) / (innerHeight * .8))); fan.style.setProperty('--p', p.toFixed(3)); }
     };
     addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(run); } }, { passive: true });
-    addEventListener('resize', run); run();
+    const again = () => { measure(); run(); };
+    addEventListener('resize', again); new ResizeObserver(again).observe(document.body); again();
   })();
 
   // ---- the word that keeps changing in the headline
