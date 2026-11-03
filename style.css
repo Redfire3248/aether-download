@@ -400,3 +400,8 @@ h2 { font-size: clamp(36px, 6.4vw, 78px); font-weight: 700; }
 /* the top bar stays on one line: smaller and closer together on narrower screens */
 .top nav a, .nav-get, .theme-btn { white-space: nowrap; }
 @media (max-width: 1000px) { .top nav { gap: 14px; font-size: 14px; } .top { gap: 12px; } }
+
+/* the top bar on narrower screens: the logo keeps its room, and the tour links make way */
+.brand { flex: none; }
+.top nav { min-width: 0; }
+@media (max-width: 860px) { .top nav .nav-more { display: none; } }

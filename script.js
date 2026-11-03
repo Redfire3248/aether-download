@@ -151,7 +151,6 @@
     });
     b.addEventListener('pointerleave', () => { b.style.transform = ''; });
   });
-  $$('.dl-link').forEach((a) => a.addEventListener('click', () => $('#get').scrollIntoView()));
 
   // ---- headings come up word by word
   $$('.split').forEach((h) => { h.setAttribute('aria-label', h.textContent); h.innerHTML = h.textContent.split(' ').map((w, i) => `<span class="w" aria-hidden="true"><i style="--n:${i}">${w}</i></span>`).join(' '); });
@@ -248,6 +247,7 @@
     if (main) {
       $$('.dl-size').forEach((e) => (e.textContent = ` · ${Math.round(main.size / 1048576)} MB`));
       if (pick[0] !== 'win') {
+        $$('.dl-now').forEach((a) => { a.href = main.browser_download_url; });
         $$('.btn.magnet').forEach((b) => { b.href = main.browser_download_url; const t = b.querySelector('.btn-in'); if (t) t.lastChild.textContent = ' Download for ' + pick[1].replace(/ \(.*/, ''); });
         $$('.meta').forEach((m) => (m.innerHTML = m.innerHTML.replace('Windows 10 and 11', escH(pick[1]))));
       }
