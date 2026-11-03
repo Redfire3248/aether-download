@@ -1,5 +1,54 @@
 {
-  "total": 0,
-  "updated": "2026-10-30",
-  "versions": []
+  "total": 19,
+  "updated": "2026-11-03",
+  "versions": [
+    {
+      "version": "1.9.30",
+      "published": "2026-11-03",
+      "downloads": 0,
+      "files": {
+        "Aether-1.9.30-amd64.deb": 0,
+        "Aether-1.9.30-arm64.dmg": 0,
+        "Aether-1.9.30-x64.dmg": 0,
+        "Aether-1.9.30-x86_64.AppImage": 0,
+        "Aether-Setup.exe": 0
+      }
+    },
+    {
+      "version": "1.9.29",
+      "published": "2026-11-03",
+      "downloads": 5,
+      "files": {
+        "Aether-1.9.29-amd64.deb": 0,
+        "Aether-1.9.29-arm64.dmg": 1,
+        "Aether-1.9.29-x64.dmg": 1,
+        "Aether-1.9.29-x86_64.AppImage": 1,
+        "Aether-Setup.exe": 2
+      }
+    },
+    {
+      "version": "1.9.28",
+      "published": "2026-11-03",
+      "downloads": 8,
+      "files": {
+        "Aether-1.9.28-amd64.deb": 1,
+        "Aether-1.9.28-arm64.dmg": 1,
+        "Aether-1.9.28-x64.dmg": 1,
+        "Aether-1.9.28-x86_64.AppImage": 1,
+        "Aether-Setup.exe": 4
+      }
+    },
+    {
+      "version": "1.9.27",
+      "published": "2026-11-03",
+      "downloads": 6,
+      "files": {
+        "Aether-1.9.27-amd64.deb": 1,
+        "Aether-1.9.27-arm64.dmg": 1,
+        "Aether-1.9.27-x64.dmg": 1,
+        "Aether-1.9.27-x86_64.AppImage": 1,
+        "Aether-Setup.exe": 2
+      }
+    }
+  ]
 }
