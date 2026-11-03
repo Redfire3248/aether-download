@@ -143,7 +143,12 @@
   // ---- the button leans towards the mouse
   $$('.magnet').forEach((b) => {
     if (still || !fine) return;
-    b.addEventListener('pointermove', (e) => { const r = b.getBoundingClientRect(); b.style.transform = `translate(${(e.clientX - r.left - r.width / 2) * .18}px, ${(e.clientY - r.top - r.height / 2) * .3}px)`; });
+    b.addEventListener('pointermove', (e) => {
+      const r = b.getBoundingClientRect(), px = document.documentElement.dataset.style === 'pixel';
+      let x = (e.clientX - r.left - r.width / 2) * .18, y = (e.clientY - r.top - r.height / 2) * .3;
+      if (px) { x = Math.round(x / 3) * 3; y = Math.round(y / 3) * 3; } // in pixel steps, like the rest of the pixel look
+      b.style.transform = `translate(${x}px, ${y}px)`;
+    });
     b.addEventListener('pointerleave', () => { b.style.transform = ''; });
   });
   $$('.dl-link').forEach((a) => a.addEventListener('click', () => $('#get').scrollIntoView()));
@@ -159,8 +164,7 @@
       ['Code', 'code', 'Write in any language', 'Colours, suggestions and a terminal that understand your language. One key runs it.', 'An Aether Script program in the code editor'],
       ['Game Engine', 'engine', 'Make a real game', 'Paint levels, add behaviours and play right there. Export to Windows, Android or the web.', 'A lava cave level in the game engine'],
       ['App Maker', 'apps', 'Build a phone app', 'Put a screen together from parts and write what they do. One click makes the .apk.', 'A quiz app running in the App Maker'],
-      ['Arduino', 'arduino', 'Circuits with no board', 'Wire up parts on a breadboard, write the sketch and watch it run.', 'An LED circuit being simulated beside its code'],
-      ['PDF', 'pdf', 'Change any PDF', 'Click a line and type over it, in the same font and colour. Scanned pages too.', 'The PDF editor with every line ready to edit']
+      ['Arduino', 'arduino', 'Circuits with no board', 'Wire up parts on a breadboard, write the sketch and watch it run.', 'An LED circuit being simulated beside its code']
     ];
     const steps = $('#story-steps'), view = $('.win-view'), name = $('#story-name');
     const imgs = STOPS.map(([, f], i) => { const im = new Image(); im.src = `img/${f}.webp`; im.alt = STOPS[i][4]; im.width = 1600; im.height = 850; if (!i) im.className = 'on'; view.appendChild(im); return im; });
@@ -204,15 +208,6 @@
   // ---- sound bars
   $('#eq').innerHTML = Array.from({ length: 22 }, () => `<i style="--t:${rand(.45, 1.1).toFixed(2)};--d:${rand(0, 1).toFixed(2)}"></i>`).join('');
 
-  // ---- a PDF line being retyped
-  (function edit() {
-    const el = $('#edit'), WORDS = ['Dear Sam,', 'Dear Maya,', 'Thank you!'];
-    if (still) { el.textContent = WORDS[0]; return; }
-    let w = 0, n = 0, back = false, timer = 0;
-    const go = () => { const s = WORDS[w]; n += back ? -1 : 1; el.textContent = s.slice(0, n); if (!back && n === s.length) { back = true; timer = setTimeout(go, 1700); return; } if (back && n === 0) { back = false; w = (w + 1) % WORDS.length; } timer = setTimeout(go, back ? 34 : 86); };
-    visible(el, (v) => { clearTimeout(timer); if (v) go(); });
-  })();
-
   // ---- the soft light on each tile
   $$('.tile').forEach((c) => c.addEventListener('pointermove', (e) => { const r = c.getBoundingClientRect(); c.style.setProperty('--mx', e.clientX - r.left + 'px'); c.style.setProperty('--my', e.clientY - r.top + 'px'); }));
 
@@ -229,14 +224,41 @@
     r1.innerHTML = a + a + a + a; r2.innerHTML = b + b + b + b;
   })();
 
-  // ---- the newest version: its number and size
-  (async function version() {
-    try {
-      const r = await fetch(`https://api.github.com/repos/${REPO}/releases/latest`); if (!r.ok) return;
-      const j = await r.json(), v = String(j.tag_name || '').replace(/^v/, ''), a = (j.assets || []).find((x) => /\.exe$/i.test(x.name));
-      if (v) $$('.dl-version').forEach((e) => (e.textContent = 'Version ' + v));
-      if (a) $$('.dl-size').forEach((e) => (e.textContent = ` · ${Math.round(a.size / 1048576)} MB`));
-    } catch { /* the words already there */ }
+  // ---- every version, from GitHub: the newest one's number and size on the buttons, and the list under Get Aether
+  const OS = /Mac/i.test(navigator.platform || navigator.userAgent) ? 'mac' : /Linux|X11/i.test(navigator.userAgent) && !/Android/i.test(navigator.userAgent) ? 'linux' : 'win';
+  const FILES = [
+    ['win', 'Windows', (n) => /\.exe$/i.test(n)],
+    ['mac', 'Mac (Apple chip)', (n) => /arm64\.dmg$/i.test(n)],
+    ['mac', 'Mac (Intel)', (n) => /x64\.dmg$/i.test(n)],
+    ['linux', 'Linux (.AppImage)', (n) => /\.AppImage$/i.test(n)],
+    ['linux', 'Linux (.deb)', (n) => /\.deb$/i.test(n)]
+  ];
+  const escH = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+  // the lines of a release's notes that are a list, with their **bold** kept
+  const notes = (body) => String(body || '').split('\n').filter((l) => /^\s*[-*]\s/.test(l)).map((l) => '<li>' + escH(l.replace(/^\s*[-*]\s+/, '')).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/`([^`]+)`/g, '<code>$1</code>') + '</li>').join('');
+  (async function versions() {
+    const box = $('#rel-list');
+    let list = [];
+    try { const r = await fetch(`https://api.github.com/repos/${REPO}/releases?per_page=30`); if (!r.ok) throw new Error(r.status); list = (await r.json()).filter((x) => !x.draft); } catch { /* shown below */ }
+    if (!list.length) { box.innerHTML = '<p class="center muted-note">The versions could not be loaded just now. <a class="link" href="https://github.com/Redfire3248/aether-download/releases">See them on GitHub</a>.</p>'; return; }
+    // the newest one: its number and size on the download buttons, for this computer
+    const top = list[0], pick = FILES.find(([os, , test]) => os === OS && (top.assets || []).some((a) => test(a.name))) || FILES[0];
+    const main = (top.assets || []).find((a) => pick[2](a.name));
+    $$('.dl-version').forEach((e) => (e.textContent = 'Version ' + String(top.tag_name).replace(/^v/, '')));
+    if (main) {
+      $$('.dl-size').forEach((e) => (e.textContent = ` · ${Math.round(main.size / 1048576)} MB`));
+      if (pick[0] !== 'win') {
+        $$('.btn.magnet').forEach((b) => { b.href = main.browser_download_url; const t = b.querySelector('.btn-in'); if (t) t.lastChild.textContent = ' Download for ' + pick[1].replace(/ \(.*/, ''); });
+        $$('.meta').forEach((m) => (m.innerHTML = m.innerHTML.replace('Windows 10 and 11', escH(pick[1]))));
+      }
+    }
+    const card = (rel, i) => {
+      const date = new Date(rel.published_at || rel.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+      const files = FILES.map(([os, label, test]) => { const a = (rel.assets || []).find((x) => test(x.name)); return a ? `<a class="rel-file${os === OS ? ' mine' : ''}" href="${escH(a.browser_download_url)}"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 20h16"/></svg>${escH(label)}<small>${Math.round(a.size / 1048576)} MB</small></a>` : ''; }).join('');
+      const n = notes(rel.body);
+      return `<article class="rel${i ? '' : ' newest'}"><header><h3>${escH(String(rel.tag_name).replace(/^v/, 'Version '))}</h3>${i ? '' : '<span class="rel-new">Newest</span>'}${rel.prerelease ? '<span class="rel-test">Test version</span>' : ''}<time>${escH(date)}</time></header>${n ? `<ul class="rel-notes">${n}</ul>` : ''}<div class="rel-files">${files || '<span class="muted-note">No installers in this one.</span>'}</div></article>`;
+    };
+    box.innerHTML = list.slice(0, 3).map(card).join('') + (list.length > 3 ? `<details class="rel-more"><summary>Older versions (${list.length - 3})</summary>${list.slice(3).map((r, k) => card(r, k + 3)).join('')}</details>` : '');
   })();
 
   // ---- how many times Aether was downloaded: live from GitHub, or the count saved each day in downloads.json
