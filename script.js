@@ -239,7 +239,7 @@
   (async function versions() {
     const box = $('#rel-list');
     let list = [];
-    try { const r = await fetch(`https://api.github.com/repos/${REPO}/releases?per_page=30`); if (!r.ok) throw new Error(r.status); list = (await r.json()).filter((x) => !x.draft); } catch { /* shown below */ }
+    try { const r = await fetch(`https://api.github.com/repos/${REPO}/releases?per_page=30`); if (!r.ok) throw new Error(r.status); list = (await r.json()).filter((x) => !x.draft && !/^aether-script/.test(x.tag_name)); } catch { /* shown below */ }
     if (!list.length) { box.innerHTML = '<p class="center muted-note">The versions could not be loaded just now. <a class="link" href="https://github.com/Redfire3248/aether-download/releases">See them on GitHub</a>.</p>'; return; }
     // the newest one: its number and size on the download buttons, for this computer
     const top = list[0], pick = FILES.find(([os, , test]) => os === OS && (top.assets || []).some((a) => test(a.name))) || FILES[0];
