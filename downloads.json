@@ -1,29 +1,61 @@
 {
-  "total": 19,
-  "updated": "2026-11-03",
+  "total": 47,
+  "updated": "2026-11-05",
   "versions": [
     {
-      "version": "1.9.30",
+      "version": "1.9.33",
+      "published": "2026-11-04",
+      "downloads": 6,
+      "files": {
+        "Aether-1.9.33-amd64.deb": 1,
+        "Aether-1.9.33-arm64.dmg": 1,
+        "Aether-1.9.33-x64.dmg": 1,
+        "Aether-1.9.33-x86_64.AppImage": 1,
+        "Aether-Setup.exe": 2
+      }
+    },
+    {
+      "version": "1.9.32",
+      "published": "2026-11-03",
+      "downloads": 3,
+      "files": {
+        "Aether-1.9.32-amd64.deb": 1,
+        "Aether-1.9.32-x86_64.AppImage": 1,
+        "Aether-Setup.exe": 1
+      }
+    },
+    {
+      "version": "1.9.31",
       "published": "2026-11-03",
       "downloads": 0,
       "files": {
-        "Aether-1.9.30-amd64.deb": 0,
-        "Aether-1.9.30-arm64.dmg": 0,
-        "Aether-1.9.30-x64.dmg": 0,
-        "Aether-1.9.30-x86_64.AppImage": 0,
+        "Aether-1.9.31-amd64.deb": 0,
+        "Aether-1.9.31-x86_64.AppImage": 0,
         "Aether-Setup.exe": 0
+      }
+    },
+    {
+      "version": "1.9.30",
+      "published": "2026-11-03",
+      "downloads": 4,
+      "files": {
+        "Aether-1.9.30-amd64.deb": 1,
+        "Aether-1.9.30-arm64.dmg": 1,
+        "Aether-1.9.30-x64.dmg": 1,
+        "Aether-1.9.30-x86_64.AppImage": 0,
+        "Aether-Setup.exe": 1
       }
     },
     {
       "version": "1.9.29",
       "published": "2026-11-03",
-      "downloads": 5,
+      "downloads": 7,
       "files": {
-        "Aether-1.9.29-amd64.deb": 0,
+        "Aether-1.9.29-amd64.deb": 1,
         "Aether-1.9.29-arm64.dmg": 1,
         "Aether-1.9.29-x64.dmg": 1,
         "Aether-1.9.29-x86_64.AppImage": 1,
-        "Aether-Setup.exe": 2
+        "Aether-Setup.exe": 3
       }
     },
     {
@@ -48,6 +80,28 @@
         "Aether-1.9.27-x64.dmg": 1,
         "Aether-1.9.27-x86_64.AppImage": 1,
         "Aether-Setup.exe": 2
+      }
+    },
+    {
+      "version": "aether-script-v1.1.0",
+      "published": "2026-11-03",
+      "downloads": 8,
+      "files": {
+        "aes.cmd": 2,
+        "aes.js": 2,
+        "aether-script-1.1.0.vsix": 2,
+        "Aether-Script-Setup.exe": 2
+      }
+    },
+    {
+      "version": "aether-script-v1.0.0",
+      "published": "2026-11-03",
+      "downloads": 5,
+      "files": {
+        "aes.cmd": 1,
+        "aes.js": 1,
+        "aether-script-1.0.0.vsix": 2,
+        "Aether-Script-Setup.exe": 1
       }
     }
   ]
