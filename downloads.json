@@ -1,28 +1,28 @@
 {
-  "total": 53,
-  "updated": "2026-11-08",
+  "total": 61,
+  "updated": "2026-11-09",
   "versions": [
     {
       "version": "1.9.34",
       "published": "2026-11-08",
-      "downloads": 5,
+      "downloads": 9,
       "files": {
         "Aether-1.9.34-amd64.deb": 1,
         "Aether-1.9.34-arm64.dmg": 1,
         "Aether-1.9.34-x64.dmg": 1,
         "Aether-1.9.34-x86_64.AppImage": 1,
-        "Aether-Setup.exe": 1
+        "Aether-Setup.exe": 5
       }
     },
     {
       "version": "aether-script-v1.1.1",
       "published": "2026-11-08",
-      "downloads": 1,
+      "downloads": 5,
       "files": {
-        "aes.cmd": 0,
-        "aes.js": 0,
-        "aether-script-1.1.0.vsix": 0,
-        "Aether-Script-Setup.exe": 1
+        "aes.cmd": 1,
+        "aes.js": 1,
+        "aether-script-1.1.0.vsix": 1,
+        "Aether-Script-Setup.exe": 2
       }
     },
     {
