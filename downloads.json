@@ -1,17 +1,41 @@
 {
-  "total": 61,
-  "updated": "2026-11-09",
+  "total": 74,
+  "updated": "2026-11-10",
   "versions": [
+    {
+      "version": "1.9.36",
+      "published": "2026-11-09",
+      "downloads": 5,
+      "files": {
+        "Aether-1.9.36-amd64.deb": 1,
+        "Aether-1.9.36-arm64.dmg": 1,
+        "Aether-1.9.36-x64.dmg": 1,
+        "Aether-1.9.36-x86_64.AppImage": 1,
+        "Aether-Setup.exe": 1
+      }
+    },
+    {
+      "version": "1.9.35",
+      "published": "2026-11-09",
+      "downloads": 6,
+      "files": {
+        "Aether-1.9.35-amd64.deb": 1,
+        "Aether-1.9.35-arm64.dmg": 1,
+        "Aether-1.9.35-x64.dmg": 1,
+        "Aether-1.9.35-x86_64.AppImage": 1,
+        "Aether-Setup.exe": 2
+      }
+    },
     {
       "version": "1.9.34",
       "published": "2026-11-08",
-      "downloads": 9,
+      "downloads": 11,
       "files": {
         "Aether-1.9.34-amd64.deb": 1,
         "Aether-1.9.34-arm64.dmg": 1,
         "Aether-1.9.34-x64.dmg": 1,
         "Aether-1.9.34-x86_64.AppImage": 1,
-        "Aether-Setup.exe": 5
+        "Aether-Setup.exe": 7
       }
     },
     {
