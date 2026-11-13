@@ -1,7 +1,19 @@
 {
   "total": 74,
-  "updated": "2026-11-10",
+  "updated": "2026-11-13",
   "versions": [
+    {
+      "version": "1.9.37",
+      "published": "2026-11-12",
+      "downloads": 0,
+      "files": {
+        "Aether-1.9.37-amd64.deb": 0,
+        "Aether-1.9.37-arm64.dmg": 0,
+        "Aether-1.9.37-x64.dmg": 0,
+        "Aether-1.9.37-x86_64.AppImage": 0,
+        "Aether-Setup.exe": 0
+      }
+    },
     {
       "version": "1.9.36",
       "published": "2026-11-09",
