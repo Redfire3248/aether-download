@@ -1,6 +1,6 @@
 {
-  "total": 81,
-  "updated": "2026-11-15",
+  "total": 82,
+  "updated": "2026-11-21",
   "versions": [
     {
       "version": "1.9.38",
@@ -156,11 +156,11 @@
     {
       "version": "aether-script-v1.1.0",
       "published": "2026-11-03",
-      "downloads": 8,
+      "downloads": 9,
       "files": {
         "aes.cmd": 2,
         "aes.js": 2,
-        "aether-script-1.1.0.vsix": 2,
+        "aether-script-1.1.0.vsix": 3,
         "Aether-Script-Setup.exe": 2
       }
     },
