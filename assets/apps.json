@@ -5,9 +5,9 @@
     "tag": "v2.0.0",
     "file": "Aether-Setup.exe",
     "date": "2026-11-26",
-    "size": 14866128,
+    "size": 14865429,
     "installed": 54986752,
-    "sha256": "3b29297b4612cf51f2df837439a9bd63517b598ae3f2e34c849718fbc93b62cf"
+    "sha256": "ced599ade77ae9d81b38d503a5256aeb228558aaf33b957e3ed3e636fce0c150"
   },
   "AetherLab": {
     "name": "Aether Lab",
@@ -15,9 +15,9 @@
     "tag": "v2.0.0",
     "file": "Aether-Lab-Setup.exe",
     "date": "2026-11-26",
-    "size": 9379120,
+    "size": 9374211,
     "installed": 27595776,
-    "sha256": "24c22f3973bc6b1b511bb11e3521d51d5cc34fe567c9df66af7ade3356c2db84",
+    "sha256": "82a63bcab81544ec47d554d431e74eab5d1af22f87cc51e178cc4b35e4fd26f5",
     "features": [
       "Visual canvas",
       "Tasks, milestones and a board",
@@ -35,8 +35,8 @@
     "tag": "v2.0.0",
     "file": "Aether-Game-Maker-Setup.exe",
     "date": "2026-11-26",
-    "size": 14567035,
+    "size": 14568433,
     "installed": 54712320,
-    "sha256": "5c1e36b1c0341167aa3d1c123a6d747399478dd613f335caeceab3efd6f1e3a5"
+    "sha256": "95de45c324b062192b3e85c638a0931632321c01d200863d2c25cbf8c3c8464b"
   }
 }
