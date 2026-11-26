@@ -153,7 +153,7 @@ code { background: var(--glass-2); border: 1px solid var(--line); padding: .08em
   .nav-links { display: none; }
   .nav-menu { display: inline-grid; }
 }
-@media (max-width: 420px) { .nav-get { display: none; } }
+
 
 /* ---------- buttons ---------- */
 .btn {
@@ -931,3 +931,35 @@ code { background: var(--glass-2); border: 1px solid var(--line); padding: .08em
 @media (max-width: 1000px) { .know { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 860px) { .get-grid { grid-template-columns: 1fr; } }
 @media (max-width: 520px) { .know, .get-facts { grid-template-columns: 1fr; } .get-top { flex-wrap: wrap; } }
+
+/* effects (fx.js): rings and sparks where the visitor clicks, a ripple in buttons, a light that follows the mouse */
+.fx-canvas { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 45; pointer-events: none; }
+.fx-spot { position: fixed; left: -300px; top: -300px; width: 600px; height: 600px; z-index: -1; pointer-events: none; border-radius: 50%;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--a2) 16%, transparent), color-mix(in srgb, var(--a1) 6%, transparent) 55%, transparent);
+  opacity: 0; transition: opacity .6s; will-change: transform; }
+.fx-spot.on { opacity: 1; }
+[data-mode='light'] .fx-spot { background: radial-gradient(closest-side, color-mix(in srgb, var(--a2) 14%, transparent), transparent); }
+.fx-host { overflow: hidden; isolation: isolate; }
+.fx-rip { position: absolute; z-index: -1; border-radius: 50%; pointer-events: none; background: radial-gradient(closest-side, rgb(255 255 255 / .45), rgb(255 255 255 / .12) 60%, transparent);
+  transform: scale(0); opacity: 1; animation: fx-rip .65s cubic-bezier(.2,.8,.2,1) forwards; }
+[data-mode='light'] .btn.ghost .fx-rip, [data-mode='light'] .icon-btn .fx-rip, [data-mode='light'] .nav-links .fx-rip, [data-mode='light'] .os-file .fx-rip { background: radial-gradient(closest-side, color-mix(in srgb, var(--a1) 30%, transparent), transparent); }
+[data-style='pixel'] .fx-rip { border-radius: 0; }
+@keyframes fx-rip { to { transform: scale(1); opacity: 0; } }
+/* the header's grid lights up around the mouse */
+.hero-grid::after { content: ''; position: absolute; inset: 0;
+  background-image: linear-gradient(color-mix(in srgb, var(--a2) 70%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--a2) 70%, transparent) 1px, transparent 1px); background-size: 64px 64px;
+  -webkit-mask-image: radial-gradient(220px circle at var(--gx, -999px) var(--gy, -999px), #000, transparent); mask-image: radial-gradient(220px circle at var(--gx, -999px) var(--gy, -999px), #000, transparent); }
+/* chips and file links lift when the mouse is on them */
+.get-has li, .fam li { transition: transform .3s var(--spring), border-color .3s, background-color .3s, box-shadow .3s; }
+.get-has li:hover, .fam li:hover { transform: translateY(-2px); border-color: color-mix(in srgb, var(--c2, var(--a2)) 60%, transparent); background: color-mix(in srgb, var(--c1, var(--a1)) 14%, transparent); box-shadow: 0 8px 20px -10px var(--c1, var(--a1)); }
+.get-logo, .fam-logo { will-change: transform; }
+.get:hover .get-logo { filter: drop-shadow(0 12px 34px color-mix(in srgb, var(--c1) 85%, transparent)); }
+@media (prefers-reduced-motion: reduce) { .fx-canvas, .fx-spot, .hero-grid::after { display: none; } }
+
+/* the bar at the top on a phone: the name, the theme, the menu, and Download only when it fits */
+.brand, .nav-tools { flex: none; }
+.brand span { white-space: nowrap; }
+@media (max-width: 560px) {
+  .nav-get { display: none; }
+  .nav.scrolled .nav-in { padding: 0 6px 0 10px; }
+}
