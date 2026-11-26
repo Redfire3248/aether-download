@@ -1,17 +1,27 @@
 {
-  "total": 82,
-  "updated": "2026-11-21",
+  "total": 88,
+  "updated": "2026-11-26",
   "versions": [
+    {
+      "version": "2.0.0",
+      "published": "2026-11-26",
+      "downloads": 4,
+      "files": {
+        "Aether-Game-Maker-Setup.exe": 2,
+        "Aether-Lab-Setup.exe": 0,
+        "Aether-Setup.exe": 2
+      }
+    },
     {
       "version": "1.9.38",
       "published": "2026-11-14",
-      "downloads": 5,
+      "downloads": 7,
       "files": {
         "Aether-1.9.38-amd64.deb": 1,
         "Aether-1.9.38-arm64.dmg": 1,
         "Aether-1.9.38-x64.dmg": 1,
         "Aether-1.9.38-x86_64.AppImage": 1,
-        "Aether-Setup.exe": 1
+        "Aether-Setup.exe": 3
       }
     },
     {
