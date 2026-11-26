@@ -7,7 +7,11 @@
     "date": "2026-11-26",
     "size": 14865429,
     "installed": 54986752,
-    "sha256": "ced599ade77ae9d81b38d503a5256aeb228558aaf33b957e3ed3e636fce0c150"
+    "sha256": "ced599ade77ae9d81b38d503a5256aeb228558aaf33b957e3ed3e636fce0c150",
+    "boot": {
+      "first": 1195,
+      "again": 107
+    }
   },
   "AetherLab": {
     "name": "Aether Lab",
@@ -15,9 +19,9 @@
     "tag": "v2.0.0",
     "file": "Aether-Lab-Setup.exe",
     "date": "2026-11-26",
-    "size": 9374211,
-    "installed": 27595776,
-    "sha256": "82a63bcab81544ec47d554d431e74eab5d1af22f87cc51e178cc4b35e4fd26f5",
+    "size": 9368456,
+    "installed": 27520000,
+    "sha256": "827d3526105cf08a0d05f3684e61545db99f214b3a747115ecbbe5140b819cef",
     "features": [
       "Visual canvas",
       "Tasks, milestones and a board",
@@ -27,7 +31,11 @@
       "Plans into docs and prompts",
       "Terminal and Web tab",
       "Its own themes"
-    ]
+    ],
+    "boot": {
+      "first": 1452,
+      "again": 309
+    }
   },
   "AetherGameMaker": {
     "name": "Aether Game Maker",
@@ -37,6 +45,15 @@
     "date": "2026-11-26",
     "size": 14568433,
     "installed": 54712320,
-    "sha256": "95de45c324b062192b3e85c638a0931632321c01d200863d2c25cbf8c3c8464b"
+    "sha256": "95de45c324b062192b3e85c638a0931632321c01d200863d2c25cbf8c3c8464b",
+    "boot": {
+      "first": 2138,
+      "again": 109
+    }
+  },
+  "_boot": {
+    "measured": "2026-11-26",
+    "pc": "AMD Ryzen 9 5900HX laptop, 16 GB, SSD, Windows 11",
+    "how": "From starting the app to its window on screen. Opening again: the middle time of five more opens."
   }
 }

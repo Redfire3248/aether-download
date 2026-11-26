@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/site.css?v=3">
+  <link rel="stylesheet" href="assets/css/site.css?v=4">
   <script>try{var t=localStorage.getItem('aether-site-theme');if(t&&/Paper/.test(t))document.documentElement.dataset.mode='light'}catch(e){}</script>
 
 </head>
@@ -74,6 +74,8 @@
               <div><dt>Released</dt><dd data-f="date">-</dd></div>
               <div><dt>Download</dt><dd data-f="size">-</dd></div>
               <div><dt>Installed</dt><dd data-f="installed">-</dd></div>
+              <div><dt>Opens in</dt><dd data-f="boot">-</dd></div>
+              <div><dt>First open</dt><dd data-f="bootfirst">-</dd></div>
               <div><dt>Installs to</dt><dd><code>%LOCALAPPDATA%\Programs\Aether</code></dd></div>
               <div><dt>File</dt><dd><code data-f="file">Aether-Setup.exe</code></dd></div>
             </dl>
@@ -95,6 +97,8 @@
               <div><dt>Released</dt><dd data-f="date">-</dd></div>
               <div><dt>Download</dt><dd data-f="size">-</dd></div>
               <div><dt>Installed</dt><dd data-f="installed">-</dd></div>
+              <div><dt>Opens in</dt><dd data-f="boot">-</dd></div>
+              <div><dt>First open</dt><dd data-f="bootfirst">-</dd></div>
               <div><dt>Installs to</dt><dd><code>%LOCALAPPDATA%\Programs\Aether Game Maker</code></dd></div>
               <div><dt>File</dt><dd><code data-f="file">Aether-Game-Maker-Setup.exe</code></dd></div>
             </dl>
@@ -116,6 +120,8 @@
               <div><dt>Released</dt><dd data-f="date">-</dd></div>
               <div><dt>Download</dt><dd data-f="size">-</dd></div>
               <div><dt>Installed</dt><dd data-f="installed">-</dd></div>
+              <div><dt>Opens in</dt><dd data-f="boot">-</dd></div>
+              <div><dt>First open</dt><dd data-f="bootfirst">-</dd></div>
               <div><dt>Installs to</dt><dd><code>%LOCALAPPDATA%\Programs\Aether Lab</code></dd></div>
               <div><dt>File</dt><dd><code data-f="file">Aether-Lab-Setup.exe</code></dd></div>
             </dl>
@@ -155,6 +161,21 @@
           <li class="card" data-r style="--i:1"><b>Open it</b><p>The apps are new and not code-signed yet, so Windows may warn you. Press <b>More info</b>, then <b>Run anyway</b>. No admin rights are needed.</p></li>
           <li class="card" data-r style="--i:2"><b>Start making</b><p>The app is on your Start menu and desktop. Each app keeps its own settings.</p></li>
         </ol>
+      </div>
+    </section>
+
+    <section class="sec" id="speed" aria-labelledby="speed-h" style="padding-top:20px">
+      <div class="wrap-s">
+        <header class="sec-head center">
+          <p class="eyebrow" data-r>Start-up times</p>
+          <h2 class="h2 split" id="speed-h">Open in <span class="g">a blink.</span></h2>
+          <p class="lead" data-r>How long each app takes from the moment you start it until its window is on screen.</p>
+        </header>
+        <div class="boot card" data-r id="boot">
+          <div class="boot-key"><span><i class="k-again"></i>Opening again</span><span><i class="k-first"></i>First open after the PC starts</span></div>
+          <div class="boot-rows"></div>
+          <p class="small boot-how"></p>
+        </div>
       </div>
     </section>
 
@@ -204,7 +225,7 @@
     </div>
   </footer>
 
-  <script src="assets/js/site.js?v=3" defer></script>
+  <script src="assets/js/site.js?v=5" defer></script>
   <script src="assets/js/aurora.js?v=3" defer></script>
   <script src="assets/js/fx.js?v=3" defer></script>
 </body>

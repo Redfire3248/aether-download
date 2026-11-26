@@ -489,8 +489,19 @@ win.<span class="f">on_frame</span>(frame)</pre>
         link.innerHTML = `${ic('download')}Download ${esc(a.name)}<small>${MB(a.size)}</small>`; soon.replaceWith(link);
         const badge = card.querySelector('[data-f="badge"]'); if (badge) { badge.textContent = 'New'; badge.classList.remove('soon'); }
       } else card.querySelectorAll('a[data-file]').forEach((l) => (l.href = url));
+      const secs = (ms) => (ms < 1000 ? (ms / 1000).toFixed(2) : (ms / 1000).toFixed(1)) + ' s';
+      if (a.boot) { set('boot', secs(a.boot.again)); set('bootfirst', secs(a.boot.first)); }
       if (a.features) { const has = card.querySelector('[data-f="has"]'); if (has) has.innerHTML = a.features.map((x) => `<li>${esc(x)}</li>`).join(''); }
     });
+    // the start-up times, as bars
+    const boot = $('#boot');
+    if (boot) {
+      const rows = [['AetherApp', 'Aether', 'c-ae', 'assets/logo-64.png'], ['AetherGameMaker', 'Aether Game Maker', 'c-gm', 'assets/game-maker-logo-64.png'], ['AetherLab', 'Aether Lab', 'c-lab', 'assets/lab-logo-64.png']].filter(([k]) => all[k] && all[k].boot);
+      const top = Math.max(...rows.map(([k]) => all[k].boot.first));
+      const secs = (ms) => (ms < 1000 ? (ms / 1000).toFixed(2) : (ms / 1000).toFixed(1)) + ' s';
+      boot.querySelector('.boot-rows').innerHTML = rows.map(([k, name, c, logo]) => { const b = all[k].boot; return `<div class="boot-row ${c}"><div class="boot-name"><img src="${logo}" alt="" width="28" height="28">${esc(name)}</div><div class="boot-bars"><div class="boot-bar again" style="--w:${Math.max(2, b.again / top * 80).toFixed(1)}%"><i></i><b>${secs(b.again)}</b></div><div class="boot-bar first" style="--w:${(b.first / top * 80).toFixed(1)}%"><i></i><b>${secs(b.first)}</b></div></div></div>`; }).join('');
+      const how = all._boot; if (how) boot.querySelector('.boot-how').textContent = `Measured on ${day(how.measured)} on an ${how.pc}. ${how.how}`;
+    }
     const gm = all.AetherGameMaker; if (gm) $$('a.dl-gm').forEach((l) => (l.href = DL + gm.tag + '/' + gm.file));
     if (ae) $$('a.dl-main').forEach((l) => (l.href = DL + ae.tag + '/' + ae.file));
     const lab = all.AetherLab; if (lab) $$('a.dl-lab').forEach((l) => (l.href = DL + lab.tag + '/' + lab.file));

@@ -881,7 +881,7 @@ code { background: var(--glass-2); border: 1px solid var(--line); padding: .08em
 
 /* the download page: one card for each app, with its own installer and its facts */
 :root { --lab1: #ff3b30; --lab2: #ff8a3d; }
-.fam.c-lab, .get.c-lab, .pick-tab.c-lab, .pick-panel.c-lab { --c1: var(--lab1); --c2: var(--lab2); }
+.fam.c-lab, .get.c-lab, .pick-tab.c-lab, .pick-panel.c-lab, .boot-row.c-lab { --c1: var(--lab1); --c2: var(--lab2); }
 .logo-row { display: flex; justify-content: center; gap: clamp(10px, 2vw, 22px); margin-bottom: 10px; }
 .logo-row img { width: clamp(52px, 7vw, 84px); height: auto; filter: drop-shadow(0 14px 34px rgb(0 0 0 / .45)); animation: float 7s ease-in-out infinite; }
 .logo-row img:nth-child(2) { animation-delay: -1.7s; } .logo-row img:nth-child(3) { animation-delay: -3.4s; } .logo-row img:nth-child(4) { animation-delay: -5.1s; }
@@ -963,3 +963,28 @@ code { background: var(--glass-2); border: 1px solid var(--line); padding: .08em
   .nav-get { display: none; }
   .nav.scrolled .nav-in { padding: 0 6px 0 10px; }
 }
+
+/* start-up times: two bars for each app, which grow in when the chart comes into view */
+.boot { padding: clamp(22px, 3vw, 34px); display: grid; gap: 20px; }
+.boot-key { display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: 13.5px; color: var(--muted); }
+.boot-key span { display: inline-flex; align-items: center; gap: 8px; }
+.boot-key i { width: 22px; height: 8px; border-radius: 4px; }
+.boot-key .k-again { background: linear-gradient(90deg, var(--a1), var(--a2)); }
+.boot-key .k-first { background: var(--glass-2); box-shadow: 0 0 0 1px var(--line-2) inset; }
+.boot-rows { display: grid; gap: 18px; }
+.boot-row { display: grid; grid-template-columns: 190px 1fr; gap: 16px; align-items: center; }
+.boot-row.c-ae { --c1: var(--ae1); --c2: var(--ae2); } .boot-row.c-gm { --c1: #7c3aed; --c2: #d23fc8; }
+.boot-name { display: flex; align-items: center; gap: 10px; font-weight: 600; }
+.boot-bars { display: grid; gap: 6px; }
+.boot-bar { position: relative; height: 22px; display: flex; align-items: center; }
+.boot-bar i { display: block; height: 100%; width: var(--w); border-radius: 6px; transform: scaleX(0); transform-origin: left; transition: transform 1.3s var(--ease); }
+.boot-bar.again i { background: linear-gradient(90deg, var(--c1), var(--c2)); box-shadow: 0 0 18px -4px var(--c2); }
+.boot-bar.first i { background: var(--glass-2); box-shadow: 0 0 0 1px var(--line-2) inset; transition-delay: .15s; }
+.boot-bar b { margin-left: 10px; font: 600 13.5px var(--font-m); white-space: nowrap; opacity: 0; transition: opacity .6s .9s; }
+.boot-bar.again b { color: var(--c2); }
+.boot.in .boot-bar i, .boot:not([data-r]) .boot-bar i { transform: scaleX(1); }
+.boot.in .boot-bar b { opacity: 1; }
+.boot-how { margin: 0; }
+[data-style='pixel'] .boot-bar i, [data-style='pixel'] .boot-key i { border-radius: 0; }
+@media (max-width: 640px) { .boot-row { grid-template-columns: 1fr; gap: 8px; } }
+@media (prefers-reduced-motion: reduce) { .boot-bar i { transform: none; transition: none; } .boot-bar b { opacity: 1; transition: none; } }
