@@ -75,7 +75,7 @@ code { background: var(--glass-2); border: 1px solid var(--line); padding: .08em
 .bg-lights i:nth-child(1) { background: var(--a1); left: -25vmax; top: 30vh; }
 .bg-lights i:nth-child(2) { background: var(--a2); right: -30vmax; top: 90vh; opacity: .1; }
 [data-mode='light'] .bg-lights i { opacity: .12; }
-.grain { position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: .05; mix-blend-mode: overlay;
+.grain { position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: .035;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
 .progress { position: fixed; left: 0; right: 0; top: 0; height: 2px; z-index: 60; pointer-events: none; }
 .progress i { display: block; height: 100%; background: linear-gradient(90deg, var(--a1), var(--a2), var(--a3)); transform-origin: 0 50%; transform: scaleX(0); box-shadow: 0 0 12px var(--a2); }
@@ -230,7 +230,6 @@ code { background: var(--glass-2); border: 1px solid var(--line); padding: .08em
 .card {
   position: relative; isolation: isolate; border-radius: var(--r); background: linear-gradient(180deg, var(--glass-2), var(--glass));
   border: 1px solid var(--line); box-shadow: var(--shadow); overflow: hidden;
-  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
 }
 .card::after { /* the light that follows the mouse */
   content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: 0; transition: opacity .4s;
@@ -776,11 +775,11 @@ code { background: var(--glass-2); border: 1px solid var(--line); padding: .08em
 .device .mk-bar { position: relative; z-index: 2; }
 .device-view { position: relative; aspect-ratio: var(--ar, 16 / 10); overflow: hidden; }
 .device-view > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top left; }
-.device-view::after { /* a slow sheen across the glass */
-  content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 1;
-  background: linear-gradient(115deg, transparent 35%, rgb(255 255 255 / .07) 45%, transparent 55%) 0 0 / 300% 100%; animation: sheen 9s var(--ease) infinite;
+.device-view::after { /* a slow sheen across the glass: a band that slides (moved, not repainted, so it costs nothing) */
+  content: ''; position: absolute; top: 0; bottom: 0; left: 0; width: 45%; pointer-events: none; z-index: 1;
+  background: linear-gradient(115deg, transparent 20%, rgb(255 255 255 / .07) 50%, transparent 80%); transform: translate3d(-110%, 0, 0); will-change: transform; animation: sheen 9s var(--ease) infinite;
 }
-@keyframes sheen { 0%, 60% { background-position: 150% 0; } 100% { background-position: -150% 0; } }
+@keyframes sheen { 0%, 60% { transform: translate3d(-110%, 0, 0); } 100% { transform: translate3d(250%, 0, 0); } }
 .device-empty { position: absolute; inset: 0; display: none; place-items: center; align-content: center; gap: 14px; text-align: center; color: #aab3d6; font: 500 14px var(--font-b); padding: 20px;
   background: radial-gradient(60% 60% at 50% 45%, color-mix(in srgb, var(--a1) 22%, transparent), transparent 70%), repeating-linear-gradient(0deg, rgb(255 255 255 / .025) 0 1px, transparent 1px 28px), repeating-linear-gradient(90deg, rgb(255 255 255 / .025) 0 1px, transparent 1px 28px), #0a0c16; }
 .device-empty img { width: 72px; height: 72px; filter: drop-shadow(0 10px 30px color-mix(in srgb, var(--a1) 70%, transparent)); animation: float 6s ease-in-out infinite; }
@@ -946,15 +945,15 @@ code { background: var(--glass-2); border: 1px solid var(--line); padding: .08em
 [data-style='pixel'] .fx-rip { border-radius: 0; }
 @keyframes fx-rip { to { transform: scale(1); opacity: 0; } }
 /* the header's grid lights up around the mouse */
-.hero-grid::after { content: ''; position: absolute; inset: 0;
+.grid-glow { position: absolute; left: 0; top: 0; width: 440px; height: 440px; pointer-events: none; will-change: transform; transform: translate3d(-999px, -999px, 0);
   background-image: linear-gradient(color-mix(in srgb, var(--a2) 70%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--a2) 70%, transparent) 1px, transparent 1px); background-size: 64px 64px;
-  -webkit-mask-image: radial-gradient(220px circle at var(--gx, -999px) var(--gy, -999px), #000, transparent); mask-image: radial-gradient(220px circle at var(--gx, -999px) var(--gy, -999px), #000, transparent); }
+  -webkit-mask-image: radial-gradient(closest-side, #000, transparent); mask-image: radial-gradient(closest-side, #000, transparent); }
 /* chips and file links lift when the mouse is on them */
 .get-has li, .fam li { transition: transform .3s var(--spring), border-color .3s, background-color .3s, box-shadow .3s; }
 .get-has li:hover, .fam li:hover { transform: translateY(-2px); border-color: color-mix(in srgb, var(--c2, var(--a2)) 60%, transparent); background: color-mix(in srgb, var(--c1, var(--a1)) 14%, transparent); box-shadow: 0 8px 20px -10px var(--c1, var(--a1)); }
 .get-logo, .fam-logo { will-change: transform; }
 .get:hover .get-logo { filter: drop-shadow(0 12px 34px color-mix(in srgb, var(--c1) 85%, transparent)); }
-@media (prefers-reduced-motion: reduce) { .fx-canvas, .fx-spot, .hero-grid::after { display: none; } }
+@media (prefers-reduced-motion: reduce) { .fx-canvas, .fx-spot, .grid-glow { display: none; } }
 
 /* the bar at the top on a phone: the name, the theme, the menu, and Download only when it fits */
 .brand, .nav-tools { flex: none; }
@@ -988,3 +987,10 @@ code { background: var(--glass-2); border: 1px solid var(--line); padding: .08em
 [data-style='pixel'] .boot-bar i, [data-style='pixel'] .boot-key i { border-radius: 0; }
 @media (max-width: 640px) { .boot-row { grid-template-columns: 1fr; gap: 8px; } }
 @media (prefers-reduced-motion: reduce) { .boot-bar i { transform: none; transition: none; } .boot-bar b { opacity: 1; transition: none; } }
+
+/* nothing on the page highlights when you drag over it, and pictures don't drag away; only code, checksums and
+   commands can still be selected (to copy them) */
+body { -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; }
+img, svg, canvas, video { -webkit-user-drag: none; user-drag: none; }
+code, pre, kbd, input, textarea, .get-sum > code, [data-copy] { -webkit-user-select: text; user-select: text; }
+.get-sum > code { -webkit-user-select: all; user-select: all; }

@@ -96,7 +96,10 @@
 
   // ---------------------------------------------------------------- the light on each card follows the mouse; some cards lean towards it
   if (fine && !still) {
-    $$('.card').forEach((c) => c.addEventListener('pointermove', (e) => { const r = c.getBoundingClientRect(); c.style.setProperty('--mx', e.clientX - r.left + 'px'); c.style.setProperty('--my', e.clientY - r.top + 'px'); }));
+    // (once a frame, and only the card under the mouse)
+    $$('.card').forEach((c) => { let r = null, ex = 0, ey = 0, on = false;
+      c.addEventListener('pointerenter', () => { r = null; });
+      c.addEventListener('pointermove', (e) => { ex = e.clientX; ey = e.clientY; if (on) return; on = true; requestAnimationFrame(() => { on = false; r = c.getBoundingClientRect(); c.style.setProperty('--mx', ex - r.left + 'px'); c.style.setProperty('--my', ey - r.top + 'px'); }); }); });
     $$('[data-tilt]').forEach((c) => {
       const max = +c.dataset.tilt || 5;
       c.classList.add('tilt');
@@ -118,15 +121,18 @@
     let ticking = false;
     const run = () => {
       ticking = false; const vh = innerHeight;
-      for (const el of par) { const r = el.parentElement.getBoundingClientRect(); if (r.bottom < -200 || r.top > vh + 200) continue; const c = (r.top + r.height / 2 - vh / 2); el.style.transform = `translate3d(0, ${(c * -(+el.dataset.par)).toFixed(1)}px, 0)`; }
-      for (const s of shows) { const r = s.getBoundingClientRect(); const p = Math.max(0, Math.min(1, (r.top - vh * .2) / (vh * .6))); s.style.setProperty('--p', p.toFixed(3)); }
-      if (stage) { const r = stage.getBoundingClientRect(); const p = Math.max(0, Math.min(1, 1 - (r.top + r.height * .3) / vh)); stage.style.setProperty('--p', p.toFixed(3)); }
+      // (all the reading first, then all the writing: reading after a write makes the browser lay the page out again)
+      const parR = par.map((el) => el.parentElement.getBoundingClientRect()), showR = shows.map((s) => s.getBoundingClientRect()), stageR = stage && stage.getBoundingClientRect();
+      par.forEach((el, i) => { const r = parR[i]; if (r.bottom < -200 || r.top > vh + 200) return; const c = (r.top + r.height / 2 - vh / 2); el.style.transform = `translate3d(0, ${(c * -(+el.dataset.par)).toFixed(1)}px, 0)`; });
+      shows.forEach((s2, i) => { const r = showR[i]; const p = Math.max(0, Math.min(1, (r.top - vh * .2) / (vh * .6))); s2.style.setProperty('--p', p.toFixed(3)); });
+      if (stage) { const r = stageR; const p = Math.max(0, Math.min(1, 1 - (r.top + r.height * .3) / vh)); stage.style.setProperty('--p', p.toFixed(3)); }
     };
     addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(run); } }, { passive: true });
     addEventListener('resize', run); run();
     if (stage && fine) {
       const inner = $('.stage-in', stage);
-      addEventListener('pointermove', (e) => { const x = e.clientX / innerWidth - .5, y = e.clientY / innerHeight - .5; inner.style.transform = `rotateY(${(x * 6).toFixed(2)}deg) rotateX(${(-y * 4).toFixed(2)}deg)`; }, { passive: true });
+      let sx = 0, sy = 0, sOn = false;
+      addEventListener('pointermove', (e) => { sx = e.clientX / innerWidth - .5; sy = e.clientY / innerHeight - .5; if (!sOn) { sOn = true; requestAnimationFrame(() => { sOn = false; inner.style.transform = `rotateY(${(sx * 6).toFixed(2)}deg) rotateX(${(-sy * 4).toFixed(2)}deg)`; }); } }, { passive: true });
     }
   })();
 

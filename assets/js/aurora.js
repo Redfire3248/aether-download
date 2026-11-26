@@ -15,7 +15,7 @@ uniform vec2 res; uniform float t; uniform vec3 c1, c2, c3, bg; uniform vec2 mou
 float h(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
 float n(vec2 p){ vec2 i = floor(p), f = fract(p); f = f * f * (3. - 2. * f);
   return mix(mix(h(i), h(i + vec2(1, 0)), f.x), mix(h(i + vec2(0, 1)), h(i + vec2(1, 1)), f.x), f.y); }
-float fbm(vec2 p){ float v = 0., a = .5; for (int i = 0; i < 5; i++) { v += a * n(p); p = p * 2.03 + vec2(1.7, 9.2); a *= .5; } return v; }
+float fbm(vec2 p){ float v = 0., a = .5; for (int i = 0; i < 4; i++) { v += a * n(p); p = p * 2.03 + vec2(1.7, 9.2); a *= .5; } return v; }
 void main(){
   vec2 uv = gl_FragCoord.xy / res; float asp = res.x / res.y; vec2 p = vec2((uv.x - .5) * asp, uv.y - .5);
   // rings from the visitor's clicks: each one pushes the light outwards as it passes
@@ -105,9 +105,9 @@ void main(){ vec2 d = gl_PointCoord - .5; float r = length(d); float g = smooths
   readColours();
   addEventListener('aether-theme', () => { readColours(); if (!running) frame(performance.now()); });
 
-  let W = 0, H = 0, dpr = 1;
+  let W = 0, H = 0, dpr = 1, quality = 1, nDots = N;
   const size = () => {
-    dpr = Math.min(devicePixelRatio || 1, 2) * (small ? .55 : .65); // the sky is soft, so fewer pixels look the same and cost far less
+    dpr = Math.min(devicePixelRatio || 1, 2) * (small ? .55 : .65) * quality; // the sky is soft, so fewer pixels look the same and cost far less
     const r = cv.getBoundingClientRect(); W = Math.max(1, Math.round(r.width * dpr)); H = Math.max(1, Math.round(r.height * dpr));
     if (cv.width !== W || cv.height !== H) { cv.width = W; cv.height = H; }
     gl.viewport(0, 0, W, H);
@@ -115,13 +115,17 @@ void main(){ vec2 d = gl_PointCoord - .5; float r = length(d); float g = smooths
   new ResizeObserver(() => { size(); if (!running) frame(performance.now()); }).observe(cv);
 
   let mx = .5, my = .62, tx = .5, ty = .62;
-  addEventListener('pointermove', (e) => { const r = cv.getBoundingClientRect(); tx = (e.clientX - r.left) / r.width; ty = 1 - (e.clientY - r.top) / r.height; }, { passive: true });
+  // where the canvas is on the page, kept (measuring it on every mouse move would make the browser lay out the page)
+  let box = { left: 0, top: 0, width: 1, height: 1 };
+  const keep = () => { const r = cv.getBoundingClientRect(); box = { left: r.left + scrollX, top: r.top + scrollY, width: r.width || 1, height: r.height || 1 }; };
+  keep(); addEventListener('resize', keep); addEventListener('load', keep);
+  addEventListener('pointermove', (e) => { tx = (e.clientX + scrollX - box.left) / box.width; ty = 1 - (e.clientY + scrollY - box.top) / box.height; }, { passive: true });
 
   const rips = [];
   const ripData = new Float32Array(16);
   addEventListener('aether-ripple', (e) => {
     if (still) return;
-    const r = cv.getBoundingClientRect(), x = (e.detail.x - r.left) / r.width, y = 1 - (e.detail.y - r.top) / r.height;
+    const x = (e.detail.x + scrollX - box.left) / box.width, y = 1 - (e.detail.y + scrollY - box.top) / box.height;
     if (x < 0 || x > 1 || y < 0 || y > 1) return;
     rips.push({ x, y, t: performance.now() }); if (rips.length > 4) rips.shift();
   });
@@ -148,12 +152,20 @@ void main(){ vec2 d = gl_PointCoord - .5; float r = length(d); float g = smooths
     gl.bindBuffer(gl.ARRAY_BUFFER, dotBuf); gl.enableVertexAttribArray(aDot); gl.vertexAttribPointer(aDot, 3, gl.FLOAT, false, 0, 0);
     gl.uniform2f(du.res, W, H); gl.uniform1f(du.t, t); gl.uniform2f(du.mouse, mx, my); gl.uniform1f(du.px, dpr * 1.6); gl.uniform1f(du.light, col.light);
     gl.uniform3fv(du.c2, col.c2); gl.uniform3fv(du.c3, col.c3); gl.uniform4fv(du.rip, ripData);
-    gl.drawArrays(gl.POINTS, 0, N);
+    gl.drawArrays(gl.POINTS, 0, nDots);
     gl.disableVertexAttribArray(aDot);
   }
 
   let running = false, onScreen = true;
-  const loop = (now) => { if (!running) return; frame(now); requestAnimationFrame(loop); };
+  // a slow computer: if frames take too long, draw the sky with fewer pixels and fewer specks (twice at most)
+  let last = 0, slow = 0, seen = 0;
+  const loop = (now) => {
+    if (!running) return;
+    if (last && now - last < 250) { seen++; if (now - last > 24) slow++; }
+    last = now;
+    if (seen >= 90) { if (slow > 30 && quality > .5) { quality *= .7; nDots = Math.round(nDots * .6); size(); } seen = slow = 0; }
+    frame(now); requestAnimationFrame(loop);
+  };
   const update = () => {
     const go = onScreen && !document.hidden && !still;
     if (go && !running) { running = true; requestAnimationFrame(loop); } else if (!go) running = false;

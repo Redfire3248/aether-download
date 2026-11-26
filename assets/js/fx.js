@@ -91,12 +91,21 @@
   const spot = document.createElement('div');
   spot.className = 'fx-spot'; spot.setAttribute('aria-hidden', 'true');
   document.body.appendChild(spot);
-  const hero = document.querySelector('.hero');
+  // the header's grid lights up around the mouse: a small piece of brighter grid that moves with it
+  const hero = document.querySelector('.hero'), grid = document.querySelector('.hero-grid');
+  let glow = null, heroTop = 0, heroLeft = 0;
+  const place = () => { if (!hero) return; const r = hero.getBoundingClientRect(); heroTop = r.top + scrollY; heroLeft = r.left + scrollX; };
+  if (grid) { glow = document.createElement('i'); glow.className = 'grid-glow'; glow.setAttribute('aria-hidden', 'true'); grid.appendChild(glow); place(); addEventListener('resize', place); addEventListener('load', place); }
   let sx = innerWidth / 2, sy = innerHeight / 3, tx = sx, ty = sy, moving = false;
   const follow = () => {
     sx += (tx - sx) * .12; sy += (ty - sy) * .12;
     spot.style.transform = `translate(${sx.toFixed(1)}px, ${sy.toFixed(1)}px)`;
-    if (hero) { const r = hero.getBoundingClientRect(); hero.style.setProperty('--gx', (sx - r.left).toFixed(0) + 'px'); hero.style.setProperty('--gy', (sy - r.top).toFixed(0) + 'px'); }
+    if (glow) {
+      // where the mouse is on the header, and the grid lines lined up with the ones under it (64 px apart)
+      const hx = sx + scrollX - heroLeft - 220, hy = sy + scrollY - heroTop - 220;
+      glow.style.transform = `translate3d(${hx.toFixed(1)}px, ${hy.toFixed(1)}px, 0)`;
+      glow.style.backgroundPosition = `${(-hx % 64).toFixed(1)}px ${(-hy % 64).toFixed(1)}px`;
+    }
     if (Math.abs(tx - sx) + Math.abs(ty - sy) > .5) requestAnimationFrame(follow); else moving = false;
   };
   addEventListener('pointermove', (e) => { tx = e.clientX; ty = e.clientY; spot.classList.add('on'); if (!moving) { moving = true; requestAnimationFrame(follow); } }, { passive: true });
