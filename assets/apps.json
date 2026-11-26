@@ -1,0 +1,42 @@
+{
+  "AetherApp": {
+    "name": "Aether",
+    "version": "2.0.0",
+    "tag": "v2.0.0",
+    "file": "Aether-Setup.exe",
+    "date": "2026-11-26",
+    "size": 14866128,
+    "installed": 54986752,
+    "sha256": "3b29297b4612cf51f2df837439a9bd63517b598ae3f2e34c849718fbc93b62cf"
+  },
+  "AetherLab": {
+    "name": "Aether Lab",
+    "version": "0.1.0",
+    "tag": "v2.0.0",
+    "file": "Aether-Lab-Setup.exe",
+    "date": "2026-11-26",
+    "size": 9379120,
+    "installed": 27595776,
+    "sha256": "24c22f3973bc6b1b511bb11e3521d51d5cc34fe567c9df66af7ade3356c2db84",
+    "features": [
+      "Visual canvas",
+      "Tasks, milestones and a board",
+      "Any AI: local, cloud or CLI",
+      "Review every change",
+      "Agent uses a browser",
+      "Plans into docs and prompts",
+      "Terminal and Web tab",
+      "Its own themes"
+    ]
+  },
+  "AetherGameMaker": {
+    "name": "Aether Game Maker",
+    "version": "2.0.0",
+    "tag": "v2.0.0",
+    "file": "Aether-Game-Maker-Setup.exe",
+    "date": "2026-11-26",
+    "size": 14567035,
+    "installed": 54712320,
+    "sha256": "5c1e36b1c0341167aa3d1c123a6d747399478dd613f335caeceab3efd6f1e3a5"
+  }
+}

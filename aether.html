@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Aether: the code editor for everything</title>
+  <meta name="description" content="Aether is a fast code editor with AI (local and cloud), a debugger, a terminal, Git, a PDF editor, Arduino with a simulator, and apps you can make into .exe and .apk files.">
+  <meta name="theme-color" content="#05070f">
+  <meta property="og:title" content="Aether: the code editor for everything">
+  <meta property="og:description" content="Aether is a fast code editor with AI (local and cloud), a debugger, a terminal, Git, a PDF editor, Arduino with a simulator, and apps you can make into .exe and .apk files.">
+  <meta property="og:image" content="assets/logo.png">
+  <link rel="icon" href="assets/logo-64.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/logo-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/site.css?v=2">
+  <script>try{var t=localStorage.getItem('aether-site-theme');if(t&&/Paper/.test(t))document.documentElement.dataset.mode='light'}catch(e){}</script>
+
+</head>
+<body data-page="aether">
+  <a class="skip" href="#main">Skip to the page</a>
+  <div class="progress" aria-hidden="true"><i></i></div>
+  <div class="bg-lights" aria-hidden="true"><i></i><i></i></div>
+  <div class="grain" aria-hidden="true"></div>
+  <header class="nav">
+    <div class="nav-in">
+      <a class="brand" href="index.html" aria-label="Aether, home"><img src="assets/logo-64.png" alt="" width="32" height="32"><span>Aether</span></a>
+      <nav class="nav-links" aria-label="Main"><a href="aether.html" aria-current="page">Aether</a><a href="game-maker.html">Game Maker</a><a href="lab.html">Aether Lab</a><a href="script.html">Aether Script</a><a href="https://redfire3248.github.io/aether-marketplace/marketplace.html">Marketplace<svg class="ic " aria-hidden="true"><use href="assets/icons.svg#external"/></svg></a><a href="https://redfire3248.github.io/aether-marketplace/docs.html">Docs<svg class="ic " aria-hidden="true"><use href="assets/icons.svg#external"/></svg></a></nav>
+      <div class="nav-tools">
+        <div class="theme-pick">
+          <button class="icon-btn" id="theme-btn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="theme-menu" aria-label="Change the theme"><svg class="ic " aria-hidden="true"><use href="assets/icons.svg#palette"/></svg></button>
+          <div class="theme-menu" id="theme-menu" role="group" aria-label="Themes" hidden></div>
+        </div>
+        <a class="btn small nav-get magnet" href="download.html"><svg class="ic " aria-hidden="true"><use href="assets/icons.svg#download"/></svg>Download</a>
+        <button class="icon-btn nav-menu" id="nav-menu" type="button" aria-expanded="false" aria-controls="nav-panel" aria-label="Menu"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#menu"/></svg></button>
+      </div>
+    </div>
+  </header>
+  <div class="nav-panel" id="nav-panel" hidden><a href="aether.html" aria-current="page"><img src="assets/logo-64.png" alt="" width="26" height="26">Aether</a><a href="game-maker.html"><img src="assets/game-maker-logo-64.png" alt="" width="26" height="26">Game Maker</a><a href="lab.html"><img src="assets/lab-logo-64.png" alt="" width="26" height="26">Aether Lab</a><a href="script.html"><img src="img/aether-script.png" alt="" width="26" height="26">Aether Script</a><a href="https://redfire3248.github.io/aether-marketplace/marketplace.html"><svg class="ic " aria-hidden="true"><use href="assets/icons.svg#bag"/></svg>Marketplace</a><a href="https://redfire3248.github.io/aether-marketplace/docs.html"><svg class="ic " aria-hidden="true"><use href="assets/icons.svg#book"/></svg>Docs</a><a class="btn" href="download.html"><svg class="ic " aria-hidden="true"><use href="assets/icons.svg#download"/></svg>Download Aether</a></div>
+  <main id="main">
+    <section class="hero" aria-labelledby="hero-h">
+      <div class="hero-fallback" aria-hidden="true"></div>
+      <canvas class="hero-gl" aria-hidden="true"></canvas>
+      <div class="hero-grid" aria-hidden="true"></div>
+      <div class="wrap p-hero">
+        <img class="hero-logo rise" src="assets/logo-192.png" alt="" width="170" height="170">
+        <p class="chip-tag rise" style="--d:1"><b>Aether</b><span>The code editor</span></p>
+        <h1 class="display rise" style="--d:2" id="hero-h">The code editor <span class="grad">for everything.</span></h1>
+        <p class="lead rise" style="--d:3">Write code in any language with AI at your side. Debug it, run it, put it on Git, and turn it into a real app. Native and fast.</p>
+        <div class="cta center rise" style="--d:4">
+          <a class="btn big magnet dl-main" href="https://github.com/Redfire3248/aether-download/releases/latest/download/Aether-Setup.exe"><svg class="ic dl-ic" aria-hidden="true"><use href="assets/icons.svg#windows"/></svg><span class="dl-label">Download for Windows</span></a>
+          <a class="btn big ghost" href="#tools">See every tool<svg class="ic ic-arrow" aria-hidden="true"><use href="assets/icons.svg#arrow"/></svg></a>
+        </div>
+        <p class="meta rise" style="--d:5"><span class="dl-version">Version 2.0</span><span class="dl-size"></span>&nbsp;·&nbsp;<span class="dl-os">Windows 10 and 11</span></p>
+      </div>
+      <div class="wrap showcase rise" style="--d:6">
+        <figure class="device" data-fallback="editor">
+          <div class="mk-bar"><i></i><i></i><i></i><b><img src="assets/logo-64.png" alt="">Aether</b></div>
+          <div class="device-view"><img src="assets/shots/aether.webp" alt="Aether's code editor with a project open" decoding="async"><div class="device-empty"><img src="assets/logo-192.png" alt=""><b>Aether</b><span>A picture of the app is on its way.</span></div></div>
+        </figure>
+      </div>
+    </section>
+
+    <section class="sec" aria-labelledby="fast-h">
+      <div class="wrap">
+        <header class="sec-head center">
+          <p class="eyebrow" data-r>Native and fast</p>
+          <h2 class="h2 split" id="fast-h">Now written <span class="g">in Rust.</span></h2>
+          <p class="lead" data-r>The new Aether is a native app. It opens fast, types fast, and stays smooth on big files.</p>
+        </header>
+        <div class="points">
+          <article class="point card" data-r><span class="pi"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#zap"/></svg></span><h3>Native code</h3><p>Aether is built in Rust from end to end, so it starts quickly and uses little of your computer.</p></article>
+          <article class="point card" data-r style="--i:1"><span class="pi"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#window"/></svg></span><h3>No browser inside</h3><p>It draws its own window on the graphics card, with no web page under the hood.</p></article>
+          <article class="point card" data-r style="--i:2"><span class="pi"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#layers"/></svg></span><h3>Draws only what you see</h3><p>The editor lays out just the lines on the screen, so a file with thousands of lines types as fast as a short one.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="tools" aria-labelledby="tools-h">
+      <div class="wrap">
+        <header class="sec-head center">
+          <p class="eyebrow" data-r>Inside Aether</p>
+          <h2 class="h2 split" id="tools-h">Every tool, <span class="g">already there.</span></h2>
+          <p class="lead" data-r>Nothing else to install. Each one is a click away, and each one works with the others.</p>
+        </header>
+        <div class="bento">
+          <article class="tile card glow w4" data-r>
+            <div class="tile-art">
+              <div class="ai-demo" data-ai-demo aria-hidden="true">
+                <div class="mini ai-col"><div class="mini-h"><b>On your PC</b><span class="sp">Ollama</span></div><div class="bub me">Explain this function</div><div class="bub ai">It adds 10 points for each coin and returns the total.</div><div class="ai-models"><span>Ollama</span><span>LM Studio</span><span>any OpenAI-style server</span></div></div>
+                <div class="mini ai-col"><div class="mini-h"><b>In the cloud</b><span class="sp">your key</span></div><div class="bub me">Write a test for it</div><div class="bub ai">Made test_coins.py. Apply the change?</div><div class="ai-models"><span>Claude</span><span>OpenAI</span><span>Gemini</span><span>Groq</span><span>Mistral</span><span>DeepSeek</span></div></div>
+              </div>
+            </div>
+            <div class="tile-words"><h3><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#spark"/></svg>AI, local or cloud</h3><p>Chat about your code, autocomplete as you type, and run AI commands: explain, edit, refactor, docs, tests and commit messages. Use a model on your PC, or your own key.</p><a class="link" href="https://redfire3248.github.io/aether-marketplace/docs.html#ai">How the AI works</a></div>
+          </article>
+          <article class="tile card w2" data-r style="--i:1">
+            <div class="tile-art">
+              <div class="mini dbg" data-dbg aria-hidden="true">
+                <div class="mini-h"><b>Debug</b><span class="sp">paused</span></div>
+                <div class="mini-b" style="padding:8px 4px">
+                  <div class="l"><u>1</u>total = 0</div><div class="l bp"><u>2</u>for c in coins:</div><div class="l"><u>3</u>    total += 10</div><div class="l"><u>4</u>    seen.append(c)</div><div class="l"><u>5</u>print(total)</div>
+                </div>
+                <div class="dbg-vars"><span>total</span><b>0</b><span>seen</span><b>[]</b></div>
+              </div>
+            </div>
+            <div class="tile-words"><h3><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#bug"/></svg>Debugger</h3><p>Breakpoints, stepping, variables and watches for Python and JavaScript.</p></div>
+          </article>
+          <article class="tile card w2" data-r>
+            <div class="tile-art"><div class="mini" aria-hidden="true"><div class="mini-h"><b>Terminal</b><span class="sp">PowerShell</span></div><div class="mini-b term" data-term style="height:150px"></div></div></div>
+            <div class="tile-words"><h3><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#terminal"/></svg>A fast terminal</h3><p>Programs start in a tenth of a second, with their colours and animations.</p></div>
+          </article>
+          <article class="tile card w2" data-r style="--i:1">
+            <div class="tile-art">
+              <svg class="git-svg" viewBox="0 0 260 150" aria-hidden="true">
+                <path class="draw" d="M20 40 H240" stroke="var(--a1)" style="--dl:0s"/>
+                <path class="draw" d="M70 40 C100 40 100 100 130 100 H200 C225 100 225 40 240 40" stroke="var(--a2)" style="--dl:.5s"/>
+                <circle class="pop" cx="20" cy="40" r="7" fill="var(--a1)" style="--dl:.1s"/><circle class="pop" cx="70" cy="40" r="7" fill="var(--a1)" style="--dl:.3s"/><circle class="pop" cx="150" cy="40" r="7" fill="var(--a1)" style="--dl:.7s"/>
+                <circle class="pop" cx="130" cy="100" r="7" fill="var(--a2)" style="--dl:.9s"/><circle class="pop" cx="180" cy="100" r="7" fill="var(--a2)" style="--dl:1.1s"/><circle class="pop" cx="240" cy="40" r="9" fill="var(--a3)" style="--dl:1.6s"/>
+                <text x="20" y="20" fill="var(--muted)" font-size="11" font-family="Inter, sans-serif">main</text><text x="130" y="130" fill="var(--muted)" font-size="11" font-family="Inter, sans-serif">new-level</text>
+              </svg>
+            </div>
+            <div class="tile-words"><h3><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#git"/></svg>Git</h3><p>See what changed, commit and keep your work safe, right beside your files.</p></div>
+          </article>
+          <article class="tile card w2" data-r style="--i:2">
+            <div class="tile-art" style="padding-bottom:0;align-items:end">
+              <div class="pdf-page" aria-hidden="true"><p class="pt"><span class="pdf-edit" data-pdf>Quarterly report</span></p><span class="ph" style="width:90%"></span><span class="ph" style="width:76%"></span><span class="ph" style="width:84%"></span><span class="ph" style="width:60%"></span><span class="ph" style="width:88%"></span></div>
+            </div>
+            <div class="tile-words"><h3><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#pdf"/></svg>PDF editor</h3><p>Change the words already in a PDF, read scanned pages, and move pictures.</p></div>
+          </article>
+          <article class="tile card glow w4" data-r>
+            <div class="tile-art">
+              <span class="sim-chip" aria-hidden="true">Simulating</span>
+              <svg class="circuit" viewBox="0 0 420 170" aria-hidden="true">
+                <defs><radialGradient id="ledglow"><stop offset="0" stop-color="#ff3b4f" stop-opacity=".7"/><stop offset="1" stop-color="#ff3b4f" stop-opacity="0"/></radialGradient></defs>
+                <rect x="14" y="36" width="150" height="104" rx="8" class="c-board"/><rect x="32" y="56" width="40" height="24" rx="3" class="c-chip"/><rect x="92" y="96" width="56" height="30" rx="3" class="c-chip"/>
+                <rect x="232" y="30" width="176" height="116" rx="6" class="c-bb"/>
+                <g class="c-hole"><circle cx="250" cy="48" r="2"/><circle cx="266" cy="48" r="2"/><circle cx="282" cy="48" r="2"/><circle cx="298" cy="48" r="2"/><circle cx="314" cy="48" r="2"/><circle cx="330" cy="48" r="2"/><circle cx="346" cy="48" r="2"/><circle cx="362" cy="48" r="2"/><circle cx="378" cy="48" r="2"/><circle cx="394" cy="48" r="2"/><circle cx="250" cy="128" r="2"/><circle cx="266" cy="128" r="2"/><circle cx="282" cy="128" r="2"/><circle cx="298" cy="128" r="2"/><circle cx="314" cy="128" r="2"/><circle cx="330" cy="128" r="2"/><circle cx="346" cy="128" r="2"/><circle cx="362" cy="128" r="2"/><circle cx="378" cy="128" r="2"/><circle cx="394" cy="128" r="2"/></g>
+                <path d="M164 60 H200 V70 H282" class="c-wire"/><path d="M164 60 H200 V70 H282" class="flow"/>
+                <path d="M164 118 H210 V128 H362" class="c-wire gnd"/>
+                <rect x="282" y="64" width="44" height="12" rx="3" class="c-res"/><path d="M326 70 H346 V86" class="c-wire"/>
+                <circle cx="346" cy="96" r="30" class="c-glow"/><circle cx="346" cy="96" r="11" class="c-led"/><path d="M346 107 V128" class="c-wire gnd"/>
+              </svg>
+            </div>
+            <div class="tile-words"><h3><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#chip"/></svg>Arduino, with a simulator</h3><p>Write sketches for an Uno, Nano, Mega or Leonardo. Build the circuit on a breadboard and press Simulate: the sketch runs with no board needed.</p><a class="link" href="https://redfire3248.github.io/aether-marketplace/docs.html#arduino">Arduino and circuits</a></div>
+          </article>
+          <article class="tile card w2" data-r style="--i:1">
+            <div class="tile-art">
+              <div class="phones" data-apps aria-hidden="true">
+                <div class="phone"><span class="ph-t"></span><div class="ph-row"><i></i><b></b></div><div class="ph-row"><i></i><b></b></div><div class="ph-row"><i></i><b></b></div><div class="ph-btn"></div></div>
+                <div class="app-files"><span class="app-file"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#windows"/></svg>Quiz.exe</span><span class="app-file"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#phone"/></svg>Quiz.apk</span><span class="app-file"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#globe"/></svg>Web</span></div>
+              </div>
+            </div>
+            <div class="tile-words"><h3><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#phone"/></svg>Real apps</h3><p>Make a Windows .exe or an Android .apk from your code, an Aether Script program or the App Maker.</p></div>
+          </article>
+          <article class="tile card w2" data-r>
+            <div class="tile-art">
+              <div class="bars" aria-hidden="true">
+                <div class="bar-r"><span><img src="img/lang/python.svg" alt="">Python</span><span class="tr"><i style="--w:92%;--dl:.1s"></i></span><small>4,210</small></div>
+                <div class="bar-r"><span><img src="img/lang/rust.svg" class="ink" alt="">Rust</span><span class="tr"><i style="--w:74%;--dl:.25s"></i></span><small>3,380</small></div>
+                <div class="bar-r"><span><img src="img/lang/javascript.svg" alt="">JS</span><span class="tr"><i style="--w:48%;--dl:.4s"></i></span><small>2,190</small></div>
+                <div class="bar-r"><span><img src="img/lang/aether-script.png" alt="">Aether</span><span class="tr"><i style="--w:30%;--dl:.55s"></i></span><small>1,370</small></div>
+                <div class="bar-r"><span><img src="img/lang/html5.svg" alt="">HTML</span><span class="tr"><i style="--w:16%;--dl:.7s"></i></span><small>720</small></div>
+              </div>
+            </div>
+            <div class="tile-words"><h3><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#chart"/></svg>Code stats</h3><p>How many lines your folder holds, per language, with the biggest files and milestones.</p></div>
+          </article>
+          <article class="tile card w2" data-r style="--i:1">
+            <div class="tile-art">
+              <div class="ext-grid" aria-hidden="true">
+                <span class="ext"><i style="background:linear-gradient(135deg,#7859f7,#3ff3c8)"><svg class="ic"><use href="assets/icons.svg#palette"/></svg></i>Theme packs</span>
+                <span class="ext"><i style="background:linear-gradient(135deg,#ff7eb6,#ffb38a)"><svg class="ic"><use href="assets/icons.svg#paw"/></svg></i>Pet skins</span>
+                <span class="ext"><i style="background:linear-gradient(135deg,#3d8bff,#3fe3ff)"><svg class="ic"><use href="assets/icons.svg#code"/></svg></i>JSON Tools</span>
+                <span class="ext"><i style="background:linear-gradient(135deg,#22c55e,#a7f070)"><svg class="ic"><use href="assets/icons.svg#zap"/></svg></i>Focus Timer</span>
+                <span class="ext"><i style="background:linear-gradient(135deg,#f59e0b,#ef4444)"><svg class="ic"><use href="assets/icons.svg#git"/></svg></i>Git Line</span>
+                <span class="ext"><i style="background:linear-gradient(135deg,#8b5cf6,#e24fd0)"><svg class="ic"><use href="assets/icons.svg#puzzle"/></svg></i>Your own</span>
+              </div>
+            </div>
+            <div class="tile-words"><h3><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#puzzle"/></svg>Extensions</h3><p>Free extensions from the Marketplace, VS Code themes and snippets, or your own in a few lines.</p></div>
+          </article>
+          <article class="tile card w2" data-r style="--i:2">
+            <div class="tile-art" style="overflow:hidden"><div class="pets-row walk" aria-hidden="true"><i class="pet cat"></i><i class="pet fox"></i><i class="pet dog"></i></div></div>
+            <div class="tile-words"><h3><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#paw"/></svg>Pets that visit</h3><p>Cats, dogs and foxes wander across your window. Pet them, carry them, or throw them.</p></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" aria-labelledby="ai-h">
+      <div class="wrap row">
+        <div>
+          <p class="eyebrow" data-r>AI that stays yours</p>
+          <h2 class="h2 split" id="ai-h">Ask, edit, <span class="g">apply.</span></h2>
+          <p class="lead" data-r>The AI reads the files you point it at with @file, then shows each change as a card you can apply or check first.</p>
+          <ul class="list" data-r>
+            <li><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#check"/></svg><span><b>On your PC:</b> Ollama, LM Studio or any OpenAI-style server. Nothing leaves your computer.</span></li>
+            <li><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#check"/></svg><span><b>With your own key:</b> Claude, OpenAI, Gemini, OpenRouter, Groq, Mistral, DeepSeek and xAI.</span></li>
+            <li><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#check"/></svg><span><b>Autocomplete</b> as you type, and commands for docs, tests and commit messages.</span></li>
+          </ul>
+        </div>
+        <figure class="device float-y" data-r>
+          <div class="mk-bar"><i></i><i></i><i></i><b><img src="assets/logo-64.png" alt="">Aether: AI</b></div>
+          <div class="device-view"><img src="assets/shots/aether-ai.webp" alt="Aether's AI panel beside the code" loading="lazy" decoding="async"><div class="device-empty"><img src="assets/logo-192.png" alt=""><b>The AI panel</b><span>A picture of it is on its way.</span></div></div>
+        </figure>
+      </div>
+    </section>
+
+    <section class="sec" aria-labelledby="dbg-h">
+      <div class="wrap row flip">
+        <div>
+          <p class="eyebrow" data-r>Find the bug</p>
+          <h2 class="h2 split" id="dbg-h">Stop on the line. <span class="g">See everything.</span></h2>
+          <p class="lead" data-r>Press F9 for a breakpoint, F6 to start. Step over, into and out, and hover any name to see its value.</p>
+          <ul class="list" data-r>
+            <li><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#check"/></svg><span><b>Variables, Watch and Call stack</b> in one panel, with a console that works out expressions while paused.</span></li>
+            <li><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#check"/></svg><span><b>Breakpoints with conditions</b>, and stop on every error if you like.</span></li>
+            <li><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#check"/></svg><span><b>Live Run</b> runs your file again each time you change it.</span></li>
+          </ul>
+        </div>
+        <figure class="device float-y" data-r>
+          <div class="mk-bar"><i></i><i></i><i></i><b><img src="assets/logo-64.png" alt="">Aether: Debug</b></div>
+          <div class="device-view"><img src="assets/shots/aether-debug.webp" alt="Aether's debugger paused on a line" loading="lazy" decoding="async"><div class="device-empty"><img src="assets/logo-192.png" alt=""><b>The debugger</b><span>A picture of it is on its way.</span></div></div>
+        </figure>
+      </div>
+    </section>
+
+    <section class="sec" id="tour" aria-labelledby="tour-h">
+      <div class="wrap">
+        <header class="sec-head center">
+          <p class="eyebrow" data-r>A closer look</p>
+          <h2 class="h2 split" id="tour-h">Made for <span class="g">real work.</span></h2>
+        </header>
+        <div class="tour">
+          <div class="tour-steps">
+            <article class="tstep on" data-name="Code"><span class="no">01</span><h3>Write in any language</h3><p>Colours, suggestions and a terminal that understand your language. One key runs it.</p><img src="img/code.webp" alt="A program open in Aether's code editor" width="1600" height="850" loading="lazy"></article>
+            <article class="tstep" data-name="App Maker"><span class="no">02</span><h3>Build a phone app</h3><p>Put a screen together from parts and write what they do. One click makes the .apk.</p><img src="img/apps.webp" alt="A quiz app running in the App Maker" width="1600" height="850" loading="lazy"></article>
+            <article class="tstep" data-name="Arduino"><span class="no">03</span><h3>Circuits with no board</h3><p>Wire up parts on a breadboard, write the sketch and watch it run.</p><img src="img/arduino.webp" alt="An LED circuit being simulated beside its code" width="1600" height="850" loading="lazy"></article>
+            <article class="tstep" data-name="PDF"><span class="no">04</span><h3>Change any PDF</h3><p>Edit the text already in a PDF, read scanned pages, and move its pictures.</p><img src="img/pdf.webp" alt="A PDF open in Aether's PDF editor" width="1600" height="850" loading="lazy"></article>
+            <article class="tstep" data-name="Marketplace"><span class="no">05</span><h3>Make it yours</h3><p>Themes, pets and tools from the Marketplace, installed in one click.</p><img src="img/market.webp" alt="The Aether Marketplace inside Aether" width="1600" height="850" loading="lazy"></article>
+          </div>
+          <div class="tour-pin" aria-hidden="true">
+            <div class="frame">
+              <div class="mk-bar"><i></i><i></i><i></i><b class="tour-name">Code</b></div>
+              <div class="frame-view"><img class="on" src="img/code.webp" alt=""><img src="img/apps.webp" alt="" loading="lazy"><img src="img/arduino.webp" alt="" loading="lazy"><img src="img/pdf.webp" alt="" loading="lazy"><img src="img/market.webp" alt="" loading="lazy"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec final" aria-labelledby="go-h">
+      <div class="wrap">
+        <div class="final-card card glow" data-r>
+          <div class="rays" aria-hidden="true"></div>
+          <img class="big-logo" src="assets/logo-192.png" alt="" width="140" height="140">
+          <h2 class="h2 split" id="go-h">Start <span class="g">writing.</span></h2>
+          <p class="lead">Free, with no account.</p>
+          <div class="cta center">
+            <a class="btn big magnet dl-main" href="https://github.com/Redfire3248/aether-download/releases/latest/download/Aether-Setup.exe"><svg class="ic dl-ic" aria-hidden="true"><use href="assets/icons.svg#windows"/></svg><span class="dl-label">Download for Windows</span></a>
+            <a class="btn big ghost" href="download.html#apps">All the apps</a>
+          </div>
+          <p class="meta" style="justify-content:center"><span class="dl-version">Version 2.0</span><span class="dl-size"></span></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">
+      <div class="foot-grid">
+        <div>
+          <a class="brand" href="index.html"><img src="assets/logo-64.png" alt="" width="32" height="32"><span>Aether</span></a>
+          <p class="small">Tools for making things: code, games, plans and programs. Free to download and use.</p>
+        </div>
+        <div><h4>The family</h4><ul><li><a href="aether.html">Aether</a></li><li><a href="game-maker.html">Aether Game Maker</a></li><li><a href="lab.html">Aether Lab</a></li><li><a href="script.html">Aether Script</a></li></ul></div>
+        <div><h4>Get it</h4><ul><li><a href="download.html">Download</a></li><li><a href="download.html#new">What is new</a></li><li><a href="script.html#aether-script">Aether Script tools</a></li><li><a href="https://github.com/Redfire3248/aether-download/releases">Releases on GitHub</a></li></ul></div>
+        <div><h4>Learn</h4><ul><li><a href="https://redfire3248.github.io/aether-marketplace/docs.html">Docs</a></li><li><a href="https://redfire3248.github.io/aether-marketplace/marketplace.html">Marketplace</a></li><li><a href="https://github.com/Redfire3248/aether-marketplace">Make an extension</a></li></ul></div>
+      </div>
+      <p class="foot-word" aria-hidden="true">AETHER</p>
+      <div class="foot-bottom small"><span>Made by Redfire3248. All rights reserved.</span><span>No tracking, no account.</span></div>
+    </div>
+  </footer>
+
+  <script src="assets/js/site.js?v=2" defer></script>
+  <script src="assets/js/aurora.js?v=2" defer></script>
+</body>
+</html>

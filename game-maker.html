@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Aether Game Maker: make games</title>
+  <meta name="description" content="Aether Game Maker: a game engine for 2D, 3D and online games, with Art Studio, Pixel Studio, GUI Studio, SFX and Music Studio, AI pictures and Build with Claude.">
+  <meta name="theme-color" content="#05070f">
+  <meta property="og:title" content="Aether Game Maker: make games">
+  <meta property="og:description" content="Aether Game Maker: a game engine for 2D, 3D and online games, with Art Studio, Pixel Studio, GUI Studio, SFX and Music Studio, AI pictures and Build with Claude.">
+  <meta property="og:image" content="assets/game-maker-logo.png">
+  <link rel="icon" href="assets/game-maker-logo-64.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/logo-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/site.css?v=2">
+  <script>try{var t=localStorage.getItem('aether-site-theme');if(t&&/Paper/.test(t))document.documentElement.dataset.mode='light'}catch(e){}</script>
+
+</head>
+<body data-page="gm">
+  <a class="skip" href="#main">Skip to the page</a>
+  <div class="progress" aria-hidden="true"><i></i></div>
+  <div class="bg-lights" aria-hidden="true"><i></i><i></i></div>
+  <div class="grain" aria-hidden="true"></div>
+  <header class="nav">
+    <div class="nav-in">
+      <a class="brand" href="index.html" aria-label="Aether, home"><img src="assets/logo-64.png" alt="" width="32" height="32"><span>Aether</span></a>
+      <nav class="nav-links" aria-label="Main"><a href="aether.html">Aether</a><a href="game-maker.html" aria-current="page">Game Maker</a><a href="lab.html">Aether Lab</a><a href="script.html">Aether Script</a><a href="https://redfire3248.github.io/aether-marketplace/marketplace.html">Marketplace<svg class="ic " aria-hidden="true"><use href="assets/icons.svg#external"/></svg></a><a href="https://redfire3248.github.io/aether-marketplace/docs.html">Docs<svg class="ic " aria-hidden="true"><use href="assets/icons.svg#external"/></svg></a></nav>
+      <div class="nav-tools">
+        <div class="theme-pick">
+          <button class="icon-btn" id="theme-btn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="theme-menu" aria-label="Change the theme"><svg class="ic " aria-hidden="true"><use href="assets/icons.svg#palette"/></svg></button>
+          <div class="theme-menu" id="theme-menu" role="group" aria-label="Themes" hidden></div>
+        </div>
+        <a class="btn small nav-get magnet" href="download.html"><svg class="ic " aria-hidden="true"><use href="assets/icons.svg#download"/></svg>Download</a>
+        <button class="icon-btn nav-menu" id="nav-menu" type="button" aria-expanded="false" aria-controls="nav-panel" aria-label="Menu"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#menu"/></svg></button>
+      </div>
+    </div>
+  </header>
+  <div class="nav-panel" id="nav-panel" hidden><a href="aether.html"><img src="assets/logo-64.png" alt="" width="26" height="26">Aether</a><a href="game-maker.html" aria-current="page"><img src="assets/game-maker-logo-64.png" alt="" width="26" height="26">Game Maker</a><a href="lab.html"><img src="assets/lab-logo-64.png" alt="" width="26" height="26">Aether Lab</a><a href="script.html"><img src="img/aether-script.png" alt="" width="26" height="26">Aether Script</a><a href="https://redfire3248.github.io/aether-marketplace/marketplace.html"><svg class="ic " aria-hidden="true"><use href="assets/icons.svg#bag"/></svg>Marketplace</a><a href="https://redfire3248.github.io/aether-marketplace/docs.html"><svg class="ic " aria-hidden="true"><use href="assets/icons.svg#book"/></svg>Docs</a><a class="btn" href="download.html"><svg class="ic " aria-hidden="true"><use href="assets/icons.svg#download"/></svg>Download Aether</a></div>
+  <main id="main">
+    <section class="hero" aria-labelledby="hero-h">
+      <div class="hero-fallback" aria-hidden="true"></div>
+      <canvas class="hero-gl" aria-hidden="true"></canvas>
+      <div class="hero-grid" aria-hidden="true"></div>
+      <div class="wrap p-hero">
+        <div class="gm-hero-logo rise"><img src="assets/game-maker-logo.png" alt="" width="220" height="220"></div>
+        <p class="chip-tag rise" style="--d:1"><b>New</b><span>Aether Game Maker</span></p>
+        <h1 class="display rise" style="--d:2" id="hero-h">Make the game <span class="grad">you imagine.</span></h1>
+        <p class="lead rise" style="--d:3">2D and 3D games with art, sound, music and menus, all made in one app. Press Play and your game runs right where you made it.</p>
+        <div class="cta center rise" style="--d:4">
+          <a class="btn big magnet dl-gm" href="https://github.com/Redfire3248/aether-download/releases/latest/download/Aether-Game-Maker-Setup.exe"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#windows"/></svg>Download for Windows</a>
+          <a class="btn big ghost" href="#studios">See the studios<svg class="ic ic-arrow" aria-hidden="true"><use href="assets/icons.svg#arrow"/></svg></a>
+        </div>
+        <p class="meta rise" style="--d:5"><span>Version 2.0</span>&nbsp;·&nbsp;<span>Free, no account, no admin rights</span>&nbsp;·&nbsp;<span>Windows 10 and 11</span></p>
+      </div>
+      <div class="wrap showcase rise" style="--d:6">
+        <figure class="device" data-fallback="game">
+          <div class="mk-bar"><i></i><i></i><i></i><b><img src="assets/game-maker-logo-64.png" alt="">Aether Game Maker</b></div>
+          <div class="device-view"><img src="assets/shots/game-maker-scene.webp" alt="A game scene open in Aether Game Maker" decoding="async"><div class="device-empty"><img src="assets/game-maker-logo-192.png" alt=""><b>Aether Game Maker</b><span>A picture of the app is on its way.</span></div></div>
+        </figure>
+      </div>
+    </section>
+
+    <section class="sec" aria-labelledby="eng-h">
+      <div class="wrap">
+        <header class="sec-head center">
+          <p class="eyebrow" data-r>The engine</p>
+          <h2 class="h2 split" id="eng-h">Build it. <span class="g">Play it. Share it.</span></h2>
+        </header>
+        <div class="points">
+          <article class="point card" data-r><span class="pi"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#cube"/></svg></span><h3>2D and 3D</h3><p>Paint levels from tiles, or bring in 3D models (.glb, .gltf, .fbx, .obj) with their animations, and pose your own on a timeline.</p></article>
+          <article class="point card" data-r style="--i:1"><span class="pi"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#play"/></svg></span><h3>Play inside the app</h3><p>Press Play to test as a PC or a phone, then Stop and keep building. Scripts in Aether Script or JavaScript.</p></article>
+          <article class="point card" data-r style="--i:2"><span class="pi"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#users"/></svg></span><h3>Multiplayer</h3><p>Host over Wi-Fi so phones and PCs play together, or go online from anywhere with Firebase, with accounts and an admin panel.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" aria-labelledby="play-h">
+      <div class="wrap row">
+        <div>
+          <p class="eyebrow" data-r>Press Play</p>
+          <h2 class="h2 split" id="play-h">Test it the moment <span class="g">you make it.</span></h2>
+          <p class="lead" data-r>A Studio-style editor: a ribbon of tools, the Explorer on the left, Properties on the right, and your game in the middle.</p>
+          <ul class="list" data-r>
+            <li><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#check"/></svg><span><b>Scripts from a gallery:</b> platformer and top-down players, enemies, coins, doors, waves and chat.</span></li>
+            <li><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#check"/></svg><span><b>PC and phone apps from one game:</b> a Windows .exe, an Android .apk and a web game together.</span></li>
+            <li><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#check"/></svg><span><b>Publish to the web:</b> your game on GitHub Pages, with a link anyone can open.</span></li>
+          </ul>
+        </div>
+        <figure class="device float-y" data-r data-fallback="game">
+          <div class="mk-bar"><i></i><i></i><i></i><b><img src="assets/game-maker-logo-64.png" alt="">Playing</b></div>
+          <div class="device-view"><img src="assets/shots/game-maker-play.webp" alt="A game being played inside Aether Game Maker" loading="lazy" decoding="async"><div class="device-empty"><img src="assets/game-maker-logo-192.png" alt=""><b>Playing a game</b></div></div>
+        </figure>
+      </div>
+    </section>
+
+    <section class="sec" id="studios" aria-labelledby="st-h">
+      <div class="wrap">
+        <header class="sec-head center">
+          <p class="eyebrow" data-r>The studios</p>
+          <h2 class="h2 split" id="st-h">Every part of the game, <span class="g">made here.</span></h2>
+          <p class="lead" data-r>Art, sound, music and menus are tools of their own, and each one puts its work straight into your game.</p>
+        </header>
+        <div class="bento">
+          <article class="tile card glow w3" data-r>
+            <div class="tile-art" style="display:grid;justify-items:center">
+              <svg class="rig" viewBox="0 0 240 220" aria-hidden="true">
+                <g class="head"><rect class="part" x="96" y="26" width="48" height="46" rx="12"/><circle cx="111" cy="48" r="4" fill="#2a1650"/><circle cx="129" cy="48" r="4" fill="#2a1650"/></g>
+                <rect class="part" x="100" y="72" width="40" height="64" rx="10"/>
+                <rect class="part" x="104" y="136" width="14" height="56" rx="6"/><rect class="part" x="122" y="136" width="14" height="56" rx="6"/>
+                <g transform="rotate(60 84 92)"><rect class="part" x="44" y="86" width="44" height="13" rx="6"/></g>
+                <g class="arm-r"><rect class="part" x="152" y="86" width="44" height="13" rx="6"/><g class="fore-r"><rect class="part" x="192" y="86" width="36" height="12" rx="6"/></g></g>
+                <path class="bone" d="M120 72 L124 104 L120 136 L116 104 Z"/><path class="bone r" d="M111 140 L115 165 L111 190 L107 165Z"/><path class="bone l" d="M129 140 L133 165 L129 190 L125 165Z"/>
+                <circle class="joint" cx="120" cy="72" r="5"/><circle class="joint" cx="120" cy="136" r="5"/><circle class="joint" cx="156" cy="92" r="4.5"/>
+              </svg>
+              <div class="dope" aria-hidden="true"><div>Arm<s><i style="left:6%"></i><i style="left:48%"></i><i style="left:92%"></i></s></div><div>Forearm<s><i style="left:6%"></i><i style="left:48%"></i><i style="left:92%"></i></s></div><div>Head<s><i style="left:20%"></i><i style="left:70%"></i></s></div><span class="head-line"></span></div>
+            </div>
+            <div class="tile-words"><h3><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#bone"/></svg>Art Studio</h3><p>Paint or draw vector art, then give it bones. Aether can place a skeleton for you, IK bends the limbs, and a dopesheet times every key.</p></div>
+          </article>
+          <article class="tile card glow w3" data-r style="--i:1">
+            <div class="tile-art"><div class="paint" data-paint aria-hidden="true"></div></div>
+            <div class="tile-words"><h3><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#grid"/></svg>Pixel Studio</h3><p>Sprites with frames, onion skin and playback, exported as GIFs or sprite sheets. Turn any picture into clean pixel art.</p></div>
+          </article>
+          <article class="tile card w2" data-r>
+            <div class="tile-art"><div class="gui-demo" data-gui aria-hidden="true"><div class="gui-menu"><p class="gt">ORE RUSH</p><span>Play</span><span class="ghost">Settings</span><span class="ghost">Quit</span></div><div class="gui-sel" style="opacity:0"></div></div></div>
+            <div class="tile-words"><h3><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#layout"/></svg>GUI Studio</h3><p>Design menus, HUDs and buttons like in Figma, then add them to your scene.</p></div>
+          </article>
+          <article class="tile card w2" data-r style="--i:1">
+            <div class="tile-art"><div class="eq" data-eq aria-hidden="true"></div></div>
+            <div class="tile-words"><h3><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#wave"/></svg>SFX Studio</h3><p>Jumps, coins and lasers from layered waves and effects, with 64 presets and your own voice.</p></div>
+          </article>
+          <article class="tile card w2" data-r style="--i:2">
+            <div class="tile-art"><div class="roll" data-roll aria-hidden="true"></div></div>
+            <div class="tile-words"><h3><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#music"/></svg>Music Studio</h3><p>Songs made of tracks, with a piano roll per track. Compose writes one in a style for you.</p></div>
+          </article>
+          <article class="tile card w2" data-r>
+            <div class="tile-art"><div class="gen" aria-hidden="true"><canvas data-gen width="160" height="160"></canvas><div class="prompt">a castle at sunset<b>starting</b></div></div></div>
+            <div class="tile-words"><h3><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#image"/></svg>AI Image Studio</h3><p>Make pictures on your own PC with Stable Diffusion, then turn them into sprites.</p></div>
+          </article>
+          <article class="tile card w2" data-r style="--i:1">
+            <div class="tile-art">
+              <div class="cut" aria-hidden="true"><div class="before"></div>
+                <svg viewBox="0 0 100 120"><ellipse cx="50" cy="112" rx="30" ry="5" fill="rgb(0 0 0 / .25)"/><path d="M20 108 C18 70 30 50 50 50 C70 50 82 70 80 108Z" fill="#7c3aed"/><circle cx="50" cy="34" r="22" fill="#f5c9a8"/><path d="M28 30 C30 10 70 10 72 30 C64 22 40 20 28 30Z" fill="#3b1a6b"/><circle cx="42" cy="36" r="3" fill="#2a1650"/><circle cx="58" cy="36" r="3" fill="#2a1650"/></svg>
+                <span class="line"></span></div>
+            </div>
+            <div class="tile-words"><h3><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#scissors"/></svg>Remove background</h3><p>Take the background off any picture, with clean edges that look right in a game.</p></div>
+          </article>
+          <article class="tile card w2" data-r style="--i:2">
+            <div class="tile-art"><div class="mini" aria-hidden="true"><div class="mini-h"><b>Claude Code</b><span class="sp">Aether tools</span></div><div class="mini-b mcp" data-mcp style="height:170px"></div></div></div>
+            <div class="tile-words"><h3><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#plug"/></svg>Build with Claude</h3><p>Connect Claude Code to your game. It reads the engine guide, edits scenes with checked changes, writes scripts and plays the game to test it.</p></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" aria-labelledby="art-h">
+      <div class="wrap row flip">
+        <div>
+          <p class="eyebrow" data-r>Art Studio</p>
+          <h2 class="h2 split" id="art-h">Draw it. <span class="g">Then make it move.</span></h2>
+          <p class="lead" data-r>Paint, vector and pixel art in one place, with bones that bend the picture.</p>
+          <ul class="list" data-r>
+            <li><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#check"/></svg><span><b>Make a skeleton:</b> for a character in a T-pose, Aether places the spine, head, arms and legs at the right joints.</span></li>
+            <li><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#check"/></svg><span><b>Rig templates</b> for faces, four-legged animals, birds, tails and hands.</span></li>
+            <li><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#check"/></svg><span><b>Swappable items:</b> a sword, an axe or a hat held on a bone.</span></li>
+          </ul>
+        </div>
+        <figure class="device float-y" data-r>
+          <div class="mk-bar"><i></i><i></i><i></i><b><img src="assets/game-maker-logo-64.png" alt="">Art Studio</b></div>
+          <div class="device-view"><img src="assets/shots/game-maker-art.webp" alt="A character with bones in Art Studio" loading="lazy" decoding="async"><div class="device-empty"><img src="assets/game-maker-logo-192.png" alt=""><b>Art Studio</b><span>A picture of it is on its way.</span></div></div>
+        </figure>
+      </div>
+    </section>
+
+    <section class="sec" aria-labelledby="tpl-h">
+      <div class="wrap">
+        <header class="sec-head center">
+          <p class="eyebrow" data-r>Start from a template</p>
+          <h2 class="h2 split" id="tpl-h">Three games, <span class="g">ready to change.</span></h2>
+        </header>
+        <div class="tpl">
+          <article class="card" data-r><canvas data-game="platform" width="200" height="125" aria-hidden="true"></canvas><div class="tile-words"><h3>2D platformer</h3><p>Run, jump and collect coins.</p></div></article>
+          <article class="card" data-r style="--i:1"><canvas data-game="topdown" width="200" height="125" aria-hidden="true"></canvas><div class="tile-words"><h3>2D top-down</h3><p>Walk a world from above.</p></div></article>
+          <article class="card" data-r style="--i:2"><canvas data-game="fps" width="200" height="125" aria-hidden="true"></canvas><div class="tile-words"><h3>3D first-person</h3><p>Textured walls and 3D sprites, with a phone joystick.</p></div></article>
+        </div>
+        <div class="export-row" data-r style="margin-top:40px">
+          <span><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#windows"/></svg>Windows .exe</span>
+          <span><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#phone"/></svg>Android .apk</span>
+          <span><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#globe"/></svg>Web</span>
+          <span><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#github"/></svg>Publish to GitHub Pages</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec final" aria-labelledby="go-h">
+      <div class="wrap">
+        <div class="final-card card glow" data-r>
+          <div class="rays" aria-hidden="true"></div>
+          <img class="big-logo" src="assets/game-maker-logo-192.png" alt="" width="140" height="140">
+          <h2 class="h2 split" id="go-h">Make your <span class="g">first game.</span></h2>
+          <p class="lead">Get Game Maker, start a new game and pick a template. Free, with no account.</p>
+          <div class="cta center">
+            <a class="btn big magnet dl-gm" href="https://github.com/Redfire3248/aether-download/releases/latest/download/Aether-Game-Maker-Setup.exe"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#windows"/></svg>Download for Windows</a>
+            <a class="btn big ghost" href="https://redfire3248.github.io/aether-marketplace/docs.html#games">Read the guide</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">
+      <div class="foot-grid">
+        <div>
+          <a class="brand" href="index.html"><img src="assets/logo-64.png" alt="" width="32" height="32"><span>Aether</span></a>
+          <p class="small">Tools for making things: code, games, plans and programs. Free to download and use.</p>
+        </div>
+        <div><h4>The family</h4><ul><li><a href="aether.html">Aether</a></li><li><a href="game-maker.html">Aether Game Maker</a></li><li><a href="lab.html">Aether Lab</a></li><li><a href="script.html">Aether Script</a></li></ul></div>
+        <div><h4>Get it</h4><ul><li><a href="download.html">Download</a></li><li><a href="download.html#new">What is new</a></li><li><a href="script.html#aether-script">Aether Script tools</a></li><li><a href="https://github.com/Redfire3248/aether-download/releases">Releases on GitHub</a></li></ul></div>
+        <div><h4>Learn</h4><ul><li><a href="https://redfire3248.github.io/aether-marketplace/docs.html">Docs</a></li><li><a href="https://redfire3248.github.io/aether-marketplace/marketplace.html">Marketplace</a></li><li><a href="https://github.com/Redfire3248/aether-marketplace">Make an extension</a></li></ul></div>
+      </div>
+      <p class="foot-word" aria-hidden="true">AETHER</p>
+      <div class="foot-bottom small"><span>Made by Redfire3248. All rights reserved.</span><span>No tracking, no account.</span></div>
+    </div>
+  </footer>
+
+  <script src="assets/js/site.js?v=2" defer></script>
+  <script src="assets/js/aurora.js?v=2" defer></script>
+</body>
+</html>

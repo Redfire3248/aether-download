@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Aether Lab: plan visually, build with any AI</title>
+  <meta name="description" content="Aether Lab is a native workspace to plan a project visually and build it with AI agents, local or cloud. You review every change before it reaches your files.">
+  <meta name="theme-color" content="#05070f">
+  <meta property="og:title" content="Aether Lab: plan visually, build with any AI">
+  <meta property="og:description" content="Aether Lab is a native workspace to plan a project visually and build it with AI agents, local or cloud. You review every change before it reaches your files.">
+  <meta property="og:image" content="assets/lab-logo.png">
+  <link rel="icon" href="assets/lab-logo-64.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/logo-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/site.css?v=2">
+  <script>try{var t=localStorage.getItem('aether-site-theme');if(t&&/Paper/.test(t))document.documentElement.dataset.mode='light'}catch(e){}</script>
+
+</head>
+<body data-page="lab">
+  <a class="skip" href="#main">Skip to the page</a>
+  <div class="progress" aria-hidden="true"><i></i></div>
+  <div class="bg-lights" aria-hidden="true"><i></i><i></i></div>
+  <div class="grain" aria-hidden="true"></div>
+  <header class="nav">
+    <div class="nav-in">
+      <a class="brand" href="index.html" aria-label="Aether, home"><img src="assets/logo-64.png" alt="" width="32" height="32"><span>Aether</span></a>
+      <nav class="nav-links" aria-label="Main"><a href="aether.html">Aether</a><a href="game-maker.html">Game Maker</a><a href="lab.html" aria-current="page">Aether Lab</a><a href="script.html">Aether Script</a><a href="https://redfire3248.github.io/aether-marketplace/marketplace.html">Marketplace<svg class="ic " aria-hidden="true"><use href="assets/icons.svg#external"/></svg></a><a href="https://redfire3248.github.io/aether-marketplace/docs.html">Docs<svg class="ic " aria-hidden="true"><use href="assets/icons.svg#external"/></svg></a></nav>
+      <div class="nav-tools">
+        <div class="theme-pick">
+          <button class="icon-btn" id="theme-btn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="theme-menu" aria-label="Change the theme"><svg class="ic " aria-hidden="true"><use href="assets/icons.svg#palette"/></svg></button>
+          <div class="theme-menu" id="theme-menu" role="group" aria-label="Themes" hidden></div>
+        </div>
+        <a class="btn small nav-get magnet" href="download.html"><svg class="ic " aria-hidden="true"><use href="assets/icons.svg#download"/></svg>Download</a>
+        <button class="icon-btn nav-menu" id="nav-menu" type="button" aria-expanded="false" aria-controls="nav-panel" aria-label="Menu"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#menu"/></svg></button>
+      </div>
+    </div>
+  </header>
+  <div class="nav-panel" id="nav-panel" hidden><a href="aether.html"><img src="assets/logo-64.png" alt="" width="26" height="26">Aether</a><a href="game-maker.html"><img src="assets/game-maker-logo-64.png" alt="" width="26" height="26">Game Maker</a><a href="lab.html" aria-current="page"><img src="assets/lab-logo-64.png" alt="" width="26" height="26">Aether Lab</a><a href="script.html"><img src="img/aether-script.png" alt="" width="26" height="26">Aether Script</a><a href="https://redfire3248.github.io/aether-marketplace/marketplace.html"><svg class="ic " aria-hidden="true"><use href="assets/icons.svg#bag"/></svg>Marketplace</a><a href="https://redfire3248.github.io/aether-marketplace/docs.html"><svg class="ic " aria-hidden="true"><use href="assets/icons.svg#book"/></svg>Docs</a><a class="btn" href="download.html"><svg class="ic " aria-hidden="true"><use href="assets/icons.svg#download"/></svg>Download Aether</a></div>
+  <main id="main">
+    <section class="hero" aria-labelledby="hero-h">
+      <div class="hero-fallback" aria-hidden="true"></div>
+      <canvas class="hero-gl" aria-hidden="true"></canvas>
+      <div class="embers" data-embers aria-hidden="true"></div>
+      <div class="hero-grid" aria-hidden="true"></div>
+      <div class="wrap p-hero">
+        <div class="lab-hero-logo rise"><img src="assets/lab-logo.png" alt="" width="200" height="200"></div>
+        <p class="chip-tag rise" style="--d:1"><b>Early version</b><span class="lab-word">AETHER LAB</span></p>
+        <h1 class="display rise" style="--d:2" id="hero-h">Think visually. <span class="grad">Build with any AI.</span></h1>
+        <p class="lead rise" style="--d:3">A native workspace to plan a project and build it with AI agents: a planner, an architecture canvas, and an agent panel that works with any model. You review every change before it reaches your files.</p>
+        <div class="cta center rise" style="--d:4">
+          <a class="btn big magnet dl-lab" href="https://github.com/Redfire3248/aether-download/releases/latest/download/Aether-Lab-Setup.exe"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#windows"/></svg>Download for Windows</a>
+          <a class="btn big ghost" href="#how">See how it works<svg class="ic ic-arrow" aria-hidden="true"><use href="assets/icons.svg#arrow"/></svg></a>
+                  </div>
+        <p class="note rise" style="--d:5"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#spark"/></svg><span><b>Aether Lab 0.1 is an early version.</b> It works and grows fast; expect changes. Windows 10 and 11, no admin rights.</span></p>
+      </div>
+      <div class="wrap showcase rise" style="--d:6">
+        <figure class="device" style="--ar:1818/1127">
+          <div class="mk-bar"><i></i><i></i><i></i><b><img src="assets/lab-logo-64.png" alt="">Aether Lab</b></div>
+          <div class="device-view"><img src="assets/shots/aether-lab.webp" alt="Aether Lab with an architecture diagram on the canvas and the agent panel open" decoding="async"><div class="device-empty"><img src="assets/lab-logo-192.png" alt=""><b>Aether Lab</b><span>A picture of the app is on its way.</span></div></div>
+        </figure>
+      </div>
+    </section>
+
+    <section class="sec" id="how" aria-labelledby="how-h">
+      <div class="wrap">
+        <header class="sec-head center">
+          <p class="eyebrow" data-r>Three parts, one project</p>
+          <h2 class="h2 split" id="how-h">Plan it. Draw it. <span class="g">Let agents build it.</span></h2>
+          <p class="lead" data-r>The plan, the diagrams, the files and the agents' work all point at the same tasks, so nothing is just for show.</p>
+        </header>
+        <div class="points">
+          <article class="point card" data-r><span class="pi"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#chart"/></svg></span><h3>Planner</h3><p>Milestones, tasks and subtasks, a board, a list, a timeline and a graph of what depends on what.</p></article>
+          <article class="point card" data-r style="--i:1"><span class="pi"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#layers"/></svg></span><h3>Architecture canvas</h3><p>Draw how the project fits together. Each node can link to a task and to files, and shows that task's status.</p></article>
+          <article class="point card" data-r style="--i:2"><span class="pi"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#spark"/></svg></span><h3>Agent panel</h3><p>Ask, Plan, Agent and Review modes, with @ mentions for files and tasks, and the exact context shown before you send.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" aria-labelledby="board-h">
+      <div class="wrap row">
+        <div>
+          <p class="eyebrow" data-r>The planner</p>
+          <h2 class="h2 split" id="board-h">Your plan, <span class="g">always moving.</span></h2>
+          <p class="lead" data-r>Drag a card to change its status. Tasks can't depend on each other in a loop, and the usual steps are kept unless you say "move anyway".</p>
+          <ul class="list" data-r>
+            <li><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#check"/></svg><span><b>Overview:</b> the milestone, and what is in progress, blocked or in review.</span></li>
+            <li><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#check"/></svg><span><b>Board, list and timeline,</b> with filters, all from the same tasks.</span></li>
+            <li><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#check"/></svg><span><b>Turn the plan into</b> a document, a prompt or Markdown.</span></li>
+          </ul>
+        </div>
+        <div class="card" data-r style="padding:16px;background:linear-gradient(180deg,#140a0c,#0d0607);border-color:rgb(255 90 60 / .2)">
+          <div class="board" data-board aria-hidden="true">
+            <div class="col"><b>To do<span>3</span></b><div class="task moving">Session expiry<small><i></i><b>To do</b></small></div><div class="task">Rate limits<small><i style="--k:#ffb020"></i>NIM-4</small></div><div class="task">Docs page<small><i style="--k:#8be07a"></i>NIM-6</small></div></div>
+            <div class="col"><b>In progress<span>1</span></b><div class="task">Auth middleware<small><i></i>NIM-1</small></div></div>
+            <div class="col"><b>In review<span>1</span></b><div class="task">Route handlers<small><i style="--k:#c084fc"></i>NIM-2</small></div></div>
+            <div class="col"><b>Done<span>2</span></b><div class="task">API gateway<small><i style="--k:#8be07a"></i>NIM-0</small></div><div class="task">Database<small><i style="--k:#8be07a"></i>NIM-3</small></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" aria-labelledby="canvas-h">
+      <div class="wrap row flip">
+        <div>
+          <p class="eyebrow" data-r>The canvas</p>
+          <h2 class="h2 split" id="canvas-h">Draw the system. <span class="g">Send it to an agent.</span></h2>
+          <p class="lead" data-r>18 kinds of node and 10 kinds of link, with groups, frames and auto-layout. Right-click a node to make a task from it or send it to an agent.</p>
+          <ul class="list" data-r>
+            <li><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#check"/></svg><span><b>Nodes show their task's status,</b> so the diagram is a live map of the work.</span></li>
+            <li><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#check"/></svg><span><b>Undo, copy and paste, align and spread,</b> and export to SVG or JSON.</span></li>
+          </ul>
+        </div>
+        <div class="card" data-r style="padding:18px;background:linear-gradient(180deg,#140a0c,#0d0607);border-color:rgb(255 90 60 / .2)">
+          <svg class="arch" data-arch viewBox="0 0 460 300" aria-hidden="true">
+            <path class="edge" d="M230 66 V110" style="--dl:.2s"/><path class="edge" d="M230 152 C230 180 120 170 110 206" style="--dl:.5s"/><path class="edge" d="M230 152 C230 180 340 170 350 206" style="--dl:.7s"/><path class="edge" d="M175 131 H120 V68" style="--dl:.9s"/>
+            <g class="node"><rect x="160" y="18" width="140" height="48" rx="6" stroke="#3fd98a"/><text class="k" x="172" y="36">SERVICE</text><text x="172" y="55">API Gateway</text></g>
+            <g class="node"><rect x="160" y="110" width="140" height="42" rx="6" stroke="#ffb020"/><text class="k" x="172" y="126">FEATURE</text><text x="172" y="143">Auth Middleware</text></g>
+            <g class="badge"><rect x="226" y="146" width="98" height="15" rx="3"/><text x="232" y="157">NIM-1 IN PROGRESS</text></g>
+            <g class="node"><rect x="40" y="20" width="110" height="48" rx="6" stroke="#ff5a6a"/><text class="k" x="52" y="38">MODULE</text><text x="52" y="57">JWT Strategy</text></g>
+            <g class="node"><rect x="40" y="206" width="140" height="48" rx="6" stroke="#c084fc"/><text class="k" x="52" y="224">API ENDPOINT</text><text x="52" y="243">Route Handlers</text></g>
+            <g class="node"><rect x="280" y="206" width="140" height="48" rx="6" stroke="#ff8a3d"/><text class="k" x="292" y="224">DATABASE</text><text x="292" y="243">PostgreSQL</text></g>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" aria-labelledby="rev-h">
+      <div class="wrap row">
+        <div>
+          <p class="eyebrow" data-r>Stay in control</p>
+          <h2 class="h2 split" id="rev-h">Agents propose. <span class="g">You decide.</span></h2>
+          <p class="lead" data-r>Agents change files in a copy of the project. You see every change as a diff and accept it file by file, or part by part.</p>
+          <ul class="list" data-r>
+            <li><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#check"/></svg><span><b>Nothing is overwritten:</b> if the file changed meanwhile, both sides are merged when they touch different lines, or it stops as a conflict.</span></li>
+            <li><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#check"/></svg><span><b>Comment and send it back</b> for another pass, or reject it.</span></li>
+            <li><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#check"/></svg><span><b>Every review is logged,</b> and pending changes survive a restart.</span></li>
+          </ul>
+        </div>
+        <div class="mini" data-r style="background:#110709;border-color:rgb(255 90 60 / .25)">
+          <div class="mini-h" style="color:#c9a9ae"><b>Review changes</b><span class="sp">src/auth/mod.rs</span></div>
+          <div class="diff" data-diff aria-hidden="true">
+            <div class="dl"><u> </u>use std::time::Duration;</div>
+            <div class="dl"><u> </u></div>
+            <div class="dl del"><u>-</u>const SESSION: u64 = 3600;</div>
+            <div class="dl add"><u>+</u>const SESSION: u64 = 24 * 3600;</div>
+            <div class="dl add"><u>+</u></div>
+            <div class="dl add"><u>+</u>pub fn expired(issued_at: u64, now: u64) -&gt; bool {</div>
+            <div class="dl add"><u>+</u>    now.saturating_sub(issued_at) &gt;= SESSION</div>
+            <div class="dl add"><u>+</u>}</div>
+          </div>
+          <div class="diff-foot"><span class="acc">Accept</span><span>Reject</span><span>Comment</span><span class="state">Written to the project</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" aria-labelledby="conn-h">
+      <div class="wrap">
+        <header class="sec-head center">
+          <p class="eyebrow" data-r>Connectors</p>
+          <h2 class="h2 split" id="conn-h">Any AI. <span class="g">Your choice.</span></h2>
+          <p class="lead" data-r>Models never switch behind your back: you always see which model, project, files and permissions a run uses. Keys stay on your PC, encrypted.</p>
+        </header>
+        <div data-r>
+          <div class="conn-group"><h3>On your PC</h3><div class="conn"><span><i style="--k:#8be07a"></i>Ollama</span><span><i style="--k:#8be07a"></i>LM Studio</span><span><i style="--k:#8be07a"></i>Any OpenAI-style server</span></div></div>
+          <div class="conn-group"><h3>Cloud, with your keys</h3><div class="conn"><span><i></i>Claude</span><span><i></i>OpenAI</span><span><i></i>Gemini</span><span><i></i>OpenRouter</span><span><i></i>Groq</span><span><i></i>Mistral</span><span><i></i>DeepSeek</span><span><i></i>xAI</span></div></div>
+          <div class="conn-group"><h3>Agent tools and editors</h3><div class="conn"><span><i style="--k:#ffb020"></i>Claude Code</span><span><i style="--k:#ffb020"></i>Codex</span><span><i style="--k:#ffb020"></i>Gemini CLI</span><span><i style="--k:#3fe3ff"></i>Aether</span><span><i style="--k:#3fe3ff"></i>VS Code</span><span><i style="--k:#3fe3ff"></i>Cursor</span><span><i style="--k:#3fe3ff"></i>Antigravity</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" aria-labelledby="own-h">
+      <div class="wrap row flip">
+        <div>
+          <p class="eyebrow" data-r>Local first</p>
+          <h2 class="h2 split" id="own-h">Your project <span class="g">stays yours.</span></h2>
+          <p class="lead" data-r>The plan lives in your project as plain JSON in a .aether folder, so Git can keep it and you can read it without Aether Lab.</p>
+          <ul class="list" data-r>
+            <li><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#shield"/></svg><span><b>Safe writes:</b> each file is written beside the old one, checked, then swapped in, with the previous version kept.</span></li>
+            <li><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#shield"/></svg><span><b>Files that look like secrets</b> are never sent to a model.</span></li>
+            <li><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#shield"/></svg><span><b>Chats, runs and keys</b> stay in Aether Lab's own folder, never in the project.</span></li>
+          </ul>
+        </div>
+        <div class="mini" data-r style="background:#110709;border-color:rgb(255 90 60 / .25)">
+          <div class="mini-h" style="color:#c9a9ae"><b>nimbus-api</b><span class="sp">your project</span></div>
+          <div class="tree" aria-hidden="true">
+            <p><span class="d">.aether/</span></p>
+            <p>  project.json</p>
+            <p>  tasks.json        <span class="c"># milestones and tasks</span></p>
+            <p>  milestones.json</p>
+            <p>  <span class="d">diagrams/</span>architecture.json</p>
+            <p>  instructions.md   <span class="c"># for the agents</span></p>
+            <p>  <span class="d">local/</span>            <span class="c"># not in Git</span></p>
+            <p><span class="d">src/</span></p>
+            <p>README.md</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" aria-labelledby="th-h">
+      <div class="wrap">
+        <header class="sec-head center">
+          <p class="eyebrow" data-r>Its own look</p>
+          <h2 class="h2 split" id="th-h">Four themes of its own. <span class="g">Every Aether theme too.</span></h2>
+        </header>
+        <div class="themes-row">
+          <div class="theme-sw" data-r><div class="sw" style="background:#0b0406;box-shadow:inset 0 0 40px rgb(255 59 59 / .35)"><i style="top:24px;right:40%;background:#ff3b3b"></i><i style="top:42px;right:55%;background:#ffb020"></i><i style="top:60px;right:30%;background:#7a1f2b"></i></div><p class="lab-word" style="font-size:20px">Pixel Ember</p></div>
+          <div class="theme-sw" data-r style="--i:1"><div class="sw" style="background:#3a0a14"><i style="top:24px;right:40%;background:#f5e6d0"></i><i style="top:42px;right:55%;background:#ffcf4a"></i><i style="top:60px;right:30%;background:#ff9aa5"></i></div><p class="lab-word" style="font-size:20px">Crimson Pixel</p></div>
+          <div class="theme-sw" data-r style="--i:2"><div class="sw" style="background:linear-gradient(135deg,#120c0e,#070506)"><i style="top:24px;right:40%;background:#ff3a2f"></i><i style="top:42px;right:55%;background:#ff8a3d"></i><i style="top:60px;right:30%;background:#2a1d20"></i></div><p>Ember Glass</p></div>
+          <div class="theme-sw" data-r style="--i:3"><div class="sw" style="background:#ebe6dc;background-image:linear-gradient(rgb(28 26 24 / .08) 1px,transparent 1px),linear-gradient(90deg,rgb(28 26 24 / .08) 1px,transparent 1px);background-size:14px 14px"><i style="top:24px;right:40%;background:#e01f1f"></i><i style="top:42px;right:55%;background:#1c1a18"></i><i style="top:60px;right:30%;background:#6e675e"></i></div><p>Red Blueprint</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec final" aria-labelledby="go-h">
+      <div class="wrap">
+        <div class="final-card card glow" data-r>
+          <div class="rays" aria-hidden="true"></div>
+          <img class="big-logo" src="assets/lab-logo-192.png" alt="" width="140" height="140">
+          <h2 class="h2 split" id="go-h">Coming to <span class="g">the family.</span></h2>
+          <p class="lead">Aether Lab will be ready to download here when it is done. Until then, Aether's own AI works with the same models.</p>
+          <div class="cta center">
+            <a class="btn big magnet" href="aether.html">See Aether<svg class="ic ic-arrow" aria-hidden="true"><use href="assets/icons.svg#arrow"/></svg></a>
+            <a class="btn big ghost" href="index.html#family">The whole family</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">
+      <div class="foot-grid">
+        <div>
+          <a class="brand" href="index.html"><img src="assets/logo-64.png" alt="" width="32" height="32"><span>Aether</span></a>
+          <p class="small">Tools for making things: code, games, plans and programs. Free to download and use.</p>
+        </div>
+        <div><h4>The family</h4><ul><li><a href="aether.html">Aether</a></li><li><a href="game-maker.html">Aether Game Maker</a></li><li><a href="lab.html">Aether Lab</a></li><li><a href="script.html">Aether Script</a></li></ul></div>
+        <div><h4>Get it</h4><ul><li><a href="download.html">Download</a></li><li><a href="download.html#new">What is new</a></li><li><a href="script.html#aether-script">Aether Script tools</a></li><li><a href="https://github.com/Redfire3248/aether-download/releases">Releases on GitHub</a></li></ul></div>
+        <div><h4>Learn</h4><ul><li><a href="https://redfire3248.github.io/aether-marketplace/docs.html">Docs</a></li><li><a href="https://redfire3248.github.io/aether-marketplace/marketplace.html">Marketplace</a></li><li><a href="https://github.com/Redfire3248/aether-marketplace">Make an extension</a></li></ul></div>
+      </div>
+      <p class="foot-word" aria-hidden="true">AETHER</p>
+      <div class="foot-bottom small"><span>Made by Redfire3248. All rights reserved.</span><span>No tracking, no account.</span></div>
+    </div>
+  </footer>
+
+  <script src="assets/js/site.js?v=2" defer></script>
+  <script src="assets/js/aurora.js?v=2" defer></script>
+</body>
+</html>
